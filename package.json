@@ -1,0 +1,24 @@
+{
+  "name": "testrail",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "testrail",
+    "api"
+  ],
+  "author": "Corneliu Duplachi",
+  "license": "MIT",
+  "files": [
+    "index.js",
+    "index.d.ts"
+  ],
+  "dependencies": {
+    "qs": "^6.0.0",
+    "request": "^2.0.0"
+  }
+}
