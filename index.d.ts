@@ -1,721 +1,828 @@
 declare class TestRail {
-    constructor(config: { host: string, user: string, password: string })
+  constructor(config: { host: string; user: string; password: string });
 
+  // http://docs.gurock.com/testrail-api2/reference-attachments
 
-    // http://docs.gurock.com/testrail-api2/reference-attachments
+  addAttachmentToResult(resultId: number, filePath: String): Promise<TestRail.AddedAttachment>;
 
-    addAttachmentToResult(resultId: number, filePath: String): Promise<TestRail.AddAttachment>
+  addAttachmentToResultForCase(resultId: number, caseId: number, filePath: String): Promise<TestRail.AddedAttachment>;
 
-    addAttachmentToResultForCase(resultId: number, caseId: number, filePath: String): Promise<TestRail.AddAttachment>
+  getAttachmentsForCase(caseId: number): Promise<TestRail.Attachment>;
 
-    getAttachmentsForCase(caseId: number): Promise<TestRail.Attachment>
+  getAttachmentsForTest(testId: number): Promise<TestRail.Attachment>;
 
-    getAttachmentsForTest(testId: number): Promise<TestRail.Attachment>
+  getAttachment(attachmentId: number): Promise<TestRail.Attachment>;
 
-    getAttachment(attachmentId: number): Promise<TestRail.Attachment>
+  deleteAttachment(attachmentId: number): Promise<void>;
 
-    deleteAttachment(attachmentId: number): Promise<void>
+  // http://docs.gurock.com/testrail-api2/reference-cases
 
+  getCase(caseId: number): Promise<TestRail.Case>;
 
-    // http://docs.gurock.com/testrail-api2/reference-cases
+  getCases(projectId: number, filters?: TestRail.CaseFilters): Promise<TestRail.Case[]>;
 
-    getCase(caseId: number): Promise<TestRail.Case>
+  addCase(sectionId: number, data: TestRail.NewCase): Promise<TestRail.Case>;
 
-    getCases(projectId: number, filters?: TestRail.CaseFilters): Promise<TestRail.Case[]>
+  updateCase(caseId: number, data: TestRail.NewCase): Promise<TestRail.Case>;
 
-    addCase(sectionId: number, data: TestRail.NewCase): Promise<TestRail.Case>
+  deleteCase(caseId: number): void;
 
-    updateCase(caseId: number, data: TestRail.NewCase): Promise<TestRail.Case>
+  // http://docs.gurock.com/testrail-api2/reference-cases-fields
 
-    deleteCase(caseId: number): void
+  getCaseFields(): Promise<TestRail.CaseField[]>;
 
+  addCaseField(data: TestRail.NewCaseField): Promise<TestRail.CaseField>;
 
-    // http://docs.gurock.com/testrail-api2/reference-cases-fields
+  // http://docs.gurock.com/testrail-api2/reference-cases-types
 
-    getCaseFields(): Promise<TestRail.CaseField[]>
+  getCaseTypes(): Promise<TestRail.CaseType[]>;
 
-    addCaseField(data: TestRail.NewCaseField): Promise<TestRail.CaseField>
+  // http://docs.gurock.com/testrail-api2/reference-configs
 
+  getConfigs(projectId: number): Promise<TestRail.Config[]>;
 
-    // http://docs.gurock.com/testrail-api2/reference-cases-types
+  addConfigGroup(projectId: number, data: TestRail.NewConfig): Promise<TestRail.Config>;
 
-    getCaseTypes(): Promise<TestRail.CaseType[]>
+  addConfig(configGroupId: number, data: TestRail.NewConfig): Promise<TestRail.ConfigItem>;
 
+  updateConfigGroup(configGroupId: number, data: TestRail.NewConfig): Promise<TestRail.Config>;
 
-    // http://docs.gurock.com/testrail-api2/reference-configs
+  updateConfig(configId: number, data: TestRail.NewConfig): Promise<TestRail.ConfigItem>;
 
-    getConfigs(projectId: number): Promise<TestRail.Config[]>
+  deleteConfigGroup(configGroupId: number): void;
 
-    addConfigGroup(projectId: number, data: TestRail.NewConfig): Promise<TestRail.Config>
+  deleteConfig(configId: number): void;
 
-    addConfig(configGroupId: number, data: TestRail.NewConfig): Promise<TestRail.ConfigItem>
+  // http://docs.gurock.com/testrail-api2/reference-milestones
 
-    updateConfigGroup(configGroupId: number, data: TestRail.NewConfig): Promise<TestRail.Config>
+  getMilestone(milestoneId: number): Promise<TestRail.Milestone>;
 
-    updateConfig(configId: number, data: TestRail.NewConfig): Promise<TestRail.ConfigItem>
+  getMilestones(projectId: number, filters?: TestRail.MilestoneFilter): Promise<TestRail.Milestone[]>;
 
-    deleteConfigGroup(configGroupId: number): void
+  addMilestone(projectId: number, data: TestRail.NewMilestone): Promise<TestRail.Milestone>;
 
-    deleteConfig(configId: number): void
+  updateMilestone(milestoneId: number, data: TestRail.UpdateMilestone): Promise<TestRail.Milestone>;
 
+  deleteMilestone(milestoneId: number): void;
 
-    // http://docs.gurock.com/testrail-api2/reference-milestones
+  // http://docs.gurock.com/testrail-api2/reference-plans
 
-    getMilestone(milestoneId: number): Promise<TestRail.Milestone>
+  getPlan(planId: number): Promise<TestRail.PlanInfo>;
 
-    getMilestones(projectId: number, filters?: TestRail.MilestoneFilter): Promise<TestRail.Milestone[]>
+  getPlans(projectId: number, filters?: TestRail.PlanFilters): Promise<TestRail.Plan[]>;
 
-    addMilestone(projectId: number, data: TestRail.NewMilestone): Promise<TestRail.Milestone>
+  addPlan(projectId: number, data: TestRail.NewPlan): Promise<TestRail.PlanInfo>;
 
-    updateMilestone(milestoneId: number, data: TestRail.UpdateMilestone): Promise<TestRail.Milestone>
+  addPlanEntry(planId: number, data: TestRail.NewPlanEntry): Promise<TestRail.PlanEntry>;
 
-    deleteMilestone(milestoneId: number): void
+  updatePlan(planId: number, data: TestRail.UpdatePlan): Promise<TestRail.PlanInfo>;
 
+  updatePlanEntry(planId: number, entryId: string, data: TestRail.UpdatePlanEntry): Promise<TestRail.PlanEntry>;
 
-    // http://docs.gurock.com/testrail-api2/reference-plans
+  closePlan(planId: number): Promise<TestRail.PlanInfo>;
 
-    getPlan(planId: number): Promise<TestRail.Plan>
+  deletePlan(planId: number): void;
 
-    getPlans(projectId: number, filters?: TestRail.PlanFilters): Promise<TestRail.Plan[]>
+  deletePlanEntry(planId: number, entryId: string): void;
 
-    addPlan(projectId: number, data: TestRail.NewPlan): Promise<TestRail.Plan>
+  // http://docs.gurock.com/testrail-api2/reference-priorities
 
-    addPlanEntry(planId: number, data: TestRail.NewPlanEntry): Promise<TestRail.PlanEntry>
+  getPriorities(): Promise<TestRail.Priority>;
 
-    updatePlan(planId: number, data: TestRail.UpdatePlan): Promise<TestRail.Plan>
+  // http://docs.gurock.com/testrail-api2/reference-projects
 
-    updatePlanEntry(planId: number, entryId: string, data: TestRail.UpdatePlanEntry): Promise<TestRail.PlanEntry>
+  getProject(projectId: number): Promise<TestRail.Project>;
 
-    closePlan(planId: number): Promise<TestRail.Plan>
+  getProjects(filters?: TestRail.ProjectFilters): Promise<TestRail.Project[]>;
 
-    deletePlan(planId: number): void
+  addProject(data: TestRail.NewProject): Promise<TestRail.Project>;
 
-    deletePlanEntry(planId: number, entryId: string): void
+  updateProject(projectId: number, data: TestRail.UpdateProject): Promise<TestRail.Project>;
 
+  deleteProject(projectId: number): void;
 
-    // http://docs.gurock.com/testrail-api2/reference-priorities
+  // http://docs.gurock.com/testrail-api2/reference-results
 
-    getPriorities(): Promise<TestRail.Priority>
+  getResults(testId: number, filters?: TestRail.ResultFilters): Promise<TestRail.Result[]>;
 
+  getResultsForCase(runId: number, caseId, filters?: TestRail.ResultFilters): Promise<TestRail.Result[]>;
 
-    // http://docs.gurock.com/testrail-api2/reference-projects
+  getResultsForRun(runId: number, filters?: TestRail.ResultsForRunFilters): Promise<TestRail.Result[]>;
 
-    getProject(projectId: number): Promise<TestRail.Project>
+  addResult(testId: number, data: TestRail.NewResult): Promise<TestRail.Result>;
 
-    getProjects(filters?: TestRail.ProjectFilters): Promise<TestRail.Project[]>
+  addResultForCase(runId: number, caseId: number, data: TestRail.NewResult): Promise<TestRail.Result>;
 
-    addProject(data: TestRail.NewProject): Promise<TestRail.Project>
+  addResults(runId: number, data: { results: TestRail.NewResult[] }): Promise<TestRail.Result[]>;
 
-    updateProject(projectId: number, data: TestRail.UpdateProject): Promise<TestRail.Project>
+  addResultsForCases(runId: number, data: TestRail.NewResultForCase): Promise<TestRail.Result[]>;
 
-    deleteProject(projectId: number): void
+  // http://docs.gurock.com/testrail-api2/reference-results-fields
 
+  getResultFields(): Promise<TestRail.ResultField[]>;
 
-    // http://docs.gurock.com/testrail-api2/reference-results
+  // http://docs.gurock.com/testrail-api2/reference-runs
 
-    getResults(testId: number, filters?: TestRail.ResultFilters): Promise<TestRail.Result[]>
+  getRun(runId: number): Promise<TestRail.Run>;
 
-    getResultsForCase(runId: number, caseId, filters?: TestRail.ResultFilters): Promise<TestRail.Result[]>
+  getRuns(projectId: number, filters?: TestRail.RunFilters): Promise<TestRail.Run[]>;
 
-    getResultsForRun(runId: number, filters?: TestRail.ResultsForRunFilters): Promise<TestRail.Result[]>
+  addRun(projectId: number, data: TestRail.NewRun): Promise<TestRail.Run>;
 
-    addResult(testId: number, data: TestRail.NewResult): Promise<TestRail.Result>
+  updateRun(runId: number, data: TestRail.UpdateRun): Promise<TestRail.Run>;
 
-    addResultForCase(runId: number, caseId: number, data: TestRail.NewResult): Promise<TestRail.Result>
+  closeRun(runId: number): Promise<TestRail.Run>;
 
-    addResults(runId: number, data: { results: TestRail.NewResult[] }): Promise<TestRail.Result[]>
+  deleteRun(runId: number): void;
 
-    addResultsForCases(runId: number, data: TestRail.NewResultForCase): Promise<TestRail.Result[]>
+  // http://docs.gurock.com/testrail-api2/reference-sections
 
+  getSection(sectionId: number): Promise<TestRail.Section>;
 
-    // http://docs.gurock.com/testrail-api2/reference-results-fields
+  getSections(projectId: number, filters?: TestRail.SectionsFilters): Promise<TestRail.Section[]>;
 
-    getResultFields(): Promise<TestRail.ResultField[]>
+  addSection(projectId: number, data: TestRail.NewSection): Promise<TestRail.Section>;
 
+  updateSection(sectionId: number, data: TestRail.UpdateSection): Promise<TestRail.Section>;
 
-    // http://docs.gurock.com/testrail-api2/reference-runs
+  deleteSection(sectionId: number): void;
 
-    getRun(runId: number): Promise<TestRail.Run>
+  // http://docs.gurock.com/testrail-api2/reference-statuses
 
-    getRuns(projectId: number, filters?: TestRail.RunFilters): Promise<TestRail.Run[]>
+  getStatuses(): Promise<TestRail.Status[]>;
 
-    addRun(projectId: number, data: TestRail.NewRun): Promise<TestRail.Run>
+  // http://docs.gurock.com/testrail-api2/reference-suites
 
-    updateRun(runId: number, data: TestRail.UpdateRun): Promise<TestRail.Run>
+  getSuite(suiteId: number): Promise<TestRail.Suite>;
 
-    closeRun(runId: number): Promise<TestRail.Run>
+  getSuites(projectId: number): Promise<TestRail.Suite[]>;
 
-    deleteRun(runId: number): void
+  addSuite(projectId: number, data: TestRail.NewSuite): Promise<TestRail.Suite>;
 
+  updateSuite(suiteId: number, data: TestRail.NewSuite): Promise<TestRail.Suite>;
 
-    // http://docs.gurock.com/testrail-api2/reference-sections
+  deleteSuite(suiteId: number): void;
 
-    getSection(sectionId: number): Promise<TestRail.Section>
+  // http://docs.gurock.com/testrail-api2/reference-templates
 
-    getSections(projectId: number, filters?: TestRail.SectionsFilters): Promise<TestRail.Section[]>
+  getTemplates(projectId: number): Promise<TestRail.Template[]>;
 
-    addSection(projectId: number, data: TestRail.NewSection): Promise<TestRail.Section>
+  // http://docs.gurock.com/testrail-api2/reference-tests
 
-    updateSection(sectionId: number, data: TestRail.UpdateSection): Promise<TestRail.Section>
+  getTest(testId: number): Promise<TestRail.Test>;
 
-    deleteSection(sectionId: number): void
+  getTests(runId: number, filters?: TestRail.TestFilters): Promise<TestRail.Test[]>;
 
+  // http://docs.gurock.com/testrail-api2/reference-users
 
-    // http://docs.gurock.com/testrail-api2/reference-statuses
+  getUser(userId: number): Promise<TestRail.User>;
 
-    getStatuses(): Promise<TestRail.Status[]>
+  getUserByEmail(email: string): Promise<TestRail.User>;
 
+  getUsers(): Promise<TestRail.User[]>;
 
-    // http://docs.gurock.com/testrail-api2/reference-suites
+  // http://docs.gurock.com/testrail-api2/reference-reports#run_reportreport_template_id
 
-    getSuite(suiteId: number): Promise<TestRail.Suite>
+  getReports(projectId): Promise<TestRail.Report[]>;
 
-    getSuites(projectId: number): Promise<TestRail.Suite[]>
-
-    addSuite(projectId: number, data: TestRail.NewSuite): Promise<TestRail.Suite>
-
-    updateSuite(suiteId: number, data: TestRail.NewSuite): Promise<TestRail.Suite>
-
-    deleteSuite(suiteId: number): void
-
-
-    // http://docs.gurock.com/testrail-api2/reference-templates
-
-    getTemplates(projectId: number): Promise<TestRail.Template[]>
-
-
-    // http://docs.gurock.com/testrail-api2/reference-tests
-
-    getTest(testId: number): Promise<TestRail.Test>
-
-    getTests(runId: number, filters?: TestRail.TestFilters): Promise<TestRail.Test[]>
-
-
-    // http://docs.gurock.com/testrail-api2/reference-users
-
-    getUser(userId: number): Promise<TestRail.User>
-
-    getUserByEmail(email: string): Promise<TestRail.User>
-
-    getUsers(): Promise<TestRail.User[]>
-
-
-    // http://docs.gurock.com/testrail-api2/reference-reports#run_reportreport_template_id
-
-    getReports(projectId): Promise<TestRail.Report[]>
-
-    runReport(reportTemplateId): Promise<TestRail.ReportUrls>
+  runReport(reportTemplateId): Promise<TestRail.ReportUrls>;
 }
 
 declare namespace TestRail {
-    type CustomFieldType = boolean | string | number | number[] | string[] | any[] | undefined
+  interface Attachment {
+    id: number;
+    name: string;
+    filename: string;
+    size: number;
+    created_on: number;
+    project_id: number;
+    case_id: number;
+    user_id: number;
+    result_id: number;
 
-    interface CaseFilters {
-        suite_id: number
-        section_id: number
-        created_after: number
-        created_before: number
-        created_by: string
-        milestone_id: string
-        priority_id: string
-        template_id: string
-        type_id: string
-        updated_after: number
-        updated_before: number
-        updated_by: string
-        limit: number
-        offset: number
-    }
+    [key: string]: unknown;
+  }
 
-    interface Case {
-        id: number
-        title: string
-        section_id: number
-        template_id: number
-        type_id: number
-        priority_id: number
-        milestone_id?: number
-        refs?: string
-        created_by: number
-        created_on: number
-        updated_by: number
-        updated_on: number
-        estimate?: string
-        estimate_forecast?: string
-        suite_id?: number
+  interface AddedAttachment {
+    attachment_id: number;
+  }
 
-        [key: string]: CustomFieldType
-    }
+  interface Case {
+    id: number;
+    title: string;
+    section_id: number;
+    template_id: number;
+    type_id: number;
+    priority_id: number;
+    milestone_id?: number;
+    refs?: string;
+    created_by: number;
+    created_on: number;
+    updated_by: number;
+    updated_on: number;
+    estimate?: string;
+    estimate_forecast?: string;
+    suite_id: number;
+    displayOrder: number;
 
-    interface NewCase {
-        title: string
-        template_id: number
-        type_id: number
-        priority_id: number
-        estimate: number
-        milestone_id: number
-        refs: string
+    [key: string]: unknown;
+  }
 
-        [key: string]: CustomFieldType
-    }
+  interface CaseField {
+    id: number;
+    is_active: boolean;
+    type_id: number;
+    name: string;
+    system_name: string;
+    label: string;
+    description?: string;
+    configs: CaseFieldConfig[];
+    display_order: number;
+    include_all: boolean;
+    template_ids: number[];
 
-    interface CaseField {
-        id: number
-        is_active: boolean
-        type_id: number
-        name: string
-        system_name: string
-        label: string
-        description?: string
-        configs: CaseFieldConfig[]
-        display_order: number
-        include_all: boolean
-        template_ids: number[]
-    }
+    [key: string]: unknown;
+  }
 
-    interface NewCaseField {
-        type: string
-        name: string
-        label: string
-        description: string
-        include_all: boolean
-        template_ids: number[]
-        configs: NewCaseFieldConfig[]
-    }
+  interface CaseFieldConfig extends NewCaseFieldConfig {
+    id: string;
 
-    interface CaseFieldConfig extends NewCaseFieldConfig {
-        id: string
-    }
+    [key: string]: unknown;
+  }
 
-    interface NewCaseFieldConfig {
-        context: {
-            is_global: boolean
-            project_ids: number[]
-        }
-        options: {
-            is_required: boolean
-            default_value: string
-            format: string
-            rows: string
-            has_expected: boolean
-            items: string
-            has_actual: boolean
-        }
-    }
+  interface CaseType {
+    id: number;
+    name: string;
+    is_default: boolean;
 
-    interface CaseType {
-        id: number
-        name: string
-        is_default: boolean
-    }
+    [key: string]: unknown;
+  }
 
-    interface Config {
-        id: number
-        name: string
-        project_id: number
-        configs: ConfigItem[]
-    }
+  interface Config {
+    id: number;
+    name: string;
+    project_id: number;
+    configs: ConfigItem[];
 
-    interface ConfigItem {
-        id: number
-        group_id: number
-        name: string
-    }
+    [key: string]: unknown;
+  }
 
-    interface NewConfig {
-        name: string
-    }
+  interface ConfigItem {
+    id: number;
+    name: string;
+    group_id: number;
 
-    interface Milestone {
-        id: number
-        name?: string
-        description?: string
-        start_on?: number
-        started_on?: number
-        is_started: boolean
-        due_on?: number
-        is_completed: boolean
-        completed_on?: number
-        project_id: number
-        parent_id?: number
-        url: string
-        milestones: number[]
-    }
+    [key: string]: unknown;
+  }
 
-    interface MilestoneFilter {
-        is_completed: boolean
-        is_started: boolean
-    }
+  interface Milestone {
+    id: number;
+    name: string;
+    description?: string;
+    start_on?: number;
+    started_on?: number;
+    is_started: boolean;
+    due_on?: number;
+    is_completed: boolean;
+    completed_on?: number;
+    project_id: number;
+    parent_id?: number;
+    url: string;
+    milestones?: number[];
 
-    interface NewMilestone {
-        name: string
-        description: string
-        due_on: number
-        parent_id: number
-        start_on: number
-    }
+    [key: string]: unknown;
+  }
 
-    interface UpdateMilestone extends NewMilestone {
-        is_completed: boolean
-        is_started: boolean
-    }
+  interface Plan {
+    id: number;
+    name: string;
+    description?: string;
+    milestone_id?: number;
+    assignedto_id?: number;
+    is_completed: boolean;
+    completed_on?: number;
+    passed_count: number;
+    blocked_count: number;
+    untested_count: number;
+    retest_count: number;
+    failed_count: number;
+    custom_status1_count: number;
+    custom_status2_count: number;
+    custom_status3_count: number;
+    custom_status4_count: number;
+    custom_status5_count: number;
+    custom_status6_count: number;
+    custom_status7_count: number;
+    project_id: number;
+    created_on: number;
+    created_by: number;
+    url: string;
 
-    interface Plan {
-        id: number
-        name: string
-        description?: string
-        milestone_id?: number
-        assignedto_id?: number
-        is_completed?: boolean
-        completed_on?: number
-        passed_count: number
-        blocked_count: number
-        untested_count: number
-        retest_count: number
-        failed_count: number
-        project_id: number
-        created_on: number
-        created_by: number
-        url: string
-        entries: PlanEntry[]
-    }
+    [key: string]: unknown;
+  }
 
-    interface PlanEntry {
-        id: string
-        suite_id: number
-        name: string
-        runs: PlanEntryRun[]
-    }
+  interface PlanInfo extends Plan {
+    entries: PlanEntry[];
+  }
 
-    interface PlanEntryRun extends Run {
-        entry_index: number
-        entry_id: string
-    }
+  interface PlanEntry {
+    id: string;
+    suite_id?: number;
+    name: string;
+    runs: PlanEntryRun[];
 
-    interface Run {
-        id: number
-        suite_id: number
-        name: string
-        description: string
-        milestone_id: number
-        assignedto_id: number
-        include_all: boolean
-        is_completed: boolean
-        completed_on?: number
-        passed_count: number
-        blocked_count: number
-        untested_count: number
-        retest_count: number
-        failed_count: number
-        project_id: number
-        plan_id: number
-        config?: string
-        config_ids: number[]
-        created_on: number
-        created_by: number
-        url: string
-    }
+    [key: string]: unknown;
+  }
 
-    interface PlanFilters {
-        created_after: number
-        created_before: number
-        created_by: string
-        is_completed: boolean
-        limit: number
-        offset: number
-        milestone_id: string
-    }
+  interface PlanEntryRun {
+    entry_id: string;
+    entry_index: number;
+    id: number;
+    suite_id?: number;
+    name: string;
+    description?: string;
+    milestone_id?: number;
+    assignedto_id?: number;
+    include_all: boolean;
+    is_completed: boolean;
+    completed_on?: number;
+    config?: string;
+    config_ids: number[];
+    passed_count: number;
+    blocked_count: number;
+    untested_count: number;
+    retest_count: number;
+    failed_count: number;
+    custom_status1_count: number;
+    custom_status2_count: number;
+    custom_status3_count: number;
+    custom_status4_count: number;
+    custom_status5_count: number;
+    custom_status6_count: number;
+    custom_status7_count: number;
+    project_id: number;
+    plan_id: number;
+    created_on: number;
+    created_by: number;
+    url: string;
 
-    interface NewPlan extends UpdatePlan {
-        entries: NewPlanEntry[]
-    }
+    [key: string]: unknown;
+  }
 
-    interface NewPlanEntry extends UpdatePlanEntry {
-        suite_id: number
-        config_ids: number[]
-        runs: NewRun[]
-    }
+  interface Priority {
+    id: number;
+    name: string;
+    short_name: string;
+    is_default: boolean;
+    priority: number;
 
-    interface NewRun {
-        suite_id: number
-        name: string
-        description: string
-        milestone_id: number
-        assignedto_id: number
-        include_all: boolean
-        case_ids: number[]
-    }
+    [key: string]: unknown;
+  }
 
-    interface UpdatePlan {
-        name: string
-        description: string
-        milestone_id: number
-    }
+  interface Project {
+    id: number;
+    name: string;
+    announcement?: string;
+    show_announcement: boolean;
+    is_completed: boolean;
+    completed_on?: number;
+    suite_mode: number;
+    url: string;
 
-    interface UpdatePlanEntry {
-        name: string
-        description: string
-        assignedto_id: number
-        include_all: boolean
-        case_ids: number[]
-    }
+    [key: string]: unknown;
+  }
 
-    interface Priority {
-        id: number
-        name: string
-        short_name: string
-        priority: number
-        is_default: boolean
-    }
+  interface Result {
+    id: number;
+    test_id: number;
+    status_id: number;
+    created_by: number;
+    created_on: number;
+    assignedto_id?: number;
+    comment?: string;
+    version?: string;
+    elapsed?: string;
+    defects?: string;
+    attachment_ids: number[];
 
-    interface Project {
-        announcement: string
-        completed_on: number
-        id: number
-        is_completed: boolean
-        name: string
-        show_announcement: boolean
-        suite_mode: number
-        url: string
-    }
+    [key: string]: unknown;
+  }
 
-    interface ProjectFilters {
-        is_completed: boolean
-    }
+  interface ResultField {
+    id: number;
+    is_active: boolean;
+    type_id: number;
+    name: string;
+    system_name: string;
+    label: string;
+    description?: string;
+    configs: CaseFieldConfig[];
+    display_order: number;
+    include_all: boolean;
+    template_ids: number[];
 
-    interface NewProject {
-        name: string
-        announcement: string
-        show_announcement: boolean
-        suite_mode: number
-    }
+    [key: string]: unknown;
+  }
 
-    interface UpdateProject extends NewProject {
-        is_completed: boolean
-    }
+  interface Run {
+    id: number;
+    suite_id: number;
+    name: string;
+    description?: string;
+    milestone_id?: number;
+    assignedto_id?: number;
+    include_all: boolean;
+    is_completed: boolean;
+    completed_on?: number;
+    config?: string;
+    config_ids: number[];
+    passed_count: number;
+    blocked_count: number;
+    untested_count: number;
+    retest_count: number;
+    failed_count: number;
+    custom_status1_count: number;
+    custom_status2_count: number;
+    custom_status3_count: number;
+    custom_status4_count: number;
+    custom_status5_count: number;
+    custom_status6_count: number;
+    custom_status7_count: number;
+    project_id: number;
+    plan_id?: number;
+    created_on: number;
+    created_by: number;
+    url: string;
 
-    interface Result {
-        id: number
-        test_id: number
-        status_id: number
-        created_by: number
-        created_on: number
-        assignedto_id: number
-        comment: string
-        version: string
-        elapsed: string
-        defects: string
-        custom_step_results: any | any[]
-        attachment_ids: number[]
-    }
+    [key: string]: unknown;
+  }
 
-    interface ResultFilters {
-        limit: number
-        offset: number
-        status_id: string
-    }
+  interface Section {
+    id: number;
+    suite_id: number;
+    name: string;
+    description?: string;
+    parent_id?: number;
+    display_order: number;
+    depth: number;
 
-    interface ResultsForRunFilters extends ResultFilters {
-        created_after: number
-        created_before: number
-        created_by: number
-    }
+    [key: string]: unknown;
+  }
 
-    interface NewResult {
-        status_id: number
-        comment: string
-        version: string
-        elapsed: string
-        defects: string
-        assignedto_id: number
-    }
+  interface Status {
+    id: number;
+    name: string;
+    label: string;
+    color_dark: number;
+    color_medium: number;
+    color_bright: number;
+    is_system: boolean;
+    is_untested: boolean;
+    is_final: boolean;
 
-    interface NewResultForCase extends NewResult {
-        case_id: number
-    }
+    [key: string]: unknown;
+  }
 
-    interface ResultField {
-        configs: CaseFieldConfig[]
-        description?: string
-        display_order: number
-        id: number
-        label: string
-        name: string
-        system_name: string
-        type_id: number
-    }
+  interface Suite {
+    id: number;
+    name: string;
+    description?: string;
+    project_id: number;
+    is_master: boolean;
+    is_baseline: boolean;
+    is_completed: boolean;
+    completed_on?: number;
+    url: string;
 
-    interface RunFilters {
-        created_after: number
-        created_before: number
-        created_by: string
-        is_completed: boolean
-        limit: number
-        offset: number
-        milestone_id: string
-        suite_id: string
-    }
+    [key: string]: unknown;
+  }
 
-    interface NewRun extends UpdateRun {
-        suite_id: number
-        assignedto_id: number
-    }
+  interface Template {
+    id: number;
+    name: string;
+    is_default: boolean;
 
-    interface UpdateRun {
-        name: string
-        description: string
-        milestone_id: number
-        include_all: boolean
-        case_ids: number[]
-    }
+    [key: string]: unknown;
+  }
 
-    interface SectionsFilters {
-        suite_id: number
-    }
+  interface Test {
+    id: number;
+    case_id: number;
+    status_id: number;
+    assignedto_id?: number;
+    run_id: number;
+    title: string;
+    template_id: number;
+    type_id: number;
+    priority_id: number;
+    estimate?: string;
+    estimate_forecast?: string;
+    refs?: string;
+    milestone_id?: number;
 
-    interface Section {
-        depth: number
-        description: string
-        display_order: number
-        id: number
-        parent_id?: number
-        name: string
-        suite_id: number
-    }
+    [key: string]: unknown;
+  }
 
-    interface NewSection extends UpdateSection {
-        suite_id: number
-        parent_id: number
-    }
+  interface User {
+    id: number;
+    name: string;
+    email: string;
+    is_active: boolean;
 
-    interface UpdateSection {
-        description: string
-        name: string
-    }
+    [key: string]: unknown;
+  }
 
-    interface Status {
-        color_bright: number
-        color_dark: number
-        color_medium: number
-        id: number
-        is_final: boolean
-        is_system: boolean
-        is_untested: boolean
-        label: string
-        name: string
-    }
+  interface Report {
+    id: number;
+    name: string;
+    description?: string;
+    notify_user: boolean;
+    notify_link: boolean;
+    notify_link_recipients?: string;
+    notify_attachment_recipients?: string;
+    notify_attachment_html_format: boolean;
+    notifyAttachmentPdfFormat: boolean;
 
-    interface Suite {
-        completed_on: number
-        description: string
-        id: number
-        is_baseline: boolean
-        is_completed: boolean
-        is_master: boolean
-        name: string
-        project_id: number
-        url: string
-    }
+    [key: string]: unknown;
+  }
 
-    interface NewSuite {
-        name: string
-        description: string
-    }
+  interface ReportUrls {
+    report_url: string;
+    report_html: string;
+    report_pdf: string;
 
-    interface Template {
-        id: number
-        name: string
-        is_default: boolean
-    }
+    [key: string]: unknown;
+  }
 
-    interface Test {
-        assignedto_id: number
-        case_id: number
-        estimate: string
-        estimate_forecast: string
-        id: number
-        milestone_id: number
-        priority_id: number
-        refs: string
-        run_id: number
-        status_id: number
-        title: string
-        type_id: number
-    }
+  interface CaseFilters {
+    suite_id?: number;
+    section_id?: number;
+    filter?: string;
+    created_after?: number;
+    created_before?: number;
+    created_by?: string;
+    milestone_id?: string;
+    priority_id?: string;
+    template_id?: string;
+    type_id?: string;
+    updated_after?: number;
+    updated_before?: number;
+    updated_by?: string;
+    limit?: number;
+    offset?: number;
 
-    interface TestFilters {
-        status_id: string
-    }
+    [key: string]: unknown;
+  }
 
-    interface User {
-        id: number
-        name: string
-        email: string
-        is_active: boolean
-    }
+  interface NewCase {
+    title?: string;
+    template_id?: number;
+    type_id?: number;
+    priority_id?: number;
+    estimate?: number;
+    milestone_id?: number;
+    refs?: string;
 
-    interface Report {
-        id: number
-        name: string
-        description: string | null
-        notify_user: boolean
-        notify_link: boolean
-        notify_link_recipients: string | null
-        notify_attachment: boolean
-        notify_attachment_recipients: string | null
-        notify_attachment_html_format: boolean
-        notify_attachment_pdf_format: boolean
-        runs_suites_include: string
-        runs_suites_ids: number[] | null
-        runs_filters: {
-            mode: string,
-            filter: object
-        }
-        runs_include: string
-        runs_ids: number[] | null
-        runs_limit: number
-        activities_daterange: string
-        activities_daterange_from: number | null
-        activities_daterange_to: number | null
-        activities_statuses_include: string
-        activities_statuses_ids: number[] | null
-        activities_limit: number
-        tests_filters: {
-            mode: string,
-            filter: object
-        }
-        tests_columns: {
-            [key: string]: any
-        }
-        tests_limit: number
-        content_hide_links: boolean
-        status_include: boolean
-        activities_include: boolean
-        progress_include: boolean
-        tests_include: boolean
-    }
+    [key: string]: unknown;
+  }
 
-    interface ReportUrls {
-        report_url: string
-        report_html: string
-        report_pdf: string
-    }
+  interface NewCaseField {
+    type?: string;
+    name?: string;
+    label?: string;
+    description?: string;
+    include_all?: boolean;
+    template_ids?: number[];
+    configs?: NewCaseFieldConfig[];
 
-    interface AddAttachment {
-        attachment_id: number
-    }
+    [key: string]: unknown;
+  }
 
-    interface Attachment {
-        id: number
-        name: string
-        filename: string
-        size: number
-        created_on: number
-        project_id: number
-        case_id: number
-        test_change_id: number
-        user_id: number
-    }
+  interface NewCaseFieldConfig {
+    context?: {
+      is_global?: boolean;
+      project_ids?: number[];
+
+      [key: string]: unknown;
+    };
+    options?: {
+      default_value?: string;
+      items?: string;
+      rows?: string;
+      format?: string;
+      has_actual?: boolean;
+      has_expected?: boolean;
+      is_required?: boolean;
+
+      [key: string]: unknown;
+    };
+
+    [key: string]: unknown;
+  }
+
+  interface NewConfig {
+    name?: string;
+
+    [key: string]: unknown;
+  }
+
+  interface MilestoneFilter {
+    is_completed?: number;
+    is_started?: number;
+
+    [key: string]: unknown;
+  }
+
+  interface NewMilestone {
+    name?: string;
+    description?: string;
+    due_on?: number;
+    parent_id?: number;
+    start_on?: number;
+
+    [key: string]: unknown;
+  }
+
+  interface UpdateMilestone extends NewMilestone {
+    is_completed?: boolean;
+    is_started?: boolean;
+
+    [key: string]: unknown;
+  }
+
+  interface PlanFilters {
+    created_after?: number;
+    created_before?: number;
+    created_by?: string;
+    is_completed?: number;
+    limit?: number;
+    offset?: number;
+    milestone_id?: string;
+
+    [key: string]: unknown;
+  }
+
+  interface NewPlan extends UpdatePlan {
+    entries?: NewPlanEntry[];
+
+    [key: string]: unknown;
+  }
+
+  interface NewPlanEntry extends UpdatePlanEntry {
+    suite_id?: number;
+    config_ids?: number[];
+    runs?: NewRun[];
+
+    [key: string]: unknown;
+  }
+
+  interface NewRun {
+    suite_id?: number;
+    name?: string;
+    description?: string;
+    milestone_id?: number;
+    assignedto_id?: number;
+    include_all?: boolean;
+    case_ids?: number[];
+
+    [key: string]: unknown;
+  }
+
+  interface UpdatePlan {
+    name?: string;
+    description?: string;
+    milestone_id?: number;
+
+    [key: string]: unknown;
+  }
+
+  interface UpdatePlanEntry {
+    name?: string;
+    description?: string;
+    assignedto_id?: number;
+    include_all?: boolean;
+    case_ids?: number[];
+
+    [key: string]: unknown;
+  }
+
+  interface ProjectFilters {
+    is_completed?: number;
+
+    [key: string]: unknown;
+  }
+
+  interface NewProject {
+    name?: string;
+    announcement?: string;
+    show_announcement?: boolean;
+    suite_mode?: number;
+
+    [key: string]: unknown;
+  }
+
+  interface UpdateProject extends NewProject {
+    is_completed?: boolean;
+
+    [key: string]: unknown;
+  }
+
+  interface ResultFilters {
+    limit?: number;
+    offset?: number;
+    status_id?: string;
+
+    [key: string]: unknown;
+  }
+
+  interface ResultsForRunFilters extends ResultFilters {
+    created_after?: number;
+    created_before?: number;
+    created_by?: number;
+
+    [key: string]: unknown;
+  }
+
+  interface NewResult {
+    status_id?: number;
+    comment?: string;
+    version?: string;
+    elapsed?: string;
+    defects?: string;
+    assignedto_id?: number;
+
+    [key: string]: unknown;
+  }
+
+  interface NewResultForCase extends NewResult {
+    case_id?: number;
+
+    [key: string]: unknown;
+  }
+
+  interface RunFilters {
+    created_after?: number;
+    created_before?: number;
+    created_by?: string;
+    is_completed?: number;
+    limit?: number;
+    offset?: number;
+    milestone_id?: string;
+    suite_id?: string;
+
+    [key: string]: unknown;
+  }
+
+  interface NewRun extends UpdateRun {
+    suite_id?: number;
+    assignedto_id?: number;
+
+    // @ts-ignore
+    [key: string]: unknown;
+  }
+
+  interface UpdateRun {
+    name?: string;
+    description?: string;
+    milestone_id?: number;
+    include_all?: boolean;
+    case_ids?: number[];
+
+    [key: string]: unknown;
+  }
+
+  interface SectionsFilters {
+    suite_id?: number;
+
+    [key: string]: unknown;
+  }
+
+  interface NewSection extends UpdateSection {
+    suite_id?: number;
+    parent_id?: number;
+
+    [key: string]: unknown;
+  }
+
+  interface UpdateSection {
+    description?: string;
+    name?: string;
+
+    [key: string]: unknown;
+  }
+
+  interface NewSuite {
+    name?: string;
+    description?: string;
+
+    [key: string]: unknown;
+  }
+
+  interface TestFilters {
+    status_id?: string;
+
+    [key: string]: unknown;
+  }
 }
 
-export = TestRail
+export = TestRail;

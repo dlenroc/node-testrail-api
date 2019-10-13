@@ -1,8 +1,7 @@
 [![TestRail API](https://img.shields.io/badge/TestRail%20API-v2-green.svg)](http://docs.gurock.com/testrail-api2/start)
-![GitHub package version](https://img.shields.io/github/package-json/v/dlenroc/node-testrail-api.svg) 
-![Dependencies Status](https://img.shields.io/david/dlenroc/node-testrail-api.svg) 
-![GitHub top language](https://img.shields.io/github/languages/top/dlenroc/node-testrail-api.svg) 
-
+![GitHub package version](https://img.shields.io/github/package-json/v/dlenroc/node-testrail-api.svg)
+![Dependencies Status](https://img.shields.io/david/dlenroc/node-testrail-api.svg)
+![GitHub top language](https://img.shields.io/github/languages/top/dlenroc/node-testrail-api.svg)
 
 #### Installation
 
@@ -11,25 +10,23 @@ npm install dlenroc/node-testrail-api --save
 ```
 
 #### Example
+
 ```javascript
 const TestRail = require('testrail');
 
-const api = new TestRail ({
-    host: 'https://{organization}.testrail.net',
-    user: '{username}',
-    password: '{password}'
+const api = new TestRail({
+  host: 'https://{organization}.testrail.net',
+  user: '{username}',
+  password: '{password}'
 });
 
-
 let testCase = await api.getCase(1);
-console.log(testCase.title)
+console.log(testCase.title);
 
-// or 
+// or
 
-api.getCase(1).then(
-    testCase => console.log(testCase.title));
+api.getCase(1).then(testCase => console.log(testCase.title));
 ```
-
 
 ## APIs
 
