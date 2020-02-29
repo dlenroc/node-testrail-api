@@ -105,7 +105,7 @@ declare class TestRail {
 
   getResults(testId: number, filters?: TestRail.ResultFilters): Promise<TestRail.Result[]>;
 
-  getResultsForCase(runId: number, caseId, filters?: TestRail.ResultFilters): Promise<TestRail.Result[]>;
+  getResultsForCase(runId: number, caseId: number, filters?: TestRail.ResultFilters): Promise<TestRail.Result[]>;
 
   getResultsForRun(runId: number, filters?: TestRail.ResultsForRunFilters): Promise<TestRail.Result[]>;
 
@@ -183,9 +183,9 @@ declare class TestRail {
 
   // http://docs.gurock.com/testrail-api2/reference-reports#run_reportreport_template_id
 
-  getReports(projectId): Promise<TestRail.Report[]>;
+  getReports(projectId: number): Promise<TestRail.Report[]>;
 
-  runReport(reportTemplateId): Promise<TestRail.ReportUrls>;
+  runReport(reportTemplateId: number): Promise<TestRail.ReportUrls>;
 }
 
 declare namespace TestRail {
