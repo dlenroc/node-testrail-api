@@ -11,7 +11,7 @@ declare class TestRail {
 
   getAttachmentsForTest(testId: number): Promise<TestRail.Attachment>;
 
-  getAttachment(attachmentId: number): Promise<TestRail.Attachment>;
+  getAttachment(attachmentId: number): Promise<string>;
 
   deleteAttachment(attachmentId: number): Promise<void>;
 
@@ -87,7 +87,7 @@ declare class TestRail {
 
   // http://docs.gurock.com/testrail-api2/reference-priorities
 
-  getPriorities(): Promise<TestRail.Priority>;
+  getPriorities(): Promise<TestRail.Priority[]>;
 
   // http://docs.gurock.com/testrail-api2/reference-projects
 
@@ -181,7 +181,7 @@ declare class TestRail {
 
   getUsers(): Promise<TestRail.User[]>;
 
-  // http://docs.gurock.com/testrail-api2/reference-reports#run_reportreport_template_id
+  // http://docs.gurock.com/testrail-api2/reference-reports
 
   getReports(projectId: number): Promise<TestRail.Report[]>;
 
@@ -191,14 +191,14 @@ declare class TestRail {
 declare namespace TestRail {
   interface Attachment {
     id: number;
-    name: string;
-    filename: string;
-    size: number;
-    created_on: number;
-    project_id: number;
     case_id: number;
+    created_on: number;
+    filename: string;
+    name: string;
+    project_id: number;
+    result_id?: number;
+    size: number;
     user_id: number;
-    result_id: number;
 
     [key: string]: unknown;
   }
@@ -209,103 +209,118 @@ declare namespace TestRail {
 
   interface Case {
     id: number;
-    title: string;
-    section_id: number;
-    template_id: number;
-    type_id: number;
-    priority_id: number;
-    milestone_id?: number;
-    refs?: string;
     created_by: number;
     created_on: number;
-    updated_by: number;
-    updated_on: number;
+    display_order: number;
     estimate?: string;
     estimate_forecast?: string;
+    milestone_id?: number;
+    priority_id: number;
+    refs?: string;
+    section_id: number;
     suite_id: number;
-    displayOrder: number;
+    template_id: number;
+    title: string;
+    type_id: number;
+    updated_by: number;
+    updated_on: number;
 
     [key: string]: unknown;
   }
 
   interface CaseField {
     id: number;
-    is_active: boolean;
-    type_id: number;
+    configs: CaseFieldConfig[];
+    description?: string;
+    display_order: number;
+    include_all: boolean
+    is_active: boolean
+    label: string;
     name: string;
     system_name: string;
-    label: string;
-    description?: string;
-    configs: CaseFieldConfig[];
-    display_order: number;
-    include_all: boolean;
-    template_ids: number[];
+    template_ids: Number[];
+    type_id: number;
 
     [key: string]: unknown;
   }
 
-  interface CaseFieldConfig extends NewCaseFieldConfig {
+  interface CaseFieldConfig {
     id: string;
+    context: Context;
+    options: Options;
+
+    [key: string]: unknown;
+  }
+
+  interface Context {
+    is_global: boolean
+    project_ids?: Number[];
+
+    [key: string]: unknown;
+  }
+
+  interface Options {
+    default_value?: string;
+    format?: string;
+    has_actual?: boolean;
+    has_expected?: boolean;
+    is_required: boolean
+    items?: string;
+    rows?: string;
 
     [key: string]: unknown;
   }
 
   interface CaseType {
     id: number;
+    is_default: boolean
     name: string;
-    is_default: boolean;
 
     [key: string]: unknown;
   }
 
   interface Config {
     id: number;
+    configs: ConfigItem[];
     name: string;
     project_id: number;
-    configs: ConfigItem[];
 
     [key: string]: unknown;
   }
 
   interface ConfigItem {
     id: number;
-    name: string;
     group_id: number;
+    name: string;
 
     [key: string]: unknown;
   }
 
   interface Milestone {
     id: number;
-    name: string;
+    completed_on?: number;
     description?: string;
+    due_on?: number;
+    is_completed: boolean
+    is_started: boolean
+    milestones?: Milestone[];
+    name: string;
+    parent_id?: number;
+    project_id: number;
     start_on?: number;
     started_on?: number;
-    is_started: boolean;
-    due_on?: number;
-    is_completed: boolean;
-    completed_on?: number;
-    project_id: number;
-    parent_id?: number;
     url: string;
-    milestones?: number[];
 
     [key: string]: unknown;
   }
 
   interface Plan {
     id: number;
-    name: string;
-    description?: string;
-    milestone_id?: number;
     assignedto_id?: number;
-    is_completed: boolean;
-    completed_on?: number;
-    passed_count: number;
     blocked_count: number;
-    untested_count: number;
-    retest_count: number;
-    failed_count: number;
+    completed_on?: number;
+    created_by: number;
+    created_on: number;
     custom_status1_count: number;
     custom_status2_count: number;
     custom_status3_count: number;
@@ -313,9 +328,15 @@ declare namespace TestRail {
     custom_status5_count: number;
     custom_status6_count: number;
     custom_status7_count: number;
+    description?: string;
+    failed_count: number;
+    is_completed: boolean
+    milestone_id?: number;
+    name: string;
+    passed_count: number;
     project_id: number;
-    created_on: number;
-    created_by: number;
+    retest_count: number;
+    untested_count: number;
     url: string;
 
     [key: string]: unknown;
@@ -327,32 +348,22 @@ declare namespace TestRail {
 
   interface PlanEntry {
     id: string;
-    suite_id?: number;
     name: string;
     runs: PlanEntryRun[];
+    suite_id: number;
 
     [key: string]: unknown;
   }
 
   interface PlanEntryRun {
-    entry_id: string;
-    entry_index: number;
     id: number;
-    suite_id?: number;
-    name: string;
-    description?: string;
-    milestone_id?: number;
     assignedto_id?: number;
-    include_all: boolean;
-    is_completed: boolean;
+    blocked_count: number;
     completed_on?: number;
     config?: string;
-    config_ids: number[];
-    passed_count: number;
-    blocked_count: number;
-    untested_count: number;
-    retest_count: number;
-    failed_count: number;
+    config_ids: Number[];
+    created_by: number;
+    created_on: number;
     custom_status1_count: number;
     custom_status2_count: number;
     custom_status3_count: number;
@@ -360,10 +371,20 @@ declare namespace TestRail {
     custom_status5_count: number;
     custom_status6_count: number;
     custom_status7_count: number;
-    project_id: number;
+    description?: string;
+    entry_id: string;
+    entry_index: number;
+    failed_count: number;
+    include_all: boolean
+    is_completed: boolean
+    milestone_id?: number;
+    name: string;
+    passed_count: number;
     plan_id: number;
-    created_on: number;
-    created_by: number;
+    project_id: number;
+    retest_count: number;
+    suite_id: number;
+    untested_count: number;
     url: string;
 
     [key: string]: unknown;
@@ -371,21 +392,21 @@ declare namespace TestRail {
 
   interface Priority {
     id: number;
+    is_default: boolean
     name: string;
-    short_name: string;
-    is_default: boolean;
     priority: number;
+    short_name: string;
 
     [key: string]: unknown;
   }
 
   interface Project {
     id: number;
-    name: string;
     announcement?: string;
-    show_announcement: boolean;
-    is_completed: boolean;
     completed_on?: number;
+    is_completed: boolean
+    name: string;
+    show_announcement: boolean
     suite_mode: number;
     url: string;
 
@@ -394,53 +415,45 @@ declare namespace TestRail {
 
   interface Result {
     id: number;
-    test_id: number;
-    status_id: number;
+    assignedto_id?: number;
+    attachment_ids: Number[];
+    comment?: string;
     created_by: number;
     created_on: number;
-    assignedto_id?: number;
-    comment?: string;
-    version?: string;
-    elapsed?: string;
     defects?: string;
-    attachment_ids: number[];
+    elapsed?: string;
+    status_id?: number;
+    test_id: number;
+    version?: string;
 
     [key: string]: unknown;
   }
 
   interface ResultField {
     id: number;
-    is_active: boolean;
-    type_id: number;
+    configs: CaseFieldConfig[];
+    description?: string;
+    display_order: number;
+    include_all: boolean
+    is_active: boolean
+    label: string;
     name: string;
     system_name: string;
-    label: string;
-    description?: string;
-    configs: CaseFieldConfig[];
-    display_order: number;
-    include_all: boolean;
-    template_ids: number[];
+    template_ids: Number[];
+    type_id: number;
 
     [key: string]: unknown;
   }
 
   interface Run {
     id: number;
-    suite_id: number;
-    name: string;
-    description?: string;
-    milestone_id?: number;
     assignedto_id?: number;
-    include_all: boolean;
-    is_completed: boolean;
+    blocked_count: number;
     completed_on?: number;
     config?: string;
-    config_ids: number[];
-    passed_count: number;
-    blocked_count: number;
-    untested_count: number;
-    retest_count: number;
-    failed_count: number;
+    config_ids: Number[];
+    created_by: number;
+    created_on: number;
     custom_status1_count: number;
     custom_status2_count: number;
     custom_status3_count: number;
@@ -448,10 +461,19 @@ declare namespace TestRail {
     custom_status5_count: number;
     custom_status6_count: number;
     custom_status7_count: number;
-    project_id: number;
+    description?: string;
+    failed_count: number;
+    include_all: boolean
+    is_completed: boolean
+    milestone_id?: number;
+    name: string;
+    passed_count: number;
     plan_id?: number;
-    created_on: number;
-    created_by: number;
+    project_id: number;
+    refs?: string;
+    retest_count: number;
+    suite_id: number;
+    untested_count: number;
     url: string;
 
     [key: string]: unknown;
@@ -459,39 +481,39 @@ declare namespace TestRail {
 
   interface Section {
     id: number;
-    suite_id: number;
-    name: string;
-    description?: string;
-    parent_id?: number;
-    display_order: number;
     depth: number;
+    description?: string;
+    display_order: number;
+    name: string;
+    parent_id?: number;
+    suite_id: number;
 
     [key: string]: unknown;
   }
 
   interface Status {
     id: number;
-    name: string;
-    label: string;
+    color_bright: number;
     color_dark: number;
     color_medium: number;
-    color_bright: number;
-    is_system: boolean;
-    is_untested: boolean;
-    is_final: boolean;
+    is_final: boolean
+    is_system: boolean
+    is_untested: boolean
+    label: string;
+    name: string;
 
     [key: string]: unknown;
   }
 
   interface Suite {
     id: number;
-    name: string;
-    description?: string;
-    project_id: number;
-    is_master: boolean;
-    is_baseline: boolean;
-    is_completed: boolean;
     completed_on?: number;
+    description?: string;
+    is_baseline: boolean
+    is_completed: boolean
+    is_master: boolean
+    name: string;
+    project_id: number;
     url: string;
 
     [key: string]: unknown;
@@ -499,56 +521,129 @@ declare namespace TestRail {
 
   interface Template {
     id: number;
+    is_default: boolean
     name: string;
-    is_default: boolean;
 
     [key: string]: unknown;
   }
 
   interface Test {
     id: number;
-    case_id: number;
-    status_id: number;
     assignedto_id?: number;
-    run_id: number;
-    title: string;
-    template_id: number;
-    type_id: number;
-    priority_id: number;
+    case_id: number;
     estimate?: string;
     estimate_forecast?: string;
-    refs?: string;
     milestone_id?: number;
+    priority_id: number;
+    refs?: string;
+    run_id: number;
+    status_id: number;
+    template_id: number;
+    title: string;
+    type_id: number;
 
     [key: string]: unknown;
   }
 
   interface User {
     id: number;
-    name: string;
     email: string;
-    is_active: boolean;
+    is_active: boolean
+    name: string;
 
     [key: string]: unknown;
   }
 
   interface Report {
     id: number;
-    name: string;
+    activities_daterange?: string;
+    activities_daterange_from?: string;
+    activities_daterange_to?: string;
+    activities_include?: boolean;
+    activities_limit?: number;
+    activities_statuses_ids?: Number[];
+    activities_statuses_include?: string;
+    cases_columns: {
+      [key: string]: number
+    };
+    cases_filters?: string;
+    cases_groupby?: string;
+    cases_include_comparison?: boolean;
+    cases_include_coverage?: boolean;
+    cases_include_details?: boolean;
+    cases_include_new?: boolean;
+    cases_include_norefs?: boolean;
+    cases_include_refs?: boolean;
+    cases_include_summary?: boolean;
+    cases_include_updated?: boolean;
+    cases_limit?: number;
+    changes_daterange?: string;
+    changes_daterange_from?: string;
+    changes_daterange_to?: string;
+    content_hide_links: boolean
+    custom_automation_type?: number;
+    defects_ids?: string;
+    defects_include?: string;
     description?: string;
-    notify_user: boolean;
-    notify_link: boolean;
+    history_daterange?: string;
+    history_daterange_from?: string;
+    history_daterange_to?: string;
+    history_include?: boolean;
+    history_limit?: number;
+    milestones_active_include?: boolean;
+    milestones_completed_include?: boolean;
+    milestones_completed_limit?: number;
+    milestones_id?: number;
+    name: string;
+    notify_attachment: string;
+    notify_attachment_html_format: boolean
+    notify_attachment_pdf_format: boolean
+    notify_attachment_recipients: string;
+    notify_link: boolean
     notify_link_recipients?: string;
-    notify_attachment_recipients?: string;
-    notify_attachment_html_format: boolean;
-    notifyAttachmentPdfFormat: boolean;
+    notify_user: boolean
+    plans_id?: number;
+    progress_include?: boolean;
+    references_ids?: string;
+    references_include?: string;
+    results_include?: string;
+    runs_active_include?: boolean;
+    runs_completed_include?: boolean;
+    runs_completed_limit?: number;
+    runs_filters?: {
+      [key: string]: any
+    };
+    runs_ids?: Number[];
+    runs_include?: string;
+    runs_limit?: number;
+    runs_sections_ids?: Number[];
+    runs_sections_include?: string;
+    runs_suites_id?: string;
+    runs_suites_ids?: string;
+    runs_suites_include?: string;
+    sections_ids?: string;
+    sections_include?: string;
+    status_include?: boolean;
+    statuses_ids?: Number[];
+    statuses_include?: string;
+    suites_ids?: string;
+    suites_include?: string;
+    tests_columns?: {
+      [key: string]: number
+    };
+    tests_filters?: string;
+    tests_groupby?: string;
+    tests_include?: boolean;
+    tests_include_details?: boolean;
+    tests_include_summary?: string;
+    tests_limit?: number;
 
     [key: string]: unknown;
   }
 
   interface ReportUrls {
-    report_url: string;
     report_html: string;
+    report_url: string;
     report_pdf: string;
 
     [key: string]: unknown;
@@ -579,7 +674,7 @@ declare namespace TestRail {
     template_id?: number;
     type_id?: number;
     priority_id?: number;
-    estimate?: number;
+    estimate?: string;
     milestone_id?: number;
     refs?: string;
 

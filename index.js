@@ -336,7 +336,7 @@ class TestRail {
     return await this._apiCall('GET', 'get_users');
   }
 
-  // http://docs.gurock.com/testrail-api2/reference-reports#run_reportreport_template_id
+  // http://docs.gurock.com/testrail-api2/reference-reports
 
   async getReports(projectId) {
     return await this._apiCall('GET', 'get_reports/' + projectId);
