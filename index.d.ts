@@ -1,13 +1,23 @@
 declare class TestRail {
   constructor(config: { host: string; user: string; password: string });
 
-  // http://docs.gurock.com/testrail-api2/reference-attachments
+  // https://www.gurock.com/testrail/docs/api/reference/attachments
+
+  addAttachmentToPlan(planId: number, filePath: String): Promise<TestRail.AddedAttachment>;
+
+  addAttachmentToPlanEntry(planId: number, entryId: number, filePath: String): Promise<TestRail.AddedAttachment>;
 
   addAttachmentToResult(resultId: number, filePath: String): Promise<TestRail.AddedAttachment>;
 
-  addAttachmentToResultForCase(resultId: number, caseId: number, filePath: String): Promise<TestRail.AddedAttachment>;
+  addAttachmentToRun(runId: number, filePath: String): Promise<TestRail.AddedAttachment>;
 
   getAttachmentsForCase(caseId: number): Promise<TestRail.Attachment>;
+
+  getAttachmentsForPlan(planId: number): Promise<TestRail.Attachment>;
+
+  getAttachmentsForPlanEntry(planId: number, entryId: number): Promise<TestRail.Attachment>;
+
+  getAttachmentsForRun(runId: number): Promise<TestRail.Attachment>;
 
   getAttachmentsForTest(testId: number): Promise<TestRail.Attachment>;
 
@@ -15,7 +25,7 @@ declare class TestRail {
 
   deleteAttachment(attachmentId: number): Promise<void>;
 
-  // http://docs.gurock.com/testrail-api2/reference-cases
+  // https://www.gurock.com/testrail/docs/api/reference/cases
 
   getCase(caseId: number): Promise<TestRail.Case>;
 
@@ -27,17 +37,17 @@ declare class TestRail {
 
   deleteCase(caseId: number): void;
 
-  // http://docs.gurock.com/testrail-api2/reference-cases-fields
+  // https://www.gurock.com/testrail/docs/api/reference/case-fields
 
   getCaseFields(): Promise<TestRail.CaseField[]>;
 
   addCaseField(data: TestRail.NewCaseField): Promise<TestRail.CaseField>;
 
-  // http://docs.gurock.com/testrail-api2/reference-cases-types
+  // https://www.gurock.com/testrail/docs/api/reference/case-types
 
   getCaseTypes(): Promise<TestRail.CaseType[]>;
 
-  // http://docs.gurock.com/testrail-api2/reference-configs
+  // https://www.gurock.com/testrail/docs/api/reference/configurations
 
   getConfigs(projectId: number): Promise<TestRail.Config[]>;
 
@@ -53,7 +63,7 @@ declare class TestRail {
 
   deleteConfig(configId: number): void;
 
-  // http://docs.gurock.com/testrail-api2/reference-milestones
+  // https://www.gurock.com/testrail/docs/api/reference/milestones
 
   getMilestone(milestoneId: number): Promise<TestRail.Milestone>;
 
@@ -65,7 +75,7 @@ declare class TestRail {
 
   deleteMilestone(milestoneId: number): void;
 
-  // http://docs.gurock.com/testrail-api2/reference-plans
+  // https://www.gurock.com/testrail/docs/api/reference/plans
 
   getPlan(planId: number): Promise<TestRail.PlanInfo>;
 
@@ -85,11 +95,11 @@ declare class TestRail {
 
   deletePlanEntry(planId: number, entryId: string): void;
 
-  // http://docs.gurock.com/testrail-api2/reference-priorities
+  // https://www.gurock.com/testrail/docs/api/reference/priorities
 
   getPriorities(): Promise<TestRail.Priority[]>;
 
-  // http://docs.gurock.com/testrail-api2/reference-projects
+  // https://www.gurock.com/testrail/docs/api/reference/projects
 
   getProject(projectId: number): Promise<TestRail.Project>;
 
@@ -101,7 +111,7 @@ declare class TestRail {
 
   deleteProject(projectId: number): void;
 
-  // http://docs.gurock.com/testrail-api2/reference-results
+  // https://www.gurock.com/testrail/docs/api/reference/results
 
   getResults(testId: number, filters?: TestRail.ResultFilters): Promise<TestRail.Result[]>;
 
@@ -117,11 +127,11 @@ declare class TestRail {
 
   addResultsForCases(runId: number, data: TestRail.NewResultForCase): Promise<TestRail.Result[]>;
 
-  // http://docs.gurock.com/testrail-api2/reference-results-fields
+  // https://www.gurock.com/testrail/docs/api/reference/result-fields
 
   getResultFields(): Promise<TestRail.ResultField[]>;
 
-  // http://docs.gurock.com/testrail-api2/reference-runs
+  // https://www.gurock.com/testrail/docs/api/reference/runs
 
   getRun(runId: number): Promise<TestRail.Run>;
 
@@ -135,7 +145,7 @@ declare class TestRail {
 
   deleteRun(runId: number): void;
 
-  // http://docs.gurock.com/testrail-api2/reference-sections
+  // https://www.gurock.com/testrail/docs/api/reference/sections
 
   getSection(sectionId: number): Promise<TestRail.Section>;
 
@@ -147,11 +157,11 @@ declare class TestRail {
 
   deleteSection(sectionId: number): void;
 
-  // http://docs.gurock.com/testrail-api2/reference-statuses
+  // https://www.gurock.com/testrail/docs/api/reference/statuses
 
   getStatuses(): Promise<TestRail.Status[]>;
 
-  // http://docs.gurock.com/testrail-api2/reference-suites
+  // https://www.gurock.com/testrail/docs/api/reference/suites
 
   getSuite(suiteId: number): Promise<TestRail.Suite>;
 
@@ -163,17 +173,17 @@ declare class TestRail {
 
   deleteSuite(suiteId: number): void;
 
-  // http://docs.gurock.com/testrail-api2/reference-templates
+  // https://www.gurock.com/testrail/docs/api/reference/templates
 
   getTemplates(projectId: number): Promise<TestRail.Template[]>;
 
-  // http://docs.gurock.com/testrail-api2/reference-tests
+  // https://www.gurock.com/testrail/docs/api/reference/tests
 
   getTest(testId: number): Promise<TestRail.Test>;
 
   getTests(runId: number, filters?: TestRail.TestFilters): Promise<TestRail.Test[]>;
 
-  // http://docs.gurock.com/testrail-api2/reference-users
+  // https://www.gurock.com/testrail/docs/api/reference/users
 
   getUser(userId: number): Promise<TestRail.User>;
 
@@ -181,7 +191,7 @@ declare class TestRail {
 
   getUsers(): Promise<TestRail.User[]>;
 
-  // http://docs.gurock.com/testrail-api2/reference-reports
+  // https://www.gurock.com/testrail/docs/api/reference/reports
 
   getReports(projectId: number): Promise<TestRail.Report[]>;
 

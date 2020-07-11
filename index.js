@@ -1,7 +1,7 @@
 'use strict';
 
 const fs = require('fs');
-const qs = require('qs');
+const qs = require('querystring');
 const request = require('request');
 
 class TestRail {
@@ -12,18 +12,38 @@ class TestRail {
     this.uri = '/index.php?/api/v2/';
   }
 
-  // http://docs.gurock.com/testrail-api2/reference-attachments
+  // https://www.gurock.com/testrail/docs/api/reference/attachments
+
+  async addAttachmentToPlan(planId, filePath) {
+    return await this._apiCall('POST', 'add_attachment_to_plan/' + planId, null, null, {attachment: fs.createReadStream(filePath)});
+  }
+
+  async addAttachmentToPlanEntry(planId, entryId, filePath) {
+    return await this._apiCall('POST', 'add_attachment_to_plan_entry/' + planId + '/' + entryId, null, null, {attachment: fs.createReadStream(filePath)});
+  }
 
   async addAttachmentToResult(resultId, filePath) {
     return await this._apiCall('POST', 'add_attachment_to_result/' + resultId, null, null, {attachment: fs.createReadStream(filePath)});
   }
 
-  async addAttachmentToResultForCase(resultId, caseId, filePath) {
-    return await this._apiCall('POST', 'add_attachment_to_result_for_case/' + resultId + '/' + caseId, null, null, {attachment: fs.createReadStream(filePath)});
+  async addAttachmentToRun(runId, filePath) {
+    return await this._apiCall('POST', 'add_attachment_to_run/' + runId, null, null, {attachment: fs.createReadStream(filePath)});
   }
 
   async getAttachmentsForCase(caseId) {
     return await this._apiCall('GET', 'get_attachments_for_case/' + caseId);
+  }
+
+  async getAttachmentsForPlan(planId) {
+    return await this._apiCall('GET', 'get_attachments_for_plan/' + planId);
+  }
+
+  async getAttachmentsForPlanEntry(planId, entryId) {
+    return await this._apiCall('GET', 'get_attachments_for_plan_entry/' + planId + '/' + entryId);
+  }
+
+  async getAttachmentsForRun(runId) {
+    return await this._apiCall('GET', 'get_attachments_for_run/' + runId);
   }
 
   async getAttachmentsForTest(testId) {
@@ -38,7 +58,7 @@ class TestRail {
     return await this._apiCall('POST', 'delete_attachment/' + attachmentId);
   }
 
-  // http://docs.gurock.com/testrail-api2/reference-cases
+  // https://www.gurock.com/testrail/docs/api/reference/cases
 
   async getCase(caseId) {
     return await this._apiCall('GET', 'get_case/' + caseId);
@@ -60,7 +80,7 @@ class TestRail {
     return await this._apiCall('POST', 'delete_case/' + caseId);
   }
 
-  // http://docs.gurock.com/testrail-api2/reference-cases-fields
+  // https://www.gurock.com/testrail/docs/api/reference/case-fields
 
   async getCaseFields() {
     return await this._apiCall('GET', 'get_case_fields');
@@ -70,13 +90,13 @@ class TestRail {
     return await this._apiCall('POST', 'add_case_field', null, data);
   }
 
-  // http://docs.gurock.com/testrail-api2/reference-cases-types
+  // https://www.gurock.com/testrail/docs/api/reference/case-types
 
   async getCaseTypes() {
     return await this._apiCall('GET', 'get_case_types');
   }
 
-  // http://docs.gurock.com/testrail-api2/reference-configs
+  // https://www.gurock.com/testrail/docs/api/reference/configurations
 
   async getConfigs(projectId) {
     return await this._apiCall('GET', 'get_configs/' + projectId);
@@ -106,7 +126,7 @@ class TestRail {
     return await this._apiCall('POST', 'delete_config/' + configId);
   }
 
-  // http://docs.gurock.com/testrail-api2/reference-milestones
+  // https://www.gurock.com/testrail/docs/api/reference/milestones
 
   async getMilestone(milestoneId) {
     return await this._apiCall('GET', 'get_milestone/' + milestoneId);
@@ -128,7 +148,7 @@ class TestRail {
     return await this._apiCall('POST', 'delete_milestone/' + milestoneId);
   }
 
-  // http://docs.gurock.com/testrail-api2/reference-plans
+  // https://www.gurock.com/testrail/docs/api/reference/plans
 
   async getPlan(planId) {
     return await this._apiCall('GET', 'get_plan/' + planId);
@@ -166,13 +186,13 @@ class TestRail {
     return await this._apiCall('POST', 'delete_plan_entry/' + planId + '/' + entryId);
   }
 
-  // http://docs.gurock.com/testrail-api2/reference-priorities
+  // https://www.gurock.com/testrail/docs/api/reference/priorities
 
   async getPriorities() {
     return await this._apiCall('GET', 'get_priorities');
   }
 
-  // http://docs.gurock.com/testrail-api2/reference-projects
+  // https://www.gurock.com/testrail/docs/api/reference/projects
 
   async getProject(projectId) {
     return await this._apiCall('GET', 'get_project/' + projectId);
@@ -194,7 +214,7 @@ class TestRail {
     return await this._apiCall('POST', 'delete_project/' + projectId);
   }
 
-  // http://docs.gurock.com/testrail-api2/reference-results
+  // https://www.gurock.com/testrail/docs/api/reference/results
 
   async getResults(testId, filters) {
     return await this._apiCall('GET', 'get_results/' + testId, filters);
@@ -224,13 +244,13 @@ class TestRail {
     return await this._apiCall('POST', 'add_results_for_cases/' + runId, null, data);
   }
 
-  // http://docs.gurock.com/testrail-api2/reference-results-fields
+  // https://www.gurock.com/testrail/docs/api/reference/result-fields
 
   async getResultFields() {
     return await this._apiCall('GET', 'get_result_fields');
   }
 
-  // http://docs.gurock.com/testrail-api2/reference-runs
+  // https://www.gurock.com/testrail/docs/api/reference/runs
 
   async getRun(runId) {
     return await this._apiCall('GET', 'get_run/' + runId);
@@ -256,7 +276,7 @@ class TestRail {
     return await this._apiCall('POST', 'delete_run/' + runId);
   }
 
-  // http://docs.gurock.com/testrail-api2/reference-sections
+  // https://www.gurock.com/testrail/docs/api/reference/sections
 
   async getSection(sectionId) {
     return await this._apiCall('GET', 'get_section/' + sectionId);
@@ -278,13 +298,13 @@ class TestRail {
     return await this._apiCall('POST', 'delete_section/' + sectionId);
   }
 
-  // http://docs.gurock.com/testrail-api2/reference-statuses
+  // https://www.gurock.com/testrail/docs/api/reference/statuses
 
   async getStatuses() {
     return await this._apiCall('GET', 'get_statuses');
   }
 
-  // http://docs.gurock.com/testrail-api2/reference-suites
+  // https://www.gurock.com/testrail/docs/api/reference/suites
 
   async getSuite(suiteId) {
     return await this._apiCall('GET', 'get_suite/' + suiteId);
@@ -306,13 +326,13 @@ class TestRail {
     return await this._apiCall('POST', 'delete_suite/' + suiteId);
   }
 
-  // http://docs.gurock.com/testrail-api2/reference-templates
+  // https://www.gurock.com/testrail/docs/api/reference/templates
 
   async getTemplates(projectId) {
     return await this._apiCall('GET', 'get_templates/' + projectId);
   }
 
-  // http://docs.gurock.com/testrail-api2/reference-tests
+  // https://www.gurock.com/testrail/docs/api/reference/tests
 
   async getTest(testId) {
     return await this._apiCall('GET', 'get_test/' + testId);
@@ -322,7 +342,7 @@ class TestRail {
     return await this._apiCall('GET', 'get_tests/' + runId, filters);
   }
 
-  // http://docs.gurock.com/testrail-api2/reference-users
+  // https://www.gurock.com/testrail/docs/api/reference/users
 
   async getUser(userId) {
     return await this._apiCall('GET', 'get_user/' + userId);
@@ -336,7 +356,7 @@ class TestRail {
     return await this._apiCall('GET', 'get_users');
   }
 
-  // http://docs.gurock.com/testrail-api2/reference-reports
+  // https://www.gurock.com/testrail/docs/api/reference/reports
 
   async getReports(projectId) {
     return await this._apiCall('GET', 'get_reports/' + projectId);

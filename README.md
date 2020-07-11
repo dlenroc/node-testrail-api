@@ -1,4 +1,4 @@
-[![TestRail API](https://img.shields.io/badge/TestRail%20API-v2-green.svg)](http://docs.gurock.com/testrail-api2/start)
+[![TestRail API](https://img.shields.io/badge/TestRail%20API-v2-green.svg)](https://www.gurock.com/testrail/docs/api)
 ![GitHub package version](https://img.shields.io/github/package-json/v/dlenroc/node-testrail-api.svg)
 ![Dependencies Status](https://img.shields.io/david/dlenroc/node-testrail-api.svg)
 ![GitHub top language](https://img.shields.io/github/languages/top/dlenroc/node-testrail-api.svg)
@@ -33,15 +33,35 @@ api.getCase(1).then(testCase => console.log(testCase.title));
 #### Attachments
 
 ```javascript
+addAttachmentToPlan(planId: number, filePath: String): Promise<AddedAttachment>
+```
+
+```javascript
+addAttachmentToPlanEntry(planId: number, entryId: number, filePath: String): Promise<AddedAttachment>
+```
+
+```javascript
 addAttachmentToResult(resultId: number, filePath: String): Promise<AddAttachment>
 ```
 
 ```javascript
-addAttachmentToResultForCase(resultId: number, caseId: number, filePath: String): Promise<AddAttachment>
+addAttachmentToRun(runId: number, filePath: String): Promise<AddedAttachment>
 ```
 
 ```javascript
 getAttachmentsForCase(caseId: number): Promise<Attachment>
+```
+
+```javascript
+getAttachmentsForPlan(planId: number): Promise<Attachment>
+```
+
+```javascript
+getAttachmentsForPlanEntry(planId: number, entryId: number): Promise<Attachment>
+```
+
+```javascript
+getAttachmentsForRun(runId: number): Promise<Attachment>
 ```
 
 ```javascript
