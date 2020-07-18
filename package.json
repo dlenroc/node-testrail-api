@@ -1,12 +1,9 @@
 {
   "name": "testrail",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "main": "src/node.js",
+  "browser": "src/browser.js",
   "types": "index.d.ts",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "keywords": [
     "testrail",
     "api"
@@ -14,10 +11,14 @@
   "author": "Corneliu Duplachi",
   "license": "MIT",
   "files": [
-    "index.js",
+    "src",
     "index.d.ts"
   ],
   "dependencies": {
-    "request": "^2.0.0"
+    "form-data": "^3",
+    "node-fetch": "^2"
+  },
+  "devDependencies": {
+    "@types/node": "*"
   }
 }

@@ -33,19 +33,19 @@ api.getCase(1).then(testCase => console.log(testCase.title));
 #### Attachments
 
 ```javascript
-addAttachmentToPlan(planId: number, filePath: String): Promise<AddedAttachment>
+addAttachmentToPlan(planId: number, attachment: NewAttachment): Promise<AddedAttachment>
 ```
 
 ```javascript
-addAttachmentToPlanEntry(planId: number, entryId: number, filePath: String): Promise<AddedAttachment>
+addAttachmentToPlanEntry(planId: number, entryId: number, attachment: NewAttachment): Promise<AddedAttachment>
 ```
 
 ```javascript
-addAttachmentToResult(resultId: number, filePath: String): Promise<AddAttachment>
+addAttachmentToResult(resultId: number, attachment: NewAttachment): Promise<AddAttachment>
 ```
 
 ```javascript
-addAttachmentToRun(runId: number, filePath: String): Promise<AddedAttachment>
+addAttachmentToRun(runId: number, attachment: NewAttachment): Promise<AddedAttachment>
 ```
 
 ```javascript
