@@ -6,380 +6,408 @@
 #### Installation
 
 ```bash
-npm install dlenroc/node-testrail-api --save
+npm install dlenroc/node-testrail-api --production --save
 ```
 
 #### Example
 
-```javascript
-const TestRail = require('testrail');
+```typescript
+// import TestRail from 'testrail';
+// const TestRail = require('testrail');
 
 const api = new TestRail({
   host: 'https://{organization}.testrail.net',
-  user: '{username}',
-  password: '{password}'
+  username: '{username}',
+  password: '{token/password}'
 });
 
-let testCase = await api.getCase(1);
-console.log(testCase.title);
+const projects = await api.getProjects();
 
-// or
-
-api.getCase(1).then(testCase => console.log(testCase.title));
+console.log(projects);
 ```
 
 ## APIs
 
 #### Attachments
 
-```javascript
-addAttachmentToPlan(planId: number, attachment: NewAttachment): Promise<AddedAttachment>
+```typescript
+addAttachmentToPlan(planId: number, payload: AddAttachment): Promise<CreatedAttachment>;
 ```
 
-```javascript
-addAttachmentToPlanEntry(planId: number, entryId: number, attachment: NewAttachment): Promise<AddedAttachment>
+```typescript
+addAttachmentToPlanEntry(planId: number, entryId: string, payload: AddAttachment): Promise<CreatedAttachment>;
 ```
 
-```javascript
-addAttachmentToResult(resultId: number, attachment: NewAttachment): Promise<AddAttachment>
+```typescript
+addAttachmentToResult(resultId: number, payload: AddAttachment): Promise<CreatedAttachment>;
 ```
 
-```javascript
-addAttachmentToRun(runId: number, attachment: NewAttachment): Promise<AddedAttachment>
+```typescript
+addAttachmentToRun(runId: number, payload: AddAttachment): Promise<CreatedAttachment>;
 ```
 
-```javascript
-getAttachmentsForCase(caseId: number): Promise<Attachment>
+```typescript
+getAttachmentsForCase(caseId: number): Promise<AttachmentForCase[]>;
 ```
 
-```javascript
-getAttachmentsForPlan(planId: number): Promise<Attachment>
+```typescript
+getAttachmentsForPlan(planId: number): Promise<AttachmentForPlan[]>;
 ```
 
-```javascript
-getAttachmentsForPlanEntry(planId: number, entryId: number): Promise<Attachment>
+```typescript
+getAttachmentsForPlanEntry(planId: number, entryId: string): Promise<AttachmentForPlanEntry[]>;
 ```
 
-```javascript
-getAttachmentsForRun(runId: number): Promise<Attachment>
+```typescript
+getAttachmentsForRun(runId: number): Promise<AttachmentForRun[]>;
 ```
 
-```javascript
-getAttachmentsForTest(testId: number): Promise<Attachment>
+```typescript
+getAttachmentsForTest(testId: number): Promise<AttachmentForTest[]>;
 ```
 
-```javascript
-getAttachment(attachmentId: number): Promise<Attachment>
+```typescript
+getAttachment(attachmentId: number): Promise<Blob>;
 ```
 
-```javascript
-deleteAttachment(attachmentId: number): Promise<void>
+```typescript
+deleteAttachment(attachmentId: number): Promise<void>;
 ```
+
 
 #### Cases
 
-```javascript
-getCase(caseId: number): Promise<Case>
+```typescript
+getCase(caseId: number): Promise<Case>;
 ```
 
-```javascript
-getCases(projectId: number, filters?: CaseFilters): Promise<Case[]>
+```typescript
+getCases(projectId: number, filters?: CaseFilters): Promise<Case[]>;
 ```
 
-```javascript
-addCase(sectionId: number, data: NewCase): Promise<Case>
+```typescript
+addCase(sectionId: number, payload: AddCase): Promise<Case>;
 ```
 
-```javascript
-updateCase(caseId: number, data: NewCase): Promise<Case>
+```typescript
+updateCase(caseId: number, payload: UpdateCase): Promise<Case>;
 ```
 
-```javascript
-deleteCase(caseId: number): Promise<void>
+```typescript
+deleteCase(caseId: number): Promise<void>;
 ```
+
 
 #### Case Fields
 
-```javascript
-getCaseFields(): Promise<CaseField[]>
+```typescript
+getCaseFields(): Promise<CaseField[]>;
 ```
 
-```javascript
-addCaseField(data: NewCaseField): Promise<CaseField>
+```typescript
+addCaseField(payload: AddCaseField): Promise<CaseField>;
 ```
+
 
 #### Case Types
 
-```javascript
-getCaseTypes(): Promise<CaseType[]>
+```typescript
+getCaseTypes(): Promise<CaseType[]>;
 ```
+
 
 #### Configurations
 
-```javascript
-getConfigs(projectId: number): Promise<Config[]>
+```typescript
+getConfigs(projectId: number): Promise<Config[]>;
 ```
 
-```javascript
-addConfigGroup(projectId: number, data: NewConfig): Promise<Config>
+```typescript
+addConfigGroup(projectId: number, payload: AddConfigGroup): Promise<Config>;
 ```
 
-```javascript
-addConfig(configGroupId: number, data: NewConfig): Promise<ConfigItem>
+```typescript
+addConfig(configGroupId: number, payload: AddConfig): Promise<ConfigItem>;
 ```
 
-```javascript
-updateConfigGroup(configGroupId: number, data: NewConfig): Promise<Config>
+```typescript
+updateConfigGroup(configGroupId: number, payload: UpdateConfigGroup): Promise<Config>;
 ```
 
-```javascript
-updateConfig(configId: number, data: NewConfig): Promise<ConfigItem>
+```typescript
+updateConfig(configId: number, payload: UpdateConfig): Promise<ConfigItem>;
 ```
 
-```javascript
-deleteConfigGroup(configGroupId: number): Promise<void>
+```typescript
+deleteConfigGroup(configGroupId: number): Promise<void>;
 ```
 
-```javascript
-deleteConfig(configId: number): Promise<void>
+```typescript
+deleteConfig(configId: number): Promise<void>;
 ```
+
 
 #### Milestones
 
-```javascript
-getMilestone(milestoneId: number): Promise<Milestone>
+```typescript
+getMilestone(milestoneId: number): Promise<Milestone>;
 ```
 
-```javascript
-getMilestones(projectId: number, filters?: MilestoneFilter): Promise<Milestone[]>
+```typescript
+getMilestones(projectId: number, filters?: MilestoneFilters): Promise<Milestone[]>;
 ```
 
-```javascript
-addMilestone(projectId: number, data: NewMilestone): Promise<Milestone>
+```typescript
+addMilestone(projectId: number, payload: AddMilestone): Promise<Milestone>;
 ```
 
-```javascript
-updateMilestone(milestoneId: number, data: UpdateMilestone): Promise<Milestone>
+```typescript
+updateMilestone(milestoneId: number, payload: UpdateMilestone): Promise<Milestone>;
 ```
 
-```javascript
-deleteMilestone(milestoneId: number): Promise<void>
+```typescript
+deleteMilestone(milestoneId: number): Promise<void>;
 ```
+
 
 #### Plans
 
-```javascript
-getPlan(planId: number): Promise<Plan>
+```typescript
+getPlan(planId: number): Promise<Plan>;
 ```
 
-```javascript
-getPlans(projectId: number, filters?: PlanFilters): Promise<Plan[]>
+```typescript
+getPlans(projectId: number, filters?: PlanFilters): Promise<PlanItem[]>;
 ```
 
-```javascript
-addPlan(projectId: number, data: NewPlan): Promise<Plan>
+```typescript
+addPlan(projectId: number, payload: AddPlan): Promise<Plan>;
 ```
 
-```javascript
-addPlanEntry(planId: number, data: NewPlanEntry): Promise<PlanEntry>
+```typescript
+addPlanEntry(planId: number, payload: AddPlanEntry): Promise<PlanEntry>;
 ```
 
-```javascript
-updatePlan(planId: number, data: UpdatePlan): Promise<Plan>
+```typescript
+addRunToPlanEntry(planId: number, entryId: string, payload: AddRunToPlanEntry): Promise<PlanEntry>;
 ```
 
-```javascript
-updatePlanEntry(planId: number, entryId: string, data: UpdatePlanEntry): Promise<PlanEntry>
+```typescript
+updatePlan(planId: number, payload: UpdatePlan): Promise<Plan>;
 ```
 
-```javascript
-closePlan(planId: number): Promise<Plan>
+```typescript
+updatePlanEntry(planId: number, entryId: string, payload: UpdatePlanEntry): Promise<PlanEntry>;
 ```
 
-```javascript
-deletePlan(planId: number): Promise<void>
+```typescript
+updateRunInPlanEntry(planId: number, runId: number, payload: UpdateRunInPlanEntry): Promise<PlanEntry>;
 ```
 
-```javascript
-deletePlanEntry(planId: number, entryId: string): Promise<void>
+```typescript
+closePlan(planId: number): Promise<Plan>;
 ```
+
+```typescript
+deletePlan(planId: number): Promise<void>;
+```
+
+```typescript
+deletePlanEntry(planId: number, entryId: string): Promise<void>;
+```
+
+```typescript
+deleteRunFromPlanEntry(runId: number): Promise<void>;
+```
+
 
 #### Priorities
 
-```javascript
-getPriorities(): Promise<Priority>
+```typescript
+getPriorities(): Promise<Priority[]>;
 ```
+
 
 #### Projects
 
-```javascript
-getProject(projectId: number): Promise<Project>
+```typescript
+getProject(projectId: number): Promise<Project>;
 ```
 
-```javascript
-getProjects(filters?: ProjectFilters): Promise<Project[]>
+```typescript
+getProjects(filters?: ProjectFilters): Promise<Project[]>;
 ```
 
-```javascript
-addProject(data: NewProject): Promise<Project>
+```typescript
+addProject(payload: AddProject): Promise<Project>;
 ```
 
-```javascript
-updateProject(projectId: number, data: UpdateProject): Promise<Project>
+```typescript
+updateProject(projectId: number, payload: UpdateProject): Promise<Project>;
 ```
 
-```javascript
-deleteProject(projectId: number): Promise<void>
+```typescript
+deleteProject(projectId: number): Promise<void>;
 ```
+
 
 #### Reports
 
-```javascript
-getReports(projectId: number): Promise<Report[]>
+```typescript
+getReports(projectId: number): Promise<Report[]>;
 ```
 
-```javascript
-runReport(reportTemplateId): Promise<ReportUrls>
+```typescript
+runReport(reportTemplateId: number): Promise<ReportUrls>;
 ```
+
 
 #### Results
 
-```javascript
-getResults(testId: number, filters?: ResultFilters): Promise<Result[]>
+```typescript
+getResults(testId: number, filters?: ResultFilters): Promise<Result[]>;
 ```
 
-```javascript
-getResultsForCase(runId: number, caseId, filters?: ResultFilters): Promise<Result[]>
+```typescript
+getResultsForCase(runId: number, caseId: number, filters?: ResultFilters): Promise<Result[]>;
 ```
 
-```javascript
-getResultsForRun(runId: number, filters?: ResultsForRunFilters): Promise<Result[]>
+```typescript
+getResultsForRun(runId: number, filters?: ResultForRunFilters): Promise<Result[]>;
 ```
 
-```javascript
-addResult(testId: number, data: NewResult): Promise<Result>
+```typescript
+addResult(testId: number, payload: AddResult): Promise<Result>;
 ```
 
-```javascript
-addResultForCase(runId: number, caseId: number, data: NewResult): Promise<Result>
+```typescript
+addResultForCase(runId: number, caseId: number, payload: AddResultForCase): Promise<Result>;
 ```
 
-```javascript
-addResults(runId: number, data: { results: NewResult[] }): Promise<Result[]>
+```typescript
+addResults(runId: number, payload: AddResults): Promise<Result[]>;
 ```
 
-```javascript
-addResultsForCases(runId: number, data: NewResultForCase): Promise<Result[]>
+```typescript
+addResultsForCases(runId: number, payload: AddResultsForCases): Promise<Result[]>;
 ```
+
 
 #### Result Fields
 
-```javascript
-getResultFields(): Promise<ResultField[]>
+```typescript
+getResultFields(): Promise<ResultField[]>;
 ```
+
 
 #### Runs
 
-```javascript
-getRun(runId: number): Promise<Run>
+```typescript
+getRun(runId: number): Promise<Run>;
 ```
 
-```javascript
-getRuns(projectId: number, filters?: RunFilters): Promise<Run[]>
+```typescript
+getRuns(projectId: number, filters?: RunFilters): Promise<Run[]>;
 ```
 
-```javascript
-addRun(projectId: number, data: NewRun): Promise<Run>
+```typescript
+addRun(projectId: number, payload: AddRun): Promise<Run>;
 ```
 
-```javascript
-updateRun(runId: number, data: UpdateRun): Promise<Run>
+```typescript
+updateRun(runId: number, payload: UpdateRun): Promise<Run>;
 ```
 
-```javascript
-closeRun(runId: number): Promise<Run>
+```typescript
+closeRun(runId: number): Promise<Run>;
 ```
 
-```javascript
-deleteRun(runId: number): Promise<void>
+```typescript
+deleteRun(runId: number): Promise<void>;
 ```
+
 
 #### Sections
 
-```javascript
-getSection(sectionId: number): Promise<Section>
+```typescript
+getSection(sectionId: number): Promise<Section>;
 ```
 
-```javascript
-getSections(projectId: number, filters?: SectionsFilters): Promise<Section[]>
+```typescript
+getSections(projectId: number, filters?: SectionFilters): Promise<Section[]>;
 ```
 
-```javascript
-addSection(projectId: number, data: NewSection): Promise<Section>
+```typescript
+addSection(projectId: number, payload: AddSection): Promise<Section>;
 ```
 
-```javascript
-updateSection(sectionId: number, data: UpdateSection): Promise<Section>
+```typescript
+updateSection(sectionId: number, payload: UpdateSection): Promise<Section>;
 ```
 
-```javascript
-deleteSection(sectionId: number): Promise<void>
+```typescript
+deleteSection(sectionId: number): Promise<void>;
 ```
+
 
 #### Statuses
 
-```javascript
-getStatuses(): Promise<Status[]>
+```typescript
+getStatuses(): Promise<Status[]>;
 ```
+
 
 #### Suites
 
-```javascript
-getSuite(suiteId: number): Promise<Suite>
+```typescript
+getSuite(suiteId: number): Promise<Suite>;
 ```
 
-```javascript
-getSuites(projectId: number): Promise<Suite[]>
+```typescript
+getSuites(projectId: number): Promise<Suite[]>;
 ```
 
-```javascript
-addSuite(projectId: number, data: NewSuite): Promise<Suite>
+```typescript
+addSuite(projectId: number, payload: AddSuite): Promise<Suite>;
 ```
 
-```javascript
-updateSuite(suiteId: number, data: NewSuite): Promise<Suite>
+```typescript
+updateSuite(suiteId: number, payload: UpdateSuite): Promise<Suite>;
 ```
 
-```javascript
-deleteSuite(suiteId: number): Promise<void>
+```typescript
+deleteSuite(suiteId: number): Promise<void>;
 ```
+
 
 #### Templates
 
-```javascript
-getTemplates(projectId: number): Promise<Template[]>
+```typescript
+getTemplates(projectId: number): Promise<Template[]>;
 ```
+
 
 #### Tests
 
-```javascript
-getTest(testId: number): Promise<Test>
+```typescript
+getTest(testId: number): Promise<Test>;
 ```
 
-```javascript
-getTests(runId: number, filters?: TestFilters): Promise<Test[]>
+```typescript
+getTests(runId: number, filters?: TestFilters): Promise<Test[]>;
 ```
+
 
 #### Users
 
-```javascript
-getUser(userId: number): Promise<User>
+```typescript
+getUser(userId: number): Promise<User>;
 ```
 
-```javascript
-getUserByEmail(email: string): Promise<User>
+```typescript
+getUserByEmail(email: string): Promise<User>;
 ```
 
-```javascript
-getUsers(): Promise<User[]>
+```typescript
+getUsers(filters?: UserFilters): Promise<User[]>;
 ```

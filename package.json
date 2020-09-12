@@ -1,23 +1,49 @@
 {
   "name": "testrail",
-  "version": "1.0.0",
-  "main": "index.js.js",
-  "types": "index.d.ts",
+  "description": "TestRail API client with error handling and typing",
   "keywords": [
     "testrail",
     "api"
   ],
-  "author": "Corneliu Duplachi",
+  "version": "1.0.0",
   "license": "MIT",
+  "homepage": "https://github.com/dlenroc/node-testrail-api",
+  "bugs": "https://github.com/dlenroc/node-testrail-api/issues",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dlenroc/node-testrail-api"
+  },
   "files": [
     "src",
-    "index.d.ts"
+    "dist"
   ],
+  "main": "dist/TestRail.node.js",
+  "module": "dist/TestRail.node.mjs",
+  "browser": "dist/TestRail.browser.mjs",
+  "jsdelivr": "dist/TestRail.umd.js",
+  "unpkg": "dist/TestRail.umd.js",
+  "types": "dist/TestRail.d.ts",
+  "exports": {
+    "node": "./dist/TestRail.node.js",
+    "default": "./dist/TestRail.browser.mjs"
+  },
+  "scripts": {
+    "build": "rollup -c && sed -i '' 's/export default TestRail;/export default TestRail; export = TestRail;/' ./dist/TestRail.d.ts",
+    "prepare": "npm run build",
+    "watch": "rollup -c -w"
+  },
+  "engines": {
+    "node": ">=10"
+  },
   "dependencies": {
     "form-data": "^3",
     "node-fetch": "^2"
   },
   "devDependencies": {
-    "@types/node": "*"
+    "@types/node": "*",
+    "rollup": "^2.26.10",
+    "rollup-plugin-terser": "^7.0.2",
+    "rollup-plugin-typescript2": "^0.27.2",
+    "typescript": "^4.0.0"
   }
 }
