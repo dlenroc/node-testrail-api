@@ -6,7 +6,7 @@
 #### Installation
 
 ```bash
-npm install dlenroc/node-testrail-api --production --save
+npm install dlenroc/node-testrail-api --save
 ```
 
 #### Example

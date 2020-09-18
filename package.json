@@ -28,9 +28,8 @@
     "default": "./dist/TestRail.browser.mjs"
   },
   "scripts": {
-    "build": "rollup -c && sed -i '' 's/export default TestRail;/export default TestRail; export = TestRail;/' ./dist/TestRail.d.ts",
-    "prepare": "npm run build",
-    "watch": "rollup -c -w"
+    "build": "rollup -c && replace-in-file 'export default TestRail;' 'export default TestRail; export = TestRail;' dist/TestRail.d.ts",
+    "prepare": "npm run build"
   },
   "engines": {
     "node": ">=10"
@@ -41,6 +40,7 @@
   },
   "devDependencies": {
     "@types/node": "*",
+    "replace-in-file": "^6.1.0",
     "rollup": "^2.26.10",
     "rollup-plugin-terser": "^7.0.2",
     "rollup-plugin-typescript2": "^0.27.2",
