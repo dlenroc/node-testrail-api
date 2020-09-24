@@ -8,3 +8,6 @@ package-lock.json
 ### Editors ###
 .idea/
 .vscode/
+
+### Project
+dist/

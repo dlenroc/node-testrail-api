@@ -16,9 +16,9 @@ npm install dlenroc/node-testrail-api --save
 // const TestRail = require('testrail');
 
 const api = new TestRail({
-  host: 'https://{organization}.testrail.net',
-  username: '{username}',
-  password: '{token/password}'
+    host: 'https://{organization}.testrail.net',
+    username: '{username}',
+    password: '{token/password}',
 });
 
 const projects = await api.getProjects();
@@ -74,7 +74,6 @@ getAttachment(attachmentId: number): Promise<Blob>;
 deleteAttachment(attachmentId: number): Promise<void>;
 ```
 
-
 #### Cases
 
 ```typescript
@@ -86,7 +85,15 @@ getCases(projectId: number, filters?: CaseFilters): Promise<Case[]>;
 ```
 
 ```typescript
+getHistoryForCase(caseId: number): Promise<TestRail.Model.CaseHistory[]>;
+```
+
+```typescript
 addCase(sectionId: number, payload: AddCase): Promise<Case>;
+```
+
+```typescript
+updateCases(suiteId: number, payload: UpdateCases): Promise<void>;
 ```
 
 ```typescript
@@ -97,6 +104,9 @@ updateCase(caseId: number, payload: UpdateCase): Promise<Case>;
 deleteCase(caseId: number): Promise<void>;
 ```
 
+```typescript
+deleteCases(suiteId: number, payload: DeleteCases): Promise<void>;
+```
 
 #### Case Fields
 
@@ -108,13 +118,11 @@ getCaseFields(): Promise<CaseField[]>;
 addCaseField(payload: AddCaseField): Promise<CaseField>;
 ```
 
-
 #### Case Types
 
 ```typescript
 getCaseTypes(): Promise<CaseType[]>;
 ```
-
 
 #### Configurations
 
@@ -146,7 +154,6 @@ deleteConfigGroup(configGroupId: number): Promise<void>;
 deleteConfig(configId: number): Promise<void>;
 ```
 
-
 #### Milestones
 
 ```typescript
@@ -168,7 +175,6 @@ updateMilestone(milestoneId: number, payload: UpdateMilestone): Promise<Mileston
 ```typescript
 deleteMilestone(milestoneId: number): Promise<void>;
 ```
-
 
 #### Plans
 
@@ -220,13 +226,11 @@ deletePlanEntry(planId: number, entryId: string): Promise<void>;
 deleteRunFromPlanEntry(runId: number): Promise<void>;
 ```
 
-
 #### Priorities
 
 ```typescript
 getPriorities(): Promise<Priority[]>;
 ```
-
 
 #### Projects
 
@@ -250,7 +254,6 @@ updateProject(projectId: number, payload: UpdateProject): Promise<Project>;
 deleteProject(projectId: number): Promise<void>;
 ```
 
-
 #### Reports
 
 ```typescript
@@ -260,7 +263,6 @@ getReports(projectId: number): Promise<Report[]>;
 ```typescript
 runReport(reportTemplateId: number): Promise<ReportUrls>;
 ```
-
 
 #### Results
 
@@ -292,13 +294,11 @@ addResults(runId: number, payload: AddResults): Promise<Result[]>;
 addResultsForCases(runId: number, payload: AddResultsForCases): Promise<Result[]>;
 ```
 
-
 #### Result Fields
 
 ```typescript
 getResultFields(): Promise<ResultField[]>;
 ```
-
 
 #### Runs
 
@@ -326,7 +326,6 @@ closeRun(runId: number): Promise<Run>;
 deleteRun(runId: number): Promise<void>;
 ```
 
-
 #### Sections
 
 ```typescript
@@ -349,13 +348,11 @@ updateSection(sectionId: number, payload: UpdateSection): Promise<Section>;
 deleteSection(sectionId: number): Promise<void>;
 ```
 
-
 #### Statuses
 
 ```typescript
 getStatuses(): Promise<Status[]>;
 ```
-
 
 #### Suites
 
@@ -379,13 +376,11 @@ updateSuite(suiteId: number, payload: UpdateSuite): Promise<Suite>;
 deleteSuite(suiteId: number): Promise<void>;
 ```
 
-
 #### Templates
 
 ```typescript
 getTemplates(projectId: number): Promise<Template[]>;
 ```
-
 
 #### Tests
 
@@ -397,11 +392,14 @@ getTest(testId: number): Promise<Test>;
 getTests(runId: number, filters?: TestFilters): Promise<Test[]>;
 ```
 
-
 #### Users
 
 ```typescript
 getUser(userId: number): Promise<User>;
+```
+
+```typescript
+getCurrentUser(): Promise<User>;
 ```
 
 ```typescript

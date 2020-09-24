@@ -1,4 +1,4 @@
-import {Readable} from 'stream';
+import { Readable } from 'stream';
 
 class TestRailException extends Error {
   constructor(message: string) {
@@ -14,7 +14,7 @@ class TestRail {
   private readonly password?: string;
   private readonly baseURL: string;
 
-  constructor(config?: { host: string, username: string, password: string }) {
+  constructor(config?: { host: string; username: string; password: string }) {
     // @ts-ignore - Backward compatibility
     this.username = config?.username || config?.user;
     this.password = config?.password;
@@ -24,19 +24,19 @@ class TestRail {
   // Attachments
 
   addAttachmentToPlan(planId: number, payload: TestRail.Payload.AddAttachment): Promise<TestRail.Model.CreatedAttachment> {
-    return this._api('POST', `add_attachment_to_plan/${planId}`, {form: {attachment: payload}});
+    return this._api('POST', `add_attachment_to_plan/${planId}`, { form: { attachment: payload } });
   }
 
   addAttachmentToPlanEntry(planId: number, entryId: string, payload: TestRail.Payload.AddAttachment): Promise<TestRail.Model.CreatedAttachment> {
-    return this._api('POST', `add_attachment_to_plan_entry/${planId}/${entryId}`, {form: {attachment: payload}});
+    return this._api('POST', `add_attachment_to_plan_entry/${planId}/${entryId}`, { form: { attachment: payload } });
   }
 
   addAttachmentToResult(resultId: number, payload: TestRail.Payload.AddAttachment): Promise<TestRail.Model.CreatedAttachment> {
-    return this._api('POST', `add_attachment_to_result/${resultId}`, {form: {attachment: payload}});
+    return this._api('POST', `add_attachment_to_result/${resultId}`, { form: { attachment: payload } });
   }
 
   addAttachmentToRun(runId: number, payload: TestRail.Payload.AddAttachment): Promise<TestRail.Model.CreatedAttachment> {
-    return this._api('POST', `add_attachment_to_run/${runId}`, {form: {attachment: payload}});
+    return this._api('POST', `add_attachment_to_run/${runId}`, { form: { attachment: payload } });
   }
 
   getAttachmentsForCase(caseId: number): Promise<TestRail.Model.AttachmentForCase[]> {
@@ -74,19 +74,31 @@ class TestRail {
   }
 
   getCases(projectId: number, filters?: TestRail.Payload.CaseFilters): Promise<TestRail.Model.Case[]> {
-    return this._api('GET', `get_cases/${projectId}`, {query: filters});
+    return this._api('GET', `get_cases/${projectId}`, { query: filters });
+  }
+
+  getHistoryForCase(caseId: number): Promise<TestRail.Model.CaseHistory[]> {
+    return this._api('GET', `get_history_for_case/${caseId}`);
   }
 
   addCase(sectionId: number, payload: TestRail.Payload.AddCase): Promise<TestRail.Model.Case> {
-    return this._api('POST', `add_case/${sectionId}`, {json: payload});
+    return this._api('POST', `add_case/${sectionId}`, { json: payload });
   }
 
   updateCase(caseId: number, payload: TestRail.Payload.UpdateCase): Promise<TestRail.Model.Case> {
-    return this._api('POST', `update_case/${caseId}`, {json: payload});
+    return this._api('POST', `update_case/${caseId}`, { json: payload });
+  }
+
+  updateCases(suiteId: number, payload: TestRail.Payload.UpdateCases): Promise<void> {
+    return this._api('POST', `update_cases/${suiteId}`, { json: payload });
   }
 
   deleteCase(caseId: number): Promise<void> {
     return this._api('POST', `delete_case/${caseId}`);
+  }
+
+  deleteCases(suiteId: number, payload: TestRail.Payload.DeleteCases): Promise<void> {
+    return this._api('POST', `delete_cases/${suiteId}`, { json: payload });
   }
 
   // Case Fields
@@ -96,7 +108,7 @@ class TestRail {
   }
 
   addCaseField(payload: TestRail.Payload.AddCaseField): Promise<TestRail.Model.CaseField> {
-    return this._api('POST', 'add_case_field', {json: payload});
+    return this._api('POST', 'add_case_field', { json: payload });
   }
 
   // Case Types
@@ -112,19 +124,19 @@ class TestRail {
   }
 
   addConfigGroup(projectId: number, payload: TestRail.Payload.AddConfigGroup): Promise<TestRail.Model.Config> {
-    return this._api('POST', `add_config_group/${projectId}`, {json: payload});
+    return this._api('POST', `add_config_group/${projectId}`, { json: payload });
   }
 
   addConfig(configGroupId: number, payload: TestRail.Payload.AddConfig): Promise<TestRail.Model.ConfigItem> {
-    return this._api('POST', `add_config/${configGroupId}`, {json: payload});
+    return this._api('POST', `add_config/${configGroupId}`, { json: payload });
   }
 
   updateConfigGroup(configGroupId: number, payload: TestRail.Payload.UpdateConfigGroup): Promise<TestRail.Model.Config> {
-    return this._api('POST', `update_config_group/${configGroupId}`, {json: payload});
+    return this._api('POST', `update_config_group/${configGroupId}`, { json: payload });
   }
 
   updateConfig(configId: number, payload: TestRail.Payload.UpdateConfig): Promise<TestRail.Model.ConfigItem> {
-    return this._api('POST', `update_config/${configId}`, {json: payload});
+    return this._api('POST', `update_config/${configId}`, { json: payload });
   }
 
   deleteConfigGroup(configGroupId: number): Promise<void> {
@@ -142,15 +154,15 @@ class TestRail {
   }
 
   getMilestones(projectId: number, filters?: TestRail.Payload.MilestoneFilters): Promise<TestRail.Model.Milestone[]> {
-    return this._api('GET', `get_milestones/${projectId}`, {query: filters});
+    return this._api('GET', `get_milestones/${projectId}`, { query: filters });
   }
 
   addMilestone(projectId: number, payload: TestRail.Payload.AddMilestone): Promise<TestRail.Model.Milestone> {
-    return this._api('POST', `add_milestone/${projectId}`, {json: payload});
+    return this._api('POST', `add_milestone/${projectId}`, { json: payload });
   }
 
   updateMilestone(milestoneId: number, payload: TestRail.Payload.UpdateMilestone): Promise<TestRail.Model.Milestone> {
-    return this._api('POST', `update_milestone/${milestoneId}`, {json: payload});
+    return this._api('POST', `update_milestone/${milestoneId}`, { json: payload });
   }
 
   deleteMilestone(milestoneId: number): Promise<void> {
@@ -164,31 +176,31 @@ class TestRail {
   }
 
   getPlans(projectId: number, filters?: TestRail.Payload.PlanFilters): Promise<TestRail.Model.PlanItem[]> {
-    return this._api('GET', `get_plans/${projectId}`, {query: filters});
+    return this._api('GET', `get_plans/${projectId}`, { query: filters });
   }
 
   addPlan(projectId: number, payload: TestRail.Payload.AddPlan): Promise<TestRail.Model.Plan> {
-    return this._api('POST', `add_plan/${projectId}`, {json: payload});
+    return this._api('POST', `add_plan/${projectId}`, { json: payload });
   }
 
   addPlanEntry(planId: number, payload: TestRail.Payload.AddPlanEntry): Promise<TestRail.Model.PlanEntry> {
-    return this._api('POST', `add_plan_entry/${planId}`, {json: payload});
+    return this._api('POST', `add_plan_entry/${planId}`, { json: payload });
   }
 
   addRunToPlanEntry(planId: number, entryId: string, payload: TestRail.Payload.AddRunToPlanEntry): Promise<TestRail.Model.PlanEntry> {
-    return this._api('POST', `add_run_to_plan_entry/${planId}/${entryId}`, {json: payload});
+    return this._api('POST', `add_run_to_plan_entry/${planId}/${entryId}`, { json: payload });
   }
 
   updatePlan(planId: number, payload: TestRail.Payload.UpdatePlan): Promise<TestRail.Model.Plan> {
-    return this._api('POST', `update_plan/${planId}`, {json: payload});
+    return this._api('POST', `update_plan/${planId}`, { json: payload });
   }
 
   updatePlanEntry(planId: number, entryId: string, payload: TestRail.Payload.UpdatePlanEntry): Promise<TestRail.Model.PlanEntry> {
-    return this._api('POST', `update_plan_entry/${planId}/${entryId}`, {json: payload});
+    return this._api('POST', `update_plan_entry/${planId}/${entryId}`, { json: payload });
   }
 
   updateRunInPlanEntry(planId: number, runId: number, payload: TestRail.Payload.UpdateRunInPlanEntry): Promise<TestRail.Model.PlanEntry> {
-    return this._api('POST', `update_run_in_plan_entry/${planId}/${runId}`, {json: payload});
+    return this._api('POST', `update_run_in_plan_entry/${planId}/${runId}`, { json: payload });
   }
 
   closePlan(planId: number): Promise<TestRail.Model.Plan> {
@@ -220,15 +232,15 @@ class TestRail {
   }
 
   getProjects(filters?: TestRail.Payload.ProjectFilters): Promise<TestRail.Model.Project[]> {
-    return this._api('GET', 'get_projects', {query: filters});
+    return this._api('GET', 'get_projects', { query: filters });
   }
 
   addProject(payload: TestRail.Payload.AddProject): Promise<TestRail.Model.Project> {
-    return this._api('POST', 'add_project', {json: payload});
+    return this._api('POST', 'add_project', { json: payload });
   }
 
   updateProject(projectId: number, payload: TestRail.Payload.UpdateProject): Promise<TestRail.Model.Project> {
-    return this._api('POST', `update_project/${projectId}`, {json: payload});
+    return this._api('POST', `update_project/${projectId}`, { json: payload });
   }
 
   deleteProject(projectId: number): Promise<void> {
@@ -248,31 +260,31 @@ class TestRail {
   // Results
 
   getResults(testId: number, filters?: TestRail.Payload.ResultFilters): Promise<TestRail.Model.Result[]> {
-    return this._api('GET', `get_results/${testId}`, {query: filters});
+    return this._api('GET', `get_results/${testId}`, { query: filters });
   }
 
   getResultsForCase(runId: number, caseId: number, filters?: TestRail.Payload.ResultFilters): Promise<TestRail.Model.Result[]> {
-    return this._api('GET', `get_results_for_case/${runId}/${caseId}`, {query: filters});
+    return this._api('GET', `get_results_for_case/${runId}/${caseId}`, { query: filters });
   }
 
   getResultsForRun(runId: number, filters?: TestRail.Payload.ResultForRunFilters): Promise<TestRail.Model.Result[]> {
-    return this._api('GET', `get_results_for_run/${runId}`, {query: filters});
+    return this._api('GET', `get_results_for_run/${runId}`, { query: filters });
   }
 
   addResult(testId: number, payload: TestRail.Payload.AddResult): Promise<TestRail.Model.Result> {
-    return this._api('POST', `add_result/${testId}`, {json: payload});
+    return this._api('POST', `add_result/${testId}`, { json: payload });
   }
 
   addResultForCase(runId: number, caseId: number, payload: TestRail.Payload.AddResult): Promise<TestRail.Model.Result> {
-    return this._api('POST', `add_result_for_case/${runId}/${caseId}`, {json: payload});
+    return this._api('POST', `add_result_for_case/${runId}/${caseId}`, { json: payload });
   }
 
   addResults(runId: number, payload: TestRail.Payload.AddResults): Promise<TestRail.Model.Result[]> {
-    return this._api('POST', `add_results/${runId}`, {json: payload});
+    return this._api('POST', `add_results/${runId}`, { json: payload });
   }
 
   addResultsForCases(runId: number, payload: TestRail.Payload.AddResultsForCases): Promise<TestRail.Model.Result[]> {
-    return this._api('POST', `add_results_for_cases/${runId}`, {json: payload});
+    return this._api('POST', `add_results_for_cases/${runId}`, { json: payload });
   }
 
   // Result Fields
@@ -288,15 +300,15 @@ class TestRail {
   }
 
   getRuns(projectId: number, filters?: TestRail.Payload.RunFilters): Promise<TestRail.Model.Run[]> {
-    return this._api('GET', `get_runs/${projectId}`, {query: filters});
+    return this._api('GET', `get_runs/${projectId}`, { query: filters });
   }
 
   addRun(projectId: number, payload: TestRail.Payload.AddRun): Promise<TestRail.Model.Run> {
-    return this._api('POST', `add_run/${projectId}`, {json: payload});
+    return this._api('POST', `add_run/${projectId}`, { json: payload });
   }
 
   updateRun(runId: number, payload: TestRail.Payload.UpdateRun): Promise<TestRail.Model.Run> {
-    return this._api('POST', `update_run/${runId}`, {json: payload});
+    return this._api('POST', `update_run/${runId}`, { json: payload });
   }
 
   closeRun(runId: number): Promise<TestRail.Model.Run> {
@@ -314,15 +326,15 @@ class TestRail {
   }
 
   getSections(projectId: number, filters?: TestRail.Payload.SectionFilters): Promise<TestRail.Model.Section[]> {
-    return this._api('GET', `get_sections/${projectId}`, {query: filters});
+    return this._api('GET', `get_sections/${projectId}`, { query: filters });
   }
 
   addSection(projectId: number, payload: TestRail.Payload.AddSection): Promise<TestRail.Model.Section> {
-    return this._api('POST', `add_section/${projectId}`, {json: payload});
+    return this._api('POST', `add_section/${projectId}`, { json: payload });
   }
 
   updateSection(sectionId: number, payload: TestRail.Payload.UpdateSection): Promise<TestRail.Model.Section> {
-    return this._api('POST', `update_section/${sectionId}`, {json: payload});
+    return this._api('POST', `update_section/${sectionId}`, { json: payload });
   }
 
   deleteSection(sectionId: number): Promise<void> {
@@ -346,11 +358,11 @@ class TestRail {
   }
 
   addSuite(projectId: number, payload: TestRail.Payload.AddSuite): Promise<TestRail.Model.Suite> {
-    return this._api('POST', `add_suite/${projectId}`, {json: payload});
+    return this._api('POST', `add_suite/${projectId}`, { json: payload });
   }
 
   updateSuite(suiteId: number, payload: TestRail.Payload.UpdateSuite): Promise<TestRail.Model.Suite> {
-    return this._api('POST', `update_suite/${suiteId}`, {json: payload});
+    return this._api('POST', `update_suite/${suiteId}`, { json: payload });
   }
 
   deleteSuite(suiteId: number): Promise<void> {
@@ -370,7 +382,7 @@ class TestRail {
   }
 
   getTests(runId: number, filters?: TestRail.Payload.TestFilters): Promise<TestRail.Model.Test[]> {
-    return this._api('GET', `get_tests/${runId}`, {query: filters});
+    return this._api('GET', `get_tests/${runId}`, { query: filters });
   }
 
   // Users
@@ -379,17 +391,21 @@ class TestRail {
     return this._api('GET', `get_user/${userId}`);
   }
 
+  getCurrentUser(): Promise<TestRail.Model.User> {
+    return this._api('GET', `get_current_user`);
+  }
+
   getUserByEmail(email: string): Promise<TestRail.Model.User> {
-    return this._api('GET', 'get_user_by_email', {query: {email}});
+    return this._api('GET', 'get_user_by_email', { query: { email } });
   }
 
   getUsers(filters?: TestRail.Payload.UserFilters): Promise<TestRail.Model.User[]> {
-    return this._api('GET', 'get_users', {query: filters});
+    return this._api('GET', 'get_users', { query: filters });
   }
 
   // Internal
 
-  private async _api<T>(method: string, path: string, {query, json, form}: { query?: object; json?: object; form?: object } = {}): Promise<T> {
+  private async _api<T>(method: string, path: string, { query, json, form }: { query?: object; json?: object; form?: object } = {}): Promise<T> {
     const headers: any = {};
     const url = this.baseURL + path + qs(query);
 
@@ -420,7 +436,7 @@ class TestRail {
     }
 
     while (true) {
-      const response = await fetch(url, {method, body, headers});
+      const response = await fetch(url, { method, body, headers });
 
       // Retry on 429 Too Many Requests
       if (response.status === 429) {
@@ -438,7 +454,10 @@ class TestRail {
       // Content-Type based response
       const contentType = response.headers.get('Content-Type') || '';
       const result = contentType.includes('json')
-        ? await response.clone().json().catch(() => response.text())
+        ? await response
+            .clone()
+            .json()
+            .catch(() => response.text())
         : await response.blob();
 
       if (response.ok) {
@@ -473,7 +492,7 @@ function qs(object?: any): string {
 }
 
 function sleep(timeout: number): Promise<void> {
-  return new Promise(resolve => setTimeout(resolve, timeout));
+  return new Promise((resolve) => setTimeout(resolve, timeout));
 }
 
 declare namespace TestRail {
@@ -482,14 +501,15 @@ declare namespace TestRail {
   }
 
   namespace Payload {
-    type AddAttachment = Blob | Readable | {
-      name: string;
-      value: string | Blob | Readable;
-    };
+    type AddAttachment =
+      | Blob
+      | Readable
+      | {
+          name: string;
+          value: string | Blob | Readable;
+        };
 
-    type AddCase = UpdateCase;
-
-    interface UpdateCase extends UnknownObject {
+    interface AddCase extends UnknownObject {
       title?: string;
       template_id?: number;
       type_id?: number;
@@ -497,6 +517,18 @@ declare namespace TestRail {
       estimate?: string;
       milestone_id?: number;
       refs?: string;
+    }
+
+    interface UpdateCase extends AddCase {
+      section_id?: number;
+    }
+
+    interface UpdateCases extends UpdateCase {
+      case_ids?: number[];
+    }
+
+    interface DeleteCases extends UnknownObject {
+      case_ids?: number[];
     }
 
     interface AddCaseField extends UnknownObject {
@@ -564,7 +596,7 @@ declare namespace TestRail {
       case_ids?: number[];
       config_ids?: number[];
       refs?: string;
-      runs?: AddRun[];
+      runs?: AddRunToPlanEntry[];
     }
 
     interface AddRunToPlanEntry extends UnknownObject {
@@ -610,12 +642,7 @@ declare namespace TestRail {
       suite_mode?: number;
     }
 
-    interface UpdateProject extends UnknownObject {
-      name?: string;
-      announcement?: string;
-      show_annoucement?: boolean;
-      is_completed?: boolean;
-    }
+    type UpdateProject = AddProject;
 
     interface AddResults extends UnknownObject {
       results?: AddResultForTest[];
@@ -652,6 +679,7 @@ declare namespace TestRail {
       description?: string;
       milestone_id?: number;
       include_all?: boolean;
+      case_ids?: number[];
       refs?: string;
     }
 
@@ -682,6 +710,7 @@ declare namespace TestRail {
       milestone_id?: string;
       offset?: number;
       priority_id?: string;
+      refs_filter?: string;
       section_id?: number;
       template_id?: string;
       type_id?: string;
@@ -710,6 +739,7 @@ declare namespace TestRail {
     }
 
     interface ResultFilters extends UnknownObject {
+      defects_filter?: string;
       limit?: number;
       offset?: number;
       status_id?: string;
@@ -719,6 +749,7 @@ declare namespace TestRail {
       created_after?: number;
       created_before?: number;
       created_by?: string;
+      defects_filter?: string;
       limit?: number;
       offset?: number;
       status_id?: string;
@@ -732,6 +763,7 @@ declare namespace TestRail {
       limit?: number;
       offset?: number;
       milestone_id?: string;
+      refs_filter?: string;
       suite_id?: string;
     }
 
@@ -807,6 +839,26 @@ declare namespace TestRail {
       type_id: number;
       updated_by: number;
       updated_on: number;
+    }
+
+    interface CaseHistory extends UnknownObject {
+      changes: Change[];
+      created_on: number;
+      id?: number;
+      type_id: number;
+      user_id: number;
+    }
+
+    interface Change extends UnknownObject {
+      field: String;
+      label?: string;
+      new_text?: string;
+      new_value?: string | number | number[];
+      old_ignore?: boolean;
+      old_text?: string;
+      old_value?: string | number | number[];
+      options?: Option;
+      type_id: number;
     }
 
     interface CaseField extends UnknownObject {
@@ -1134,6 +1186,7 @@ declare namespace TestRail {
       config_ids: number[];
       created_by: number;
       created_on: number;
+      updated_on: number;
       custom_status1_count: number;
       custom_status2_count: number;
       custom_status3_count: number;
