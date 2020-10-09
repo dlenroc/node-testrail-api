@@ -6,14 +6,14 @@
 #### Installation
 
 ```bash
-npm install dlenroc/node-testrail-api --save
+npm install @dlenroc/testrail --save
 ```
 
 #### Example
 
 ```typescript
-// import TestRail from 'testrail';
-// const TestRail = require('testrail');
+// import TestRail from '@dlenroc/testrail';
+// const TestRail = require('@dlenroc/testrail');
 
 const api = new TestRail({
     host: 'https://{organization}.testrail.net',

@@ -1,18 +1,16 @@
 {
-  "name": "testrail",
+  "name": "@dlenroc/testrail",
   "description": "TestRail API client with error handling and typing",
+  "version": "1.0.0",
+  "author": "Corneliu Duplachi",
+  "license": "MIT",
+  "homepage": "https://github.com/dlenroc/node-testrail-api",
+  "bugs": "https://github.com/dlenroc/node-testrail-api/issues",
+  "repository": "dlenroc/node-testrail-api",
   "keywords": [
     "testrail",
     "api"
   ],
-  "version": "1.0.0",
-  "license": "MIT",
-  "homepage": "https://github.com/dlenroc/node-testrail-api",
-  "bugs": "https://github.com/dlenroc/node-testrail-api/issues",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/dlenroc/node-testrail-api"
-  },
   "files": [
     "src",
     "dist"
