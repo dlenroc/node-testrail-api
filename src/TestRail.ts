@@ -452,12 +452,8 @@ class TestRail {
       }
 
       // Content-Type based response
-      const contentType = response.headers.get('Content-Type') || '';
-      const result = contentType.includes('json')
-        ? await response
-            .clone()
-            .json()
-            .catch(() => response.text())
+      const result = response.headers.get('Content-Type')?.includes('json')
+        ? await response.json().catch(() => ({}))
         : await response.blob();
 
       if (response.ok) {
