@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.0.1](https://github.com/dlenroc/node-testrail-api/compare/v1.0.0...v1.0.1) (2020-11-16)
+
+
+### Bug Fixes
+
+* `response.clone()` from node-fetch causes nodejs to crash ([8e650d6](https://github.com/dlenroc/node-testrail-api/commit/8e650d63d3a948bfb3f13d9e7a0126c5216af2cb))
+* remove `_filter` suffix from type declaration ([38b2cf6](https://github.com/dlenroc/node-testrail-api/commit/38b2cf6d52a82b9469de7d4df190a7a3175d74eb))
+
 ## 1.0.0 (2020-10-09)
 
 
