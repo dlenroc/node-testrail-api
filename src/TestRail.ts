@@ -706,7 +706,7 @@ declare namespace TestRail {
       milestone_id?: string;
       offset?: number;
       priority_id?: string;
-      refs_filter?: string;
+      refs?: string;
       section_id?: number;
       template_id?: string;
       type_id?: string;
@@ -735,7 +735,7 @@ declare namespace TestRail {
     }
 
     interface ResultFilters extends UnknownObject {
-      defects_filter?: string;
+      defects?: string;
       limit?: number;
       offset?: number;
       status_id?: string;
@@ -745,7 +745,7 @@ declare namespace TestRail {
       created_after?: number;
       created_before?: number;
       created_by?: string;
-      defects_filter?: string;
+      defects?: string;
       limit?: number;
       offset?: number;
       status_id?: string;
@@ -759,7 +759,7 @@ declare namespace TestRail {
       limit?: number;
       offset?: number;
       milestone_id?: string;
-      refs_filter?: string;
+      refs?: string;
       suite_id?: string;
     }
 
