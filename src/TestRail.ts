@@ -1,4 +1,5 @@
-import { Readable } from 'stream';
+import type { Readable } from 'stream';
+import { qs } from './qs';
 
 class TestRailException extends Error {
   constructor(message: string) {
@@ -483,18 +484,12 @@ function base64(string: string) {
   }
 }
 
-function qs(object?: any): string {
-  return object ? '&' + new URLSearchParams(object) : '';
-}
-
 function sleep(timeout: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, timeout));
 }
 
 declare namespace TestRail {
-  interface UnknownObject {
-    [key: string]: unknown;
-  }
+  type UnknownObject = Record<string, unknown>;
 
   namespace Payload {
     type AddAttachment =
@@ -634,7 +629,7 @@ declare namespace TestRail {
     interface AddProject extends UnknownObject {
       name?: string;
       announcement?: string;
-      show_announcement?: string;
+      show_announcement?: boolean;
       suite_mode?: number;
     }
 
@@ -700,67 +695,67 @@ declare namespace TestRail {
       suite_id?: number;
       created_after?: number;
       created_before?: number;
-      created_by?: string;
+      created_by?: number | number[];
       filter?: string;
       limit?: number;
-      milestone_id?: string;
+      milestone_id?: number | number[];
       offset?: number;
-      priority_id?: string;
+      priority_id?: number | number[];
       refs?: string;
       section_id?: number;
-      template_id?: string;
-      type_id?: string;
+      template_id?: number | number[];
+      type_id?: number | number[];
       updated_after?: number;
       updated_before?: number;
-      updated_by?: string;
+      updated_by?: number | number[];
     }
 
     interface MilestoneFilters extends UnknownObject {
-      is_completed?: number;
-      is_started?: number;
+      is_completed?: boolean;
+      is_started?: boolean;
     }
 
     interface PlanFilters extends UnknownObject {
       created_after?: number;
       created_before?: number;
-      created_by?: string;
-      is_completed?: number;
+      created_by?: number | number[];
+      is_completed?: boolean;
       limit?: number;
       offset?: number;
-      milestone_id?: string;
+      milestone_id?: number | number[];
     }
 
     interface ProjectFilters extends UnknownObject {
-      is_completed?: number;
+      is_completed?: boolean;
     }
 
     interface ResultFilters extends UnknownObject {
       defects?: string;
       limit?: number;
       offset?: number;
-      status_id?: string;
+      status_id?: number | number[];
     }
 
     interface ResultForRunFilters extends UnknownObject {
       created_after?: number;
       created_before?: number;
-      created_by?: string;
+      created_by?: number | number[];
       defects?: string;
       limit?: number;
       offset?: number;
-      status_id?: string;
+      status_id?: number | number[];
     }
 
     interface RunFilters extends UnknownObject {
       created_after?: number;
       created_before?: number;
-      created_by?: string;
-      is_completed?: number;
+      created_by?: number | number[];
+      is_completed?: boolean;
       limit?: number;
       offset?: number;
-      milestone_id?: string;
+      milestone_id?: number | number[];
       refs?: string;
-      suite_id?: string;
+      suite_id?: number | number[];
     }
 
     interface SectionFilters extends UnknownObject {
@@ -768,7 +763,7 @@ declare namespace TestRail {
     }
 
     interface TestFilters extends UnknownObject {
-      status_id?: string;
+      status_id?: number | number[];
     }
 
     interface UserFilters extends UnknownObject {
@@ -846,7 +841,7 @@ declare namespace TestRail {
     }
 
     interface Change extends UnknownObject {
-      field: String;
+      field: string;
       label?: string;
       new_text?: string;
       new_value?: string | number | number[];

@@ -3,8 +3,9 @@ import chaiAsPromised from 'chai-as-promised';
 import fs from 'fs';
 import { mock as tsMock } from 'intermock';
 import nock, { RequestBodyMatcher } from 'nock';
-import querystring from 'querystring';
 import TestRail from '..';
+
+export { qs } from '../src/qs';
 
 chai.use(chaiAsPromised).should();
 
@@ -17,10 +18,6 @@ export const host = 'https://dlenroc.testrail.com';
 export const username = 'Username';
 export const password = 'Password/Token';
 export const api = new TestRail({ host, username, password });
-
-export function qs(obj: Record<any, any>) {
-  return querystring.stringify(obj);
-}
 
 export function on(path: string, requestBody?: RequestBodyMatcher | any) {
   const options = {
