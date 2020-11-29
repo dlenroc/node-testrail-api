@@ -1,7 +1,7 @@
-[![TestRail API](https://img.shields.io/badge/TestRail%20API-v2-green.svg)](https://www.gurock.com/testrail/docs/api)
-![GitHub package version](https://img.shields.io/github/package-json/v/dlenroc/node-testrail-api.svg)
-![Dependencies Status](https://img.shields.io/david/dlenroc/node-testrail-api.svg)
-![GitHub top language](https://img.shields.io/github/languages/top/dlenroc/node-testrail-api.svg)
+[![Node.js CI](https://github.com/dlenroc/node-testrail-api/workflows/Node.js%20CI/badge.svg)](https://github.com/dlenroc/node-testrail-api/actions?query=workflow%3A"Node.js+CI")
+[![Supported Node.js version](https://img.shields.io/node/v/@dlenroc/testrail)](https://github.com/dlenroc/node-testrail-api/actions?query=workflow%3A"Node.js+CI")
+[![Dependencies status](https://img.shields.io/david/dlenroc/node-testrail-api)](package.json)
+[![NPM Version](https://img.shields.io/npm/v/@dlenroc/testrail?cacheSeconds=86400)](https://www.npmjs.com/package/@dlenroc/testrail)
 
 #### Installation
 
