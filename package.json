@@ -15,16 +15,12 @@
     "src",
     "dist"
   ],
+  "types": "dist/TestRail.d.ts",
   "main": "dist/TestRail.node.js",
   "module": "dist/TestRail.node.mjs",
   "browser": "dist/TestRail.browser.mjs",
   "jsdelivr": "dist/TestRail.umd.js",
   "unpkg": "dist/TestRail.umd.js",
-  "types": "dist/TestRail.d.ts",
-  "exports": {
-    "node": "./dist/TestRail.node.js",
-    "default": "./dist/TestRail.browser.mjs"
-  },
   "scripts": {
     "prepare": "npm run build",
     "build": "rollup -c && replace-in-file 'export default TestRail;' 'export default TestRail; export = TestRail;' dist/TestRail.d.ts",
