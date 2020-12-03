@@ -24,6 +24,10 @@ class TestRail {
 
   // Attachments
 
+  addAttachmentToCase(caseId: number, payload: TestRail.Payload.AddAttachment): Promise<TestRail.Model.CreatedAttachment> {
+    return this._api('POST', `add_attachment_to_case/${caseId}`, { form: { attachment: payload } });
+  }
+
   addAttachmentToPlan(planId: number, payload: TestRail.Payload.AddAttachment): Promise<TestRail.Model.CreatedAttachment> {
     return this._api('POST', `add_attachment_to_plan/${planId}`, { form: { attachment: payload } });
   }
