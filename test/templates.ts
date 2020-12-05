@@ -1,10 +1,10 @@
 import { random } from 'faker';
-import { Model } from '..';
+import { Template } from '..';
 import { api, jsonFor, OK, on } from './_helper';
 
-describe('Templates', async () => {
+describe('Templates', () => {
   const templateId = random.number();
-  const template: Model.Template = await jsonFor('Template');
+  const template: Template = jsonFor('Template');
   const templates = [template];
 
   it('get templates', async () => {

@@ -1,13 +1,13 @@
 import { internet, random } from 'faker';
-import { Model, Payload } from '..';
+import { User, UserFilters } from '..';
 import { api, jsonFor, OK, on, qs } from './_helper';
 
-describe('Users', async () => {
+describe('Users', () => {
   const userId = random.number();
   const email = internet.email();
-  const user: Model.User = await jsonFor('User');
-  const users: Model.User[] = [user];
-  const userFilters: Payload.UserFilters = await jsonFor('UserFilters');
+  const user: User = jsonFor('User');
+  const users: User[] = [user];
+  const userFilters: UserFilters = jsonFor('UserFilters');
 
   it('get user', async () => {
     on(`get_user/${userId}`)

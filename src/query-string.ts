@@ -1,4 +1,4 @@
-export function qs(object?: Record<string, any>): string {
+export function stringify(object?: Record<string, any>): string {
   if (!object) {
     return '';
   }

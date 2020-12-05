@@ -1,8 +1,8 @@
-import { Model } from '..';
+import { CaseType } from '..';
 import { api, jsonFor, OK, on } from './_helper';
 
-describe('Case Types', async () => {
-  const caseType: Model.CaseType = await jsonFor('CaseType');
+describe('Case Types', () => {
+  const caseType: CaseType = jsonFor('CaseType');
   const caseTypes = [caseType];
 
   it('get case types', async () => {

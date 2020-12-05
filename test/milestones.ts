@@ -1,15 +1,15 @@
 import { random } from 'faker';
-import { Model, Payload } from '..';
+import { AddMilestone, Milestone, MilestoneFilters, UpdateMilestone } from '..';
 import { api, jsonFor, OK, on, qs } from './_helper';
 
-describe('Milestones', async () => {
+describe('Milestones', () => {
   const milestoneId = random.number();
   const projectId = random.number();
-  const milestone: Model.Milestone = await jsonFor('Milestone');
+  const milestone: Milestone = jsonFor('Milestone');
   const milestones = [milestone];
-  const milestoneFilters: Payload.MilestoneFilters = await jsonFor('MilestoneFilters');
-  const addMilestonePayload: Payload.AddMilestone = await jsonFor('AddMilestone');
-  const updateMilestonePayload: Payload.UpdateMilestone = await jsonFor('UpdateMilestone');
+  const milestoneFilters: MilestoneFilters = jsonFor('MilestoneFilters');
+  const addMilestonePayload: AddMilestone = jsonFor('AddMilestone');
+  const updateMilestonePayload: UpdateMilestone = jsonFor('UpdateMilestone');
 
   it('get milestone', async () => {
     on(`get_milestone/${milestoneId}`)

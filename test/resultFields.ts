@@ -1,8 +1,8 @@
-import { Model } from '..';
+import { ResultField } from '..';
 import { api, jsonFor, OK, on } from './_helper';
 
-describe('Result Fields', async () => {
-  const field: Model.ResultField = await jsonFor('ResultField');
+describe('Result Fields', () => {
+  const field: ResultField = jsonFor('ResultField');
   const fields = [field];
 
   it('get result fields', async () => {

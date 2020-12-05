@@ -1,10 +1,10 @@
-import { Model, Payload } from '..';
+import { AddCaseField, CaseField } from '..';
 import { api, jsonFor, OK, on } from './_helper';
 
-describe('Case Fields', async () => {
-  const caseField: Model.CaseField = await jsonFor('CaseField');
+describe('Case Fields', () => {
+  const caseField: CaseField = jsonFor('CaseField');
   const caseFields = [caseField];
-  const addCaseFieldPayload: Payload.AddCaseField = await jsonFor('AddCaseField');
+  const addCaseFieldPayload: AddCaseField = jsonFor('AddCaseField');
 
   it('get case fields', async () => {
     on('get_case_fields')

@@ -10,14 +10,14 @@ export default {
       file: pkg.browser,
       format: 'es',
       exports: 'default',
-      sourcemap: true
+      sourcemap: true,
     },
     {
       file: pkg.jsdelivr,
       format: 'umd',
       exports: 'default',
       sourcemap: true,
-      name: 'TestRail'
+      name: 'TestRail',
     },
     {
       file: pkg.main,
@@ -51,10 +51,10 @@ export default {
         + `const httpsAgent = new https.Agent(options);\n`
         + `const agent = (url) => url.protocol === 'http:' ? httpAgent : httpsAgent;\n`
         + `const fetch = (url, init) => nodeFetch(url, { agent, ...init });\n`,
-    }
+    },
   ],
   plugins: [
     typescript({ useTsconfigDeclarationDir: true }),
     terser()
-  ]
-}
+  ],
+};

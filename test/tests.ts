@@ -1,13 +1,13 @@
 import { random } from 'faker';
-import { Model, Payload } from '..';
+import { Test, TestFilters } from '..';
 import { api, jsonFor, OK, on, qs } from './_helper';
 
-describe('Tests', async () => {
+describe('Tests', () => {
   const testId = random.number();
   const runId = random.number();
-  const test: Model.Test = await jsonFor('Test');
-  const tests: Model.Test[] = [test];
-  const testsFilters: Payload.TestFilters = await jsonFor('TestFilters');
+  const test: Test = jsonFor('Test');
+  const tests: Test[] = [test];
+  const testsFilters: TestFilters = jsonFor('TestFilters');
 
   it('get test', async () => {
     on(`get_test/${testId}`)

@@ -1,8 +1,8 @@
-import { Model } from '..';
+import { Priority } from '..';
 import { api, jsonFor, OK, on } from './_helper';
 
-describe('Priorities', async () => {
-  const priority: Model.Priority = await jsonFor('Priority');
+describe('Priorities', () => {
+  const priority: Priority = jsonFor('Priority');
   const priorities = [priority];
 
   it('get priorities', async () => {

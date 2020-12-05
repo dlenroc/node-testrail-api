@@ -1,18 +1,18 @@
 import { random } from 'faker';
-import { Model, Payload } from '..';
+import { AddResult, AddResults, AddResultsForCases, Result, ResultFilters, ResultForRunFilters } from '..';
 import { api, jsonFor, OK, on, qs } from './_helper';
 
-describe('Results', async () => {
+describe('Results', () => {
   const testId = random.number();
   const runId = random.number();
   const caseId = random.number();
-  const result: Model.Result = await jsonFor('Result');
+  const result: Result = jsonFor('Result');
   const results = [result];
-  const resultFilters: Payload.ResultFilters = await jsonFor('ResultFilters');
-  const resultForRunFilters: Payload.ResultForRunFilters = await jsonFor('ResultForRunFilters');
-  const addResultPayload: Payload.AddResult = await jsonFor('AddResult');
-  const addResultsPayload: Payload.AddResults = await jsonFor('AddResults');
-  const addResultsForCases: Payload.AddResultsForCases = await jsonFor('AddResultsForCases');
+  const resultFilters: ResultFilters = jsonFor('ResultFilters');
+  const resultForRunFilters: ResultForRunFilters = jsonFor('ResultForRunFilters');
+  const addResultPayload: AddResult = jsonFor('AddResult');
+  const addResultsPayload: AddResults = jsonFor('AddResults');
+  const addResultsForCases: AddResultsForCases = jsonFor('AddResultsForCases');
 
   it('get results', async () => {
     on(`get_results/${testId}`)

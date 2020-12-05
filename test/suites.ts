@@ -1,14 +1,14 @@
 import { random } from 'faker';
-import { Model, Payload } from '..';
+import { AddSuite, Suite, UpdateSuite } from '..';
 import { api, jsonFor, OK, on } from './_helper';
 
-describe('Suites', async () => {
+describe('Suites', () => {
   const suiteId = random.number();
   const projectId = random.number();
-  const suite: Model.Suite = await jsonFor('Suite');
+  const suite: Suite = jsonFor('Suite');
   const suites = [suite];
-  const addSuitePayload: Payload.AddSuite = await jsonFor('AddSuite');
-  const updateSuitePayload: Payload.UpdateSuite = await jsonFor('UpdateSuite');
+  const addSuitePayload: AddSuite = jsonFor('AddSuite');
+  const updateSuitePayload: UpdateSuite = jsonFor('UpdateSuite');
 
   it('get suite', async () => {
     on(`get_suite/${suiteId}`)

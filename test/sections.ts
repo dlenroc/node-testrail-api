@@ -1,15 +1,15 @@
 import { random } from 'faker';
-import { Model, Payload } from '..';
+import { AddSection, Section, SectionFilters, UpdateSection } from '..';
 import { api, jsonFor, OK, on, qs } from './_helper';
 
-describe('Sections', async () => {
+describe('Sections', () => {
   const sectionId = random.number();
   const projectId = random.number();
-  const section: Model.Section = await jsonFor('Section');
+  const section: Section = jsonFor('Section');
   const sections = [section];
-  const sectionFilters: Payload.SectionFilters = await jsonFor('SectionFilters');
-  const addSectionPayload: Payload.AddSection = await jsonFor('AddSection');
-  const updateSectionPayload: Payload.UpdateSection = await jsonFor('UpdateSection');
+  const sectionFilters: SectionFilters = jsonFor('SectionFilters');
+  const addSectionPayload: AddSection = jsonFor('AddSection');
+  const updateSectionPayload: UpdateSection = jsonFor('UpdateSection');
 
   it('get section', async () => {
     on(`get_section/${sectionId}`)

@@ -1,15 +1,11 @@
-import type { Readable } from 'stream';
-import { qs } from './qs';
+import { Request, Response } from './payload';
+import { stringify as qs } from './query-string';
+import { TestRailException } from './TestRailException';
 
-class TestRailException extends Error {
-  constructor(message: string) {
-    super(message);
-    this.name = 'TestRailException';
-  }
-}
+export * from './payload';
+export type { Request as Payload, Response as Model };
 
 class TestRail {
-  static default = TestRail;
   static Exception = TestRailException;
   private readonly username?: string;
   private readonly password?: string;
@@ -24,43 +20,43 @@ class TestRail {
 
   // Attachments
 
-  addAttachmentToCase(caseId: number, payload: TestRail.Payload.AddAttachment): Promise<TestRail.Model.CreatedAttachment> {
+  addAttachmentToCase(caseId: number, payload: Request.AddAttachment): Promise<Response.CreatedAttachment> {
     return this._api('POST', `add_attachment_to_case/${caseId}`, { form: { attachment: payload } });
   }
 
-  addAttachmentToPlan(planId: number, payload: TestRail.Payload.AddAttachment): Promise<TestRail.Model.CreatedAttachment> {
+  addAttachmentToPlan(planId: number, payload: Request.AddAttachment): Promise<Response.CreatedAttachment> {
     return this._api('POST', `add_attachment_to_plan/${planId}`, { form: { attachment: payload } });
   }
 
-  addAttachmentToPlanEntry(planId: number, entryId: string, payload: TestRail.Payload.AddAttachment): Promise<TestRail.Model.CreatedAttachment> {
+  addAttachmentToPlanEntry(planId: number, entryId: string, payload: Request.AddAttachment): Promise<Response.CreatedAttachment> {
     return this._api('POST', `add_attachment_to_plan_entry/${planId}/${entryId}`, { form: { attachment: payload } });
   }
 
-  addAttachmentToResult(resultId: number, payload: TestRail.Payload.AddAttachment): Promise<TestRail.Model.CreatedAttachment> {
+  addAttachmentToResult(resultId: number, payload: Request.AddAttachment): Promise<Response.CreatedAttachment> {
     return this._api('POST', `add_attachment_to_result/${resultId}`, { form: { attachment: payload } });
   }
 
-  addAttachmentToRun(runId: number, payload: TestRail.Payload.AddAttachment): Promise<TestRail.Model.CreatedAttachment> {
+  addAttachmentToRun(runId: number, payload: Request.AddAttachment): Promise<Response.CreatedAttachment> {
     return this._api('POST', `add_attachment_to_run/${runId}`, { form: { attachment: payload } });
   }
 
-  getAttachmentsForCase(caseId: number): Promise<TestRail.Model.AttachmentForCase[]> {
+  getAttachmentsForCase(caseId: number): Promise<Response.AttachmentForCase[]> {
     return this._api('GET', `get_attachments_for_case/${caseId}`);
   }
 
-  getAttachmentsForPlan(planId: number): Promise<TestRail.Model.AttachmentForPlan[]> {
+  getAttachmentsForPlan(planId: number): Promise<Response.AttachmentForPlan[]> {
     return this._api('GET', `get_attachments_for_plan/${planId}`);
   }
 
-  getAttachmentsForPlanEntry(planId: number, entryId: string): Promise<TestRail.Model.AttachmentForPlanEntry[]> {
+  getAttachmentsForPlanEntry(planId: number, entryId: string): Promise<Response.AttachmentForPlanEntry[]> {
     return this._api('GET', `get_attachments_for_plan_entry/${planId}/${entryId}`);
   }
 
-  getAttachmentsForRun(runId: number): Promise<TestRail.Model.AttachmentForRun[]> {
+  getAttachmentsForRun(runId: number): Promise<Response.AttachmentForRun[]> {
     return this._api('GET', `get_attachments_for_run/${runId}`);
   }
 
-  getAttachmentsForTest(testId: number): Promise<TestRail.Model.AttachmentForTest[]> {
+  getAttachmentsForTest(testId: number): Promise<Response.AttachmentForTest[]> {
     return this._api('GET', `get_attachments_for_test/${testId}`);
   }
 
@@ -74,27 +70,27 @@ class TestRail {
 
   // Cases
 
-  getCase(caseId: number): Promise<TestRail.Model.Case> {
+  getCase(caseId: number): Promise<Response.Case> {
     return this._api('GET', `get_case/${caseId}`);
   }
 
-  getCases(projectId: number, filters?: TestRail.Payload.CaseFilters): Promise<TestRail.Model.Case[]> {
+  getCases(projectId: number, filters?: Request.CaseFilters): Promise<Response.Case[]> {
     return this._api('GET', `get_cases/${projectId}`, { query: filters });
   }
 
-  getHistoryForCase(caseId: number): Promise<TestRail.Model.CaseHistory[]> {
+  getHistoryForCase(caseId: number): Promise<Response.CaseHistory[]> {
     return this._api('GET', `get_history_for_case/${caseId}`);
   }
 
-  addCase(sectionId: number, payload: TestRail.Payload.AddCase): Promise<TestRail.Model.Case> {
+  addCase(sectionId: number, payload: Request.AddCase): Promise<Response.Case> {
     return this._api('POST', `add_case/${sectionId}`, { json: payload });
   }
 
-  updateCase(caseId: number, payload: TestRail.Payload.UpdateCase): Promise<TestRail.Model.Case> {
+  updateCase(caseId: number, payload: Request.UpdateCase): Promise<Response.Case> {
     return this._api('POST', `update_case/${caseId}`, { json: payload });
   }
 
-  updateCases(suiteId: number, payload: TestRail.Payload.UpdateCases): Promise<void> {
+  updateCases(suiteId: number, payload: Request.UpdateCases): Promise<void> {
     return this._api('POST', `update_cases/${suiteId}`, { json: payload });
   }
 
@@ -102,45 +98,45 @@ class TestRail {
     return this._api('POST', `delete_case/${caseId}`);
   }
 
-  deleteCases(suiteId: number, payload: TestRail.Payload.DeleteCases): Promise<void> {
+  deleteCases(suiteId: number, payload: Request.DeleteCases): Promise<void> {
     return this._api('POST', `delete_cases/${suiteId}`, { json: payload });
   }
 
   // Case Fields
 
-  getCaseFields(): Promise<TestRail.Model.CaseField[]> {
+  getCaseFields(): Promise<Response.CaseField[]> {
     return this._api('GET', 'get_case_fields');
   }
 
-  addCaseField(payload: TestRail.Payload.AddCaseField): Promise<TestRail.Model.CaseField> {
+  addCaseField(payload: Request.AddCaseField): Promise<Response.CaseField> {
     return this._api('POST', 'add_case_field', { json: payload });
   }
 
   // Case Types
 
-  getCaseTypes(): Promise<TestRail.Model.CaseType[]> {
+  getCaseTypes(): Promise<Response.CaseType[]> {
     return this._api('GET', 'get_case_types');
   }
 
   // Configurations
 
-  getConfigs(projectId: number): Promise<TestRail.Model.Config[]> {
+  getConfigs(projectId: number): Promise<Response.Config[]> {
     return this._api('GET', `get_configs/${projectId}`);
   }
 
-  addConfigGroup(projectId: number, payload: TestRail.Payload.AddConfigGroup): Promise<TestRail.Model.Config> {
+  addConfigGroup(projectId: number, payload: Request.AddConfigGroup): Promise<Response.Config> {
     return this._api('POST', `add_config_group/${projectId}`, { json: payload });
   }
 
-  addConfig(configGroupId: number, payload: TestRail.Payload.AddConfig): Promise<TestRail.Model.ConfigItem> {
+  addConfig(configGroupId: number, payload: Request.AddConfig): Promise<Response.ConfigItem> {
     return this._api('POST', `add_config/${configGroupId}`, { json: payload });
   }
 
-  updateConfigGroup(configGroupId: number, payload: TestRail.Payload.UpdateConfigGroup): Promise<TestRail.Model.Config> {
+  updateConfigGroup(configGroupId: number, payload: Request.UpdateConfigGroup): Promise<Response.Config> {
     return this._api('POST', `update_config_group/${configGroupId}`, { json: payload });
   }
 
-  updateConfig(configId: number, payload: TestRail.Payload.UpdateConfig): Promise<TestRail.Model.ConfigItem> {
+  updateConfig(configId: number, payload: Request.UpdateConfig): Promise<Response.ConfigItem> {
     return this._api('POST', `update_config/${configId}`, { json: payload });
   }
 
@@ -154,19 +150,19 @@ class TestRail {
 
   // Milestones
 
-  getMilestone(milestoneId: number): Promise<TestRail.Model.Milestone> {
+  getMilestone(milestoneId: number): Promise<Response.Milestone> {
     return this._api('GET', `get_milestone/${milestoneId}`);
   }
 
-  getMilestones(projectId: number, filters?: TestRail.Payload.MilestoneFilters): Promise<TestRail.Model.Milestone[]> {
+  getMilestones(projectId: number, filters?: Request.MilestoneFilters): Promise<Response.Milestone[]> {
     return this._api('GET', `get_milestones/${projectId}`, { query: filters });
   }
 
-  addMilestone(projectId: number, payload: TestRail.Payload.AddMilestone): Promise<TestRail.Model.Milestone> {
+  addMilestone(projectId: number, payload: Request.AddMilestone): Promise<Response.Milestone> {
     return this._api('POST', `add_milestone/${projectId}`, { json: payload });
   }
 
-  updateMilestone(milestoneId: number, payload: TestRail.Payload.UpdateMilestone): Promise<TestRail.Model.Milestone> {
+  updateMilestone(milestoneId: number, payload: Request.UpdateMilestone): Promise<Response.Milestone> {
     return this._api('POST', `update_milestone/${milestoneId}`, { json: payload });
   }
 
@@ -176,39 +172,39 @@ class TestRail {
 
   // Plans
 
-  getPlan(planId: number): Promise<TestRail.Model.Plan> {
+  getPlan(planId: number): Promise<Response.Plan> {
     return this._api('GET', `get_plan/${planId}`);
   }
 
-  getPlans(projectId: number, filters?: TestRail.Payload.PlanFilters): Promise<TestRail.Model.PlanItem[]> {
+  getPlans(projectId: number, filters?: Request.PlanFilters): Promise<Response.PlanItem[]> {
     return this._api('GET', `get_plans/${projectId}`, { query: filters });
   }
 
-  addPlan(projectId: number, payload: TestRail.Payload.AddPlan): Promise<TestRail.Model.Plan> {
+  addPlan(projectId: number, payload: Request.AddPlan): Promise<Response.Plan> {
     return this._api('POST', `add_plan/${projectId}`, { json: payload });
   }
 
-  addPlanEntry(planId: number, payload: TestRail.Payload.AddPlanEntry): Promise<TestRail.Model.PlanEntry> {
+  addPlanEntry(planId: number, payload: Request.AddPlanEntry): Promise<Response.PlanEntry> {
     return this._api('POST', `add_plan_entry/${planId}`, { json: payload });
   }
 
-  addRunToPlanEntry(planId: number, entryId: string, payload: TestRail.Payload.AddRunToPlanEntry): Promise<TestRail.Model.PlanEntry> {
+  addRunToPlanEntry(planId: number, entryId: string, payload: Request.AddRunToPlanEntry): Promise<Response.PlanEntry> {
     return this._api('POST', `add_run_to_plan_entry/${planId}/${entryId}`, { json: payload });
   }
 
-  updatePlan(planId: number, payload: TestRail.Payload.UpdatePlan): Promise<TestRail.Model.Plan> {
+  updatePlan(planId: number, payload: Request.UpdatePlan): Promise<Response.Plan> {
     return this._api('POST', `update_plan/${planId}`, { json: payload });
   }
 
-  updatePlanEntry(planId: number, entryId: string, payload: TestRail.Payload.UpdatePlanEntry): Promise<TestRail.Model.PlanEntry> {
+  updatePlanEntry(planId: number, entryId: string, payload: Request.UpdatePlanEntry): Promise<Response.PlanEntry> {
     return this._api('POST', `update_plan_entry/${planId}/${entryId}`, { json: payload });
   }
 
-  updateRunInPlanEntry(planId: number, runId: number, payload: TestRail.Payload.UpdateRunInPlanEntry): Promise<TestRail.Model.PlanEntry> {
+  updateRunInPlanEntry(planId: number, runId: number, payload: Request.UpdateRunInPlanEntry): Promise<Response.PlanEntry> {
     return this._api('POST', `update_run_in_plan_entry/${planId}/${runId}`, { json: payload });
   }
 
-  closePlan(planId: number): Promise<TestRail.Model.Plan> {
+  closePlan(planId: number): Promise<Response.Plan> {
     return this._api('POST', `close_plan/${planId}`);
   }
 
@@ -226,25 +222,25 @@ class TestRail {
 
   // Priorities
 
-  getPriorities(): Promise<TestRail.Model.Priority[]> {
+  getPriorities(): Promise<Response.Priority[]> {
     return this._api('GET', 'get_priorities');
   }
 
   // Projects
 
-  getProject(projectId: number): Promise<TestRail.Model.Project> {
+  getProject(projectId: number): Promise<Response.Project> {
     return this._api('GET', `get_project/${projectId}`);
   }
 
-  getProjects(filters?: TestRail.Payload.ProjectFilters): Promise<TestRail.Model.Project[]> {
+  getProjects(filters?: Request.ProjectFilters): Promise<Response.Project[]> {
     return this._api('GET', 'get_projects', { query: filters });
   }
 
-  addProject(payload: TestRail.Payload.AddProject): Promise<TestRail.Model.Project> {
+  addProject(payload: Request.AddProject): Promise<Response.Project> {
     return this._api('POST', 'add_project', { json: payload });
   }
 
-  updateProject(projectId: number, payload: TestRail.Payload.UpdateProject): Promise<TestRail.Model.Project> {
+  updateProject(projectId: number, payload: Request.UpdateProject): Promise<Response.Project> {
     return this._api('POST', `update_project/${projectId}`, { json: payload });
   }
 
@@ -254,69 +250,69 @@ class TestRail {
 
   // Reports
 
-  getReports(projectId: number): Promise<TestRail.Model.Report[]> {
+  getReports(projectId: number): Promise<Response.Report[]> {
     return this._api('GET', `get_reports/${projectId}`);
   }
 
-  runReport(reportTemplateId: number): Promise<TestRail.Model.ReportUrls> {
+  runReport(reportTemplateId: number): Promise<Response.ReportUrls> {
     return this._api('POST', `run_report/${reportTemplateId}`);
   }
 
   // Results
 
-  getResults(testId: number, filters?: TestRail.Payload.ResultFilters): Promise<TestRail.Model.Result[]> {
+  getResults(testId: number, filters?: Request.ResultFilters): Promise<Response.Result[]> {
     return this._api('GET', `get_results/${testId}`, { query: filters });
   }
 
-  getResultsForCase(runId: number, caseId: number, filters?: TestRail.Payload.ResultFilters): Promise<TestRail.Model.Result[]> {
+  getResultsForCase(runId: number, caseId: number, filters?: Request.ResultFilters): Promise<Response.Result[]> {
     return this._api('GET', `get_results_for_case/${runId}/${caseId}`, { query: filters });
   }
 
-  getResultsForRun(runId: number, filters?: TestRail.Payload.ResultForRunFilters): Promise<TestRail.Model.Result[]> {
+  getResultsForRun(runId: number, filters?: Request.ResultForRunFilters): Promise<Response.Result[]> {
     return this._api('GET', `get_results_for_run/${runId}`, { query: filters });
   }
 
-  addResult(testId: number, payload: TestRail.Payload.AddResult): Promise<TestRail.Model.Result> {
+  addResult(testId: number, payload: Request.AddResult): Promise<Response.Result> {
     return this._api('POST', `add_result/${testId}`, { json: payload });
   }
 
-  addResultForCase(runId: number, caseId: number, payload: TestRail.Payload.AddResult): Promise<TestRail.Model.Result> {
+  addResultForCase(runId: number, caseId: number, payload: Request.AddResult): Promise<Response.Result> {
     return this._api('POST', `add_result_for_case/${runId}/${caseId}`, { json: payload });
   }
 
-  addResults(runId: number, payload: TestRail.Payload.AddResults): Promise<TestRail.Model.Result[]> {
+  addResults(runId: number, payload: Request.AddResults): Promise<Response.Result[]> {
     return this._api('POST', `add_results/${runId}`, { json: payload });
   }
 
-  addResultsForCases(runId: number, payload: TestRail.Payload.AddResultsForCases): Promise<TestRail.Model.Result[]> {
+  addResultsForCases(runId: number, payload: Request.AddResultsForCases): Promise<Response.Result[]> {
     return this._api('POST', `add_results_for_cases/${runId}`, { json: payload });
   }
 
   // Result Fields
 
-  getResultFields(): Promise<TestRail.Model.ResultField[]> {
+  getResultFields(): Promise<Response.ResultField[]> {
     return this._api('GET', 'get_result_fields');
   }
 
   // Runs
 
-  getRun(runId: number): Promise<TestRail.Model.Run> {
+  getRun(runId: number): Promise<Response.Run> {
     return this._api('GET', `get_run/${runId}`);
   }
 
-  getRuns(projectId: number, filters?: TestRail.Payload.RunFilters): Promise<TestRail.Model.Run[]> {
+  getRuns(projectId: number, filters?: Request.RunFilters): Promise<Response.Run[]> {
     return this._api('GET', `get_runs/${projectId}`, { query: filters });
   }
 
-  addRun(projectId: number, payload: TestRail.Payload.AddRun): Promise<TestRail.Model.Run> {
+  addRun(projectId: number, payload: Request.AddRun): Promise<Response.Run> {
     return this._api('POST', `add_run/${projectId}`, { json: payload });
   }
 
-  updateRun(runId: number, payload: TestRail.Payload.UpdateRun): Promise<TestRail.Model.Run> {
+  updateRun(runId: number, payload: Request.UpdateRun): Promise<Response.Run> {
     return this._api('POST', `update_run/${runId}`, { json: payload });
   }
 
-  closeRun(runId: number): Promise<TestRail.Model.Run> {
+  closeRun(runId: number): Promise<Response.Run> {
     return this._api('POST', `close_run/${runId}`);
   }
 
@@ -326,19 +322,19 @@ class TestRail {
 
   // Sections
 
-  getSection(sectionId: number): Promise<TestRail.Model.Section> {
+  getSection(sectionId: number): Promise<Response.Section> {
     return this._api('GET', `get_section/${sectionId}`);
   }
 
-  getSections(projectId: number, filters?: TestRail.Payload.SectionFilters): Promise<TestRail.Model.Section[]> {
+  getSections(projectId: number, filters?: Request.SectionFilters): Promise<Response.Section[]> {
     return this._api('GET', `get_sections/${projectId}`, { query: filters });
   }
 
-  addSection(projectId: number, payload: TestRail.Payload.AddSection): Promise<TestRail.Model.Section> {
+  addSection(projectId: number, payload: Request.AddSection): Promise<Response.Section> {
     return this._api('POST', `add_section/${projectId}`, { json: payload });
   }
 
-  updateSection(sectionId: number, payload: TestRail.Payload.UpdateSection): Promise<TestRail.Model.Section> {
+  updateSection(sectionId: number, payload: Request.UpdateSection): Promise<Response.Section> {
     return this._api('POST', `update_section/${sectionId}`, { json: payload });
   }
 
@@ -348,25 +344,25 @@ class TestRail {
 
   // Statuses
 
-  getStatuses(): Promise<TestRail.Model.Status[]> {
+  getStatuses(): Promise<Response.Status[]> {
     return this._api('GET', 'get_statuses');
   }
 
   // Suites
 
-  getSuite(suiteId: number): Promise<TestRail.Model.Suite> {
+  getSuite(suiteId: number): Promise<Response.Suite> {
     return this._api('GET', `get_suite/${suiteId}`);
   }
 
-  getSuites(projectId: number): Promise<TestRail.Model.Suite[]> {
+  getSuites(projectId: number): Promise<Response.Suite[]> {
     return this._api('GET', `get_suites/${projectId}`);
   }
 
-  addSuite(projectId: number, payload: TestRail.Payload.AddSuite): Promise<TestRail.Model.Suite> {
+  addSuite(projectId: number, payload: Request.AddSuite): Promise<Response.Suite> {
     return this._api('POST', `add_suite/${projectId}`, { json: payload });
   }
 
-  updateSuite(suiteId: number, payload: TestRail.Payload.UpdateSuite): Promise<TestRail.Model.Suite> {
+  updateSuite(suiteId: number, payload: Request.UpdateSuite): Promise<Response.Suite> {
     return this._api('POST', `update_suite/${suiteId}`, { json: payload });
   }
 
@@ -376,35 +372,35 @@ class TestRail {
 
   // Templates
 
-  getTemplates(projectId: number): Promise<TestRail.Model.Template[]> {
+  getTemplates(projectId: number): Promise<Response.Template[]> {
     return this._api('GET', `get_templates/${projectId}`);
   }
 
   // Tests
 
-  getTest(testId: number): Promise<TestRail.Model.Test> {
+  getTest(testId: number): Promise<Response.Test> {
     return this._api('GET', `get_test/${testId}`);
   }
 
-  getTests(runId: number, filters?: TestRail.Payload.TestFilters): Promise<TestRail.Model.Test[]> {
+  getTests(runId: number, filters?: Request.TestFilters): Promise<Response.Test[]> {
     return this._api('GET', `get_tests/${runId}`, { query: filters });
   }
 
   // Users
 
-  getUser(userId: number): Promise<TestRail.Model.User> {
+  getUser(userId: number): Promise<Response.User> {
     return this._api('GET', `get_user/${userId}`);
   }
 
-  getCurrentUser(): Promise<TestRail.Model.User> {
+  getCurrentUser(): Promise<Response.User> {
     return this._api('GET', `get_current_user`);
   }
 
-  getUserByEmail(email: string): Promise<TestRail.Model.User> {
+  getUserByEmail(email: string): Promise<Response.User> {
     return this._api('GET', 'get_user_by_email', { query: { email } });
   }
 
-  getUsers(filters?: TestRail.Payload.UserFilters): Promise<TestRail.Model.User[]> {
+  getUsers(filters?: Request.UserFilters): Promise<Response.User[]> {
     return this._api('GET', 'get_users', { query: filters });
   }
 
@@ -490,787 +486,6 @@ function base64(string: string) {
 
 function sleep(timeout: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, timeout));
-}
-
-declare namespace TestRail {
-  type UnknownObject = Record<string, unknown>;
-
-  namespace Payload {
-    type AddAttachment =
-      | Blob
-      | Readable
-      | {
-          name: string;
-          value: string | Blob | Readable;
-        };
-
-    interface AddCase extends UnknownObject {
-      title?: string;
-      template_id?: number;
-      type_id?: number;
-      priority_id?: number;
-      estimate?: string;
-      milestone_id?: number;
-      refs?: string;
-    }
-
-    interface UpdateCase extends AddCase {
-      section_id?: number;
-    }
-
-    interface UpdateCases extends UpdateCase {
-      case_ids?: number[];
-    }
-
-    interface DeleteCases extends UnknownObject {
-      case_ids?: number[];
-    }
-
-    interface AddCaseField extends UnknownObject {
-      type?: string;
-      name?: string;
-      label?: string;
-      description?: string;
-      include_all?: boolean;
-      template_ids?: number[];
-      configs?: AddCaseField.CaseFieldConfig[];
-    }
-
-    namespace AddCaseField {
-      interface CaseFieldConfig extends UnknownObject {
-        context?: Context;
-        options?: Options;
-      }
-
-      interface Context extends UnknownObject {
-        is_global?: boolean;
-        project_ids?: number[];
-      }
-
-      interface Options extends UnknownObject {
-        default_value?: string;
-        format?: string;
-        has_actual?: boolean;
-        has_expected?: boolean;
-        is_required?: boolean;
-        items?: string;
-        rows?: string;
-      }
-    }
-
-    interface AddConfigGroup extends UnknownObject {
-      name?: string;
-    }
-
-    type UpdateConfigGroup = AddConfigGroup;
-
-    type AddConfig = AddConfigGroup;
-
-    type UpdateConfig = AddConfigGroup;
-
-    interface AddMilestone extends UnknownObject {
-      name?: string;
-      description?: string;
-      due_on?: number;
-      parent_id?: number;
-      refs?: string;
-      start_on?: number;
-    }
-
-    interface UpdateMilestone extends AddMilestone {
-      is_completed?: boolean;
-      is_started?: boolean;
-    }
-
-    interface AddPlanEntry extends UnknownObject {
-      suite_id?: number;
-      name?: string;
-      description?: string;
-      assignedto_id?: number;
-      include_all?: boolean;
-      case_ids?: number[];
-      config_ids?: number[];
-      refs?: string;
-      runs?: AddRunToPlanEntry[];
-    }
-
-    interface AddRunToPlanEntry extends UnknownObject {
-      config_ids?: number[];
-      description?: string;
-      assignedto_id?: number;
-      include_all?: boolean;
-      case_ids?: number[];
-      refs?: string;
-    }
-
-    interface AddPlan extends UpdatePlan {
-      entries?: AddPlanEntry[];
-    }
-
-    interface UpdatePlan extends UnknownObject {
-      name?: string;
-      description?: string;
-      milestone_id?: number;
-    }
-
-    interface UpdatePlanEntry extends UnknownObject {
-      name?: string;
-      description?: string;
-      assignedto_id?: number;
-      include_all?: boolean;
-      case_ids?: number[];
-      refs?: string;
-    }
-
-    interface UpdateRunInPlanEntry extends UnknownObject {
-      description?: string;
-      assignedto_id?: number;
-      include_all?: boolean;
-      case_ids?: number[];
-      refs?: string;
-    }
-
-    interface AddProject extends UnknownObject {
-      name?: string;
-      announcement?: string;
-      show_announcement?: boolean;
-      suite_mode?: number;
-    }
-
-    type UpdateProject = AddProject;
-
-    interface AddResults extends UnknownObject {
-      results?: AddResultForTest[];
-    }
-
-    interface AddResultsForCases extends UnknownObject {
-      results?: AddResultForCase[];
-    }
-
-    interface AddResultForCase extends AddResult {
-      case_id?: number;
-    }
-
-    interface AddResultForTest extends AddResult {
-      test_id?: number;
-    }
-
-    interface AddResult extends UnknownObject {
-      status_id?: number;
-      comment?: string;
-      version?: string;
-      elapsed?: string;
-      defects?: string;
-      assignedto_id?: number;
-    }
-
-    interface AddRun extends UpdateRun {
-      suite_id?: number;
-      assignedto_id?: number;
-    }
-
-    interface UpdateRun extends UnknownObject {
-      name?: string;
-      description?: string;
-      milestone_id?: number;
-      include_all?: boolean;
-      case_ids?: number[];
-      refs?: string;
-    }
-
-    interface AddSection extends UpdateSection {
-      parent_id?: number;
-      suite_id?: number;
-    }
-
-    interface UpdateSection extends UnknownObject {
-      description?: string;
-      name?: string;
-    }
-
-    interface AddSuite extends UnknownObject {
-      name?: string;
-      description?: string;
-    }
-
-    type UpdateSuite = AddSuite;
-
-    interface CaseFilters extends UnknownObject {
-      suite_id?: number;
-      created_after?: number;
-      created_before?: number;
-      created_by?: number | number[];
-      filter?: string;
-      limit?: number;
-      milestone_id?: number | number[];
-      offset?: number;
-      priority_id?: number | number[];
-      refs?: string;
-      section_id?: number;
-      template_id?: number | number[];
-      type_id?: number | number[];
-      updated_after?: number;
-      updated_before?: number;
-      updated_by?: number | number[];
-    }
-
-    interface MilestoneFilters extends UnknownObject {
-      is_completed?: boolean;
-      is_started?: boolean;
-    }
-
-    interface PlanFilters extends UnknownObject {
-      created_after?: number;
-      created_before?: number;
-      created_by?: number | number[];
-      is_completed?: boolean;
-      limit?: number;
-      offset?: number;
-      milestone_id?: number | number[];
-    }
-
-    interface ProjectFilters extends UnknownObject {
-      is_completed?: boolean;
-    }
-
-    interface ResultFilters extends UnknownObject {
-      defects?: string;
-      limit?: number;
-      offset?: number;
-      status_id?: number | number[];
-    }
-
-    interface ResultForRunFilters extends UnknownObject {
-      created_after?: number;
-      created_before?: number;
-      created_by?: number | number[];
-      defects?: string;
-      limit?: number;
-      offset?: number;
-      status_id?: number | number[];
-    }
-
-    interface RunFilters extends UnknownObject {
-      created_after?: number;
-      created_before?: number;
-      created_by?: number | number[];
-      is_completed?: boolean;
-      limit?: number;
-      offset?: number;
-      milestone_id?: number | number[];
-      refs?: string;
-      suite_id?: number | number[];
-    }
-
-    interface SectionFilters extends UnknownObject {
-      suite_id?: number;
-    }
-
-    interface TestFilters extends UnknownObject {
-      status_id?: number | number[];
-    }
-
-    interface UserFilters extends UnknownObject {
-      project_id?: number;
-    }
-  }
-
-  namespace Model {
-    interface CreatedAttachment extends UnknownObject {
-      attachment_id: number;
-    }
-
-    interface AttachmentForPlan extends Attachment {
-      entity_attachments_id: number;
-      icon_name: string;
-    }
-
-    interface AttachmentForPlanEntry extends Attachment {
-      entity_attachments_id: number;
-      icon_name: string;
-    }
-
-    interface AttachmentForRun extends Attachment {
-      entity_attachments_id: number;
-      icon_name: string;
-    }
-
-    interface AttachmentForTest extends Attachment {
-      case_id: number;
-      result_id: number;
-    }
-
-    interface AttachmentForCase extends Attachment {
-      case_id: number;
-    }
-
-    interface Attachment extends UnknownObject {
-      case_id?: number;
-      created_on: number;
-      entity_attachments_id?: number;
-      icon_name?: string;
-      id: number;
-      name: string;
-      project_id: number;
-      result_id?: number;
-      size: number;
-      user_id: number;
-    }
-
-    interface Case extends UnknownObject {
-      created_by: number;
-      created_on: number;
-      display_order: number;
-      estimate?: string;
-      estimate_forecast?: string;
-      id: number;
-      milestone_id?: number;
-      priority_id: number;
-      refs?: string;
-      section_id: number;
-      suite_id: number;
-      template_id: number;
-      title: string;
-      type_id: number;
-      updated_by: number;
-      updated_on: number;
-    }
-
-    interface CaseHistory extends UnknownObject {
-      changes: Change[];
-      created_on: number;
-      id?: number;
-      type_id: number;
-      user_id: number;
-    }
-
-    interface Change extends UnknownObject {
-      field: string;
-      label?: string;
-      new_text?: string;
-      new_value?: string | number | number[];
-      old_ignore?: boolean;
-      old_text?: string;
-      old_value?: string | number | number[];
-      options?: Option;
-      type_id: number;
-    }
-
-    interface CaseField extends UnknownObject {
-      configs: CaseField.CaseFieldConfig[];
-      description?: string;
-      display_order: number;
-      id: number;
-      include_all: boolean;
-      is_active: boolean;
-      label: string;
-      name: string;
-      system_name: string;
-      template_ids: number[];
-      type_id: number;
-    }
-
-    namespace CaseField {
-      interface CaseFieldConfig extends UnknownObject {
-        context: Context;
-        id: string;
-        options: Options;
-      }
-
-      interface Options {
-        default_value?: string;
-        format?: string;
-        has_actual?: boolean;
-        has_expected?: boolean;
-        is_required: boolean;
-        items?: string;
-        rows?: string;
-      }
-    }
-
-    interface CaseType extends UnknownObject {
-      id: number;
-      is_default: boolean;
-      name: string;
-    }
-
-    interface Config extends UnknownObject {
-      configs: ConfigItem[];
-      id: number;
-      name: string;
-      project_id: number;
-    }
-
-    interface ConfigItem extends UnknownObject {
-      group_id: number;
-      id: number;
-      name: string;
-    }
-
-    interface Milestone extends UnknownObject {
-      completed_on?: number;
-      description?: string;
-      due_on?: number;
-      id: number;
-      is_completed: boolean;
-      is_started: boolean;
-      milestones?: Milestone[];
-      name: string;
-      parent_id?: number;
-      project_id: number;
-      refs?: string;
-      start_on?: number;
-      started_on?: number;
-      url: string;
-    }
-
-    interface Plan extends UnknownObject {
-      assignedto_id?: number;
-      blocked_count: number;
-      completed_on?: number;
-      created_by: number;
-      created_on: number;
-      custom_status1_count: number;
-      custom_status2_count: number;
-      custom_status3_count: number;
-      custom_status4_count: number;
-      custom_status5_count: number;
-      custom_status6_count: number;
-      custom_status7_count: number;
-      description?: string;
-      entries: PlanEntry[];
-      failed_count: number;
-      id: number;
-      is_completed: boolean;
-      milestone_id?: number;
-      name: string;
-      passed_count: number;
-      project_id: number;
-      retest_count: number;
-      untested_count: number;
-      url: string;
-    }
-
-    interface PlanEntry extends UnknownObject {
-      description?: string;
-      id: string;
-      include_all: boolean;
-      name: string;
-      refs?: string;
-      runs: PlanEntryRun[];
-      suite_id: number;
-    }
-
-    interface PlanEntryRun extends UnknownObject {
-      assignedto_id?: number;
-      blocked_count: number;
-      completed_on?: number;
-      config?: string;
-      config_ids: number[];
-      created_by: number;
-      created_on: number;
-      custom_status1_count: number;
-      custom_status2_count: number;
-      custom_status3_count: number;
-      custom_status4_count: number;
-      custom_status5_count: number;
-      custom_status6_count: number;
-      custom_status7_count: number;
-      description?: string;
-      entry_id: string;
-      entry_index: number;
-      failed_count: number;
-      id: number;
-      include_all: boolean;
-      is_completed: boolean;
-      milestone_id?: number;
-      name: string;
-      passed_count: number;
-      plan_id: number;
-      project_id: number;
-      refs?: string;
-      retest_count: number;
-      suite_id: number;
-      untested_count: number;
-      url: string;
-    }
-
-    interface PlanItem extends UnknownObject {
-      assignedto_id?: number;
-      blocked_count: number;
-      completed_on?: number;
-      created_by: number;
-      created_on: number;
-      custom_status1_count: number;
-      custom_status2_count: number;
-      custom_status3_count: number;
-      custom_status4_count: number;
-      custom_status5_count: number;
-      custom_status6_count: number;
-      custom_status7_count: number;
-      description?: string;
-      failed_count: number;
-      id: number;
-      is_completed: boolean;
-      milestone_id?: number;
-      name: string;
-      passed_count: number;
-      project_id: number;
-      retest_count: number;
-      untested_count: number;
-      url: string;
-    }
-
-    interface Priority extends UnknownObject {
-      id: number;
-      is_default: boolean;
-      name: string;
-      priority: number;
-      short_name: string;
-    }
-
-    interface Project extends UnknownObject {
-      announcement?: string;
-      completed_on?: number;
-      id: number;
-      is_completed: boolean;
-      name: string;
-      show_announcement: boolean;
-      suite_mode: number;
-      url: string;
-    }
-
-    interface Report extends UnknownObject {
-      activities_daterange?: string;
-      activities_daterange_from?: string;
-      activities_daterange_to?: string;
-      activities_include?: boolean;
-      activities_limit?: number;
-      activities_statuses_ids?: number[];
-      activities_statuses_include?: string;
-      cases_columns: { [id: string]: number };
-      cases_filters?: string;
-      cases_groupby?: string;
-      cases_include_comparison?: boolean;
-      cases_include_coverage?: boolean;
-      cases_include_details?: boolean;
-      cases_include_new?: boolean;
-      cases_include_norefs?: boolean;
-      cases_include_refs?: boolean;
-      cases_include_summary?: boolean;
-      cases_include_updated?: boolean;
-      cases_limit?: number;
-      changes_daterange?: string;
-      changes_daterange_from?: string;
-      changes_daterange_to?: string;
-      content_hide_links: boolean;
-      defects_ids?: string;
-      defects_include?: string;
-      description?: string;
-      history_daterange?: string;
-      history_daterange_from?: string;
-      history_daterange_to?: string;
-      history_include?: boolean;
-      history_limit?: number;
-      id: number;
-      milestones_active_include?: boolean;
-      milestones_completed_include?: boolean;
-      milestones_completed_limit?: number;
-      milestones_id?: number;
-      name: string;
-      notify_attachment: string;
-      notify_attachment_html_format: boolean;
-      notify_attachment_pdf_format: boolean;
-      notify_attachment_recipients: string;
-      notify_link: boolean;
-      notify_link_recipients?: string;
-      notify_user: boolean;
-      plans_id?: number;
-      progress_include?: boolean;
-      references_ids?: string;
-      references_include?: string;
-      results_include?: string;
-      runs_active_include?: boolean;
-      runs_completed_include?: boolean;
-      runs_completed_limit?: number;
-      runs_filters?: { [id: string]: any };
-      runs_ids?: number[];
-      runs_include?: string;
-      runs_limit?: number;
-      runs_sections_ids?: number[];
-      runs_sections_include?: string;
-      runs_suites_id?: string;
-      runs_suites_ids?: string;
-      runs_suites_include?: string;
-      sections_ids?: string;
-      sections_include?: string;
-      status_include?: boolean;
-      statuses_ids?: number[];
-      statuses_include?: string;
-      suites_ids?: string;
-      suites_include?: string;
-      tests_columns?: { [id: string]: number };
-      tests_filters?: string;
-      tests_groupby?: string;
-      tests_include?: boolean;
-      tests_include_details?: boolean;
-      tests_include_summary?: string;
-      tests_limit?: number;
-    }
-
-    interface ReportUrls extends UnknownObject {
-      report_html: string;
-      report_pdf: string;
-      report_url: string;
-    }
-
-    interface Result extends UnknownObject {
-      assignedto_id?: number;
-      attachment_ids: number[];
-      comment?: string;
-      created_by: number;
-      created_on: number;
-      defects?: string;
-      elapsed?: string;
-      id: number;
-      status_id?: number;
-      test_id: number;
-      version?: string;
-    }
-
-    interface ResultField extends UnknownObject {
-      configs: FieldConfig[];
-      description?: string;
-      display_order: number;
-      id: number;
-      include_all: boolean;
-      is_active: boolean;
-      label: string;
-      name: string;
-      system_name: string;
-      template_ids: number[];
-      type_id: number;
-    }
-
-    interface FieldConfig extends UnknownObject {
-      context: Context;
-      id: string;
-      options: Option;
-    }
-
-    interface Context extends UnknownObject {
-      is_global: boolean;
-      project_ids?: number[];
-    }
-
-    interface Option extends UnknownObject {
-      default_value?: string;
-      format?: string;
-      has_actual?: boolean;
-      has_expected?: boolean;
-      is_required: boolean;
-      items?: string;
-      rows?: string;
-    }
-
-    interface Run extends UnknownObject {
-      assignedto_id?: number;
-      blocked_count: number;
-      completed_on?: number;
-      config?: string;
-      config_ids: number[];
-      created_by: number;
-      created_on: number;
-      updated_on: number;
-      custom_status1_count: number;
-      custom_status2_count: number;
-      custom_status3_count: number;
-      custom_status4_count: number;
-      custom_status5_count: number;
-      custom_status6_count: number;
-      custom_status7_count: number;
-      description?: string;
-      failed_count: number;
-      id: number;
-      include_all: boolean;
-      is_completed: boolean;
-      milestone_id?: number;
-      name: string;
-      passed_count: number;
-      plan_id?: number;
-      project_id: number;
-      refs?: string;
-      retest_count: number;
-      suite_id: number;
-      untested_count: number;
-      url: string;
-    }
-
-    interface Section extends UnknownObject {
-      depth: number;
-      description?: string;
-      display_order: number;
-      id: number;
-      name: string;
-      parent_id?: number;
-      suite_id: number;
-    }
-
-    interface Status extends UnknownObject {
-      color_bright: number;
-      color_dark: number;
-      color_medium: number;
-      id: number;
-      is_final: boolean;
-      is_system: boolean;
-      is_untested: boolean;
-      label: string;
-      name: string;
-    }
-
-    interface Suite extends UnknownObject {
-      completed_on?: number;
-      description?: string;
-      id: number;
-      is_baseline: boolean;
-      is_completed: boolean;
-      is_master: boolean;
-      name: string;
-      project_id: number;
-      url: string;
-    }
-
-    interface Template extends UnknownObject {
-      id: number;
-      is_default: boolean;
-      name: string;
-    }
-
-    interface Test extends UnknownObject {
-      assignedto_id?: number;
-      case_id: number;
-      estimate?: string;
-      estimate_forecast?: string;
-      id: number;
-      milestone_id?: number;
-      priority_id: number;
-      refs?: string;
-      run_id: number;
-      status_id: number;
-      template_id: number;
-      title: string;
-      type_id: number;
-    }
-
-    interface User extends UnknownObject {
-      email: string;
-      id: number;
-      is_active: boolean;
-      name: string;
-      role: string;
-      role_id: number;
-    }
-  }
 }
 
 export default TestRail;
