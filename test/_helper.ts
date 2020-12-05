@@ -1,13 +1,20 @@
 import chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
+import sync from 'deasync';
 import fs from 'fs';
+import glob from 'glob';
 import { mock as tsMock } from 'intermock';
 import nock, { RequestBodyMatcher } from 'nock';
 import TestRail from '..';
 
-export { qs } from '../src/qs';
+export { stringify as qs } from '../src/query-string';
 
 chai.use(chaiAsPromised).should();
+
+const tsFiles: [string, string][] = (sync(glob)('./src/**/*.ts') as string[])
+  .map((file) => [file, fs.readFileSync(file, { encoding: 'utf-8' })]);
+
+tsFiles.push(['Record.ts', `type Record<K extends keyof any, T> = { [P in K]: T }`]);
 
 export const OK = 200;
 export const BAD_REQUEST = 400;
@@ -42,14 +49,13 @@ export function on(path: string, requestBody?: RequestBodyMatcher | any) {
   return interceptor;
 }
 
-export async function jsonFor(name: string, ...names: string[]): Promise<any> {
+export function jsonFor(name: string, ...names: string[]): any {
   const interfaces = [name, ...names];
-
-  const files: [[string, string]] = [
-    ['TestRail.d.ts', fs.readFileSync('dist/TestRail.d.ts', { encoding: 'utf-8' })],
-  ];
-
-  const result: Record<string, undefined> = await tsMock({ interfaces, files }) as any;
+  const result: Record<string, undefined> = tsMock({
+    interfaces,
+    files: tsFiles,
+    isFixedMode: true,
+  }) as any;
 
   const notFoundInterfaces = interfaces.filter((key) => !result[key]);
   if (notFoundInterfaces.length) {

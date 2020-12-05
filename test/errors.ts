@@ -1,7 +1,7 @@
 import { Exception } from '..';
 import { api, BAD_REQUEST, OK, on, TO_MANY_REQUEST } from './_helper';
 
-describe('Errors', async () => {
+describe('Errors', () => {
   const success = { success: true };
   const customError = 'Custom error message';
   const defaultError = 'No additional error message received';

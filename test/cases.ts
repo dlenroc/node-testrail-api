@@ -1,21 +1,21 @@
 import { random } from 'faker';
-import { Model, Payload } from '..';
+import { AddCase, Case, CaseFilters, CaseHistory, DeleteCases, UpdateCase, UpdateCases } from '..';
 import { api, jsonFor, OK, on, qs } from './_helper';
 
-describe('Cases', async () => {
+describe('Cases', () => {
   const caseId = random.number();
   const projectId = random.number();
   const sectionId = random.number();
   const suiteId = random.number();
-  const testCase: Model.Case = await jsonFor('Case');
+  const testCase: Case = jsonFor('Case');
   const testCases = [testCase];
-  const caseFilters: Payload.CaseFilters = await jsonFor('CaseFilters');
-  const caseHistory: Model.CaseHistory = await jsonFor('CaseHistory');
+  const caseFilters: CaseFilters = jsonFor('CaseFilters');
+  const caseHistory: CaseHistory = jsonFor('CaseHistory');
   const caseHistories = [caseHistory];
-  const addCasePayload: Payload.AddCase = await jsonFor('AddCase');
-  const updateCasePayload: Payload.UpdateCase = await jsonFor('UpdateCase');
-  const updateCasesPayload: Payload.UpdateCases = await jsonFor('UpdateCases');
-  const deleteCasesPayload: Payload.DeleteCases = await jsonFor('DeleteCases');
+  const addCasePayload: AddCase = jsonFor('AddCase');
+  const updateCasePayload: UpdateCase = jsonFor('UpdateCase');
+  const updateCasesPayload: UpdateCases = jsonFor('UpdateCases');
+  const deleteCasesPayload: DeleteCases = jsonFor('DeleteCases');
 
   it('get case', async () => {
     on(`get_case/${caseId}`)

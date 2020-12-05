@@ -1,18 +1,18 @@
 import { random } from 'faker';
-import { Model, Payload } from '..';
+import { AddConfig, AddConfigGroup, Config, ConfigItem, UpdateConfig, UpdateConfigGroup } from '..';
 import { api, jsonFor, OK, on } from './_helper';
 
-describe('Configurations', async () => {
+describe('Configurations', () => {
   const projectId = random.number();
   const configGroupId = random.number();
   const configId = random.number();
-  const config: Model.Config = await jsonFor('Config');
-  const configItem: Model.ConfigItem = await jsonFor('ConfigItem');
+  const config: Config = jsonFor('Config');
+  const configItem: ConfigItem = jsonFor('ConfigItem');
   const configs = [config];
-  const addConfigGroupPayload: Payload.AddConfigGroup = await jsonFor('AddConfigGroup');
-  const addConfigPayload: Payload.AddConfig = await jsonFor('AddConfig');
-  const updateConfigGroupPayload: Payload.UpdateConfigGroup = await jsonFor('UpdateConfigGroup');
-  const updateConfigPayload: Payload.UpdateConfig = await jsonFor('UpdateConfig');
+  const addConfigGroupPayload: AddConfigGroup = jsonFor('AddConfigGroup');
+  const addConfigPayload: AddConfig = jsonFor('AddConfig');
+  const updateConfigGroupPayload: UpdateConfigGroup = jsonFor('UpdateConfigGroup');
+  const updateConfigPayload: UpdateConfig = jsonFor('UpdateConfig');
 
   it('get config', async () => {
     on(`get_configs/${projectId}`)

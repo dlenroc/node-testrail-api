@@ -1,13 +1,13 @@
 import { random } from 'faker';
-import { Model } from '..';
+import { Report, ReportUrls } from '..';
 import { api, jsonFor, OK, on } from './_helper';
 
-describe('Reports', async () => {
+describe('Reports', () => {
   const projectId = random.number();
   const reportTemplateId = random.number();
-  const report: Model.Report = await jsonFor('Report');
+  const report: Report = jsonFor('Report');
   const reports = [report];
-  const reportUrls: Model.ReportUrls = await jsonFor('ReportUrls');
+  const reportUrls: ReportUrls = jsonFor('ReportUrls');
 
   it('get reports', async () => {
     on(`get_reports/${projectId}`)

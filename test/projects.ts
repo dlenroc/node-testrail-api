@@ -1,14 +1,14 @@
 import { random } from 'faker';
-import { Model, Payload } from '..';
+import { AddProject, Project, ProjectFilters, UpdateProject } from '..';
 import { api, jsonFor, OK, on, qs } from './_helper';
 
-describe('Projects', async () => {
+describe('Projects', () => {
   const projectId = random.number();
-  const project: Model.Project = await jsonFor('Project');
+  const project: Project = jsonFor('Project');
   const projects = [project];
-  const projectFilters: Payload.ProjectFilters = await jsonFor('ProjectFilters');
-  const addProjectPayload: Payload.AddProject = await jsonFor('AddProject');
-  const updateProjectPayload: Payload.UpdateProject = await jsonFor('UpdateProject');
+  const projectFilters: ProjectFilters = jsonFor('ProjectFilters');
+  const addProjectPayload: AddProject = jsonFor('AddProject');
+  const updateProjectPayload: UpdateProject = jsonFor('UpdateProject');
 
   it('get project', async () => {
     on(`get_project/${projectId}`)

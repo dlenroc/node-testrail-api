@@ -1,23 +1,23 @@
 import { random } from 'faker';
-import { Model, Payload } from '..';
+import { AddPlan, AddPlanEntry, AddRunToPlanEntry, Plan, PlanEntry, PlanFilters, PlanItem, UpdatePlan, UpdatePlanEntry, UpdateRunInPlanEntry } from '..';
 import { api, jsonFor, OK, on, qs } from './_helper';
 
-describe('Plans', async () => {
+describe('Plans', () => {
   const planId = random.number();
   const projectId = random.number();
   const entryId = random.uuid();
   const runId = random.number();
-  const plan: Model.Plan = await jsonFor('Plan');
-  const planItem: Model.PlanItem = await jsonFor('PlanItem');
+  const plan: Plan = jsonFor('Plan');
+  const planItem: PlanItem = jsonFor('PlanItem');
   const plans = [planItem];
-  const planEntry: Model.PlanEntry = await jsonFor('PlanEntry');
-  const planFilters: Payload.PlanFilters = await jsonFor('PlanFilters');
-  const addPlanPayload: Payload.AddPlan = await jsonFor('AddPlan');
-  const addPlanEntryPayload: Payload.AddPlanEntry = await jsonFor('AddPlanEntry');
-  const addRunToPlanEntry: Payload.AddRunToPlanEntry = await jsonFor('AddRunToPlanEntry');
-  const updatePlanPayload: Payload.UpdatePlan = await jsonFor('UpdatePlan');
-  const updatePlanEntryPayload: Payload.UpdatePlanEntry = await jsonFor('UpdatePlanEntry');
-  const updateRunInPlanEntry: Payload.UpdateRunInPlanEntry = await jsonFor('UpdateRunInPlanEntry');
+  const planEntry: PlanEntry = jsonFor('PlanEntry');
+  const planFilters: PlanFilters = jsonFor('PlanFilters');
+  const addPlanPayload: AddPlan = jsonFor('AddPlan');
+  const addPlanEntryPayload: AddPlanEntry = jsonFor('AddPlanEntry');
+  const addRunToPlanEntry: AddRunToPlanEntry = jsonFor('AddRunToPlanEntry');
+  const updatePlanPayload: UpdatePlan = jsonFor('UpdatePlan');
+  const updatePlanEntryPayload: UpdatePlanEntry = jsonFor('UpdatePlanEntry');
+  const updateRunInPlanEntry: UpdateRunInPlanEntry = jsonFor('UpdateRunInPlanEntry');
 
   it('get plan', async () => {
     on(`get_plan/${planId}`)

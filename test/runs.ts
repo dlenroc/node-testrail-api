@@ -1,15 +1,15 @@
 import { random } from 'faker';
-import { Model, Payload } from '..';
+import { AddRun, Run, RunFilters, UpdateRun } from '..';
 import { api, jsonFor, OK, on, qs } from './_helper';
 
-describe('Runs', async () => {
+describe('Runs', () => {
   const runId = random.number();
   const projectId = random.number();
-  const run: Model.Run = await jsonFor('Run');
+  const run: Run = jsonFor('Run');
   const runs = [run];
-  const runFilters: Payload.RunFilters = await jsonFor('RunFilters');
-  const addRunPayload: Payload.AddRun = await jsonFor('AddRun');
-  const updateRunPayload: Payload.UpdateRun = await jsonFor('UpdateRun');
+  const runFilters: RunFilters = jsonFor('RunFilters');
+  const addRunPayload: AddRun = jsonFor('AddRun');
+  const updateRunPayload: UpdateRun = jsonFor('UpdateRun');
 
   it('get run', async () => {
     on(`get_run/${runId}`)

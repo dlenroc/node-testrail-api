@@ -1,8 +1,8 @@
 import { random } from 'faker';
-import { Model, Payload } from '..';
+import { AddAttachment, Attachment, AttachmentForCase, AttachmentForPlan, AttachmentForPlanEntry, AttachmentForRun, AttachmentForTest, CreatedAttachment } from '..';
 import { api, jsonFor, OK, on } from './_helper';
 
-describe('Attachments', async () => {
+describe('Attachments', () => {
   const planId = random.number();
   const entryId = random.uuid();
   const resultId = random.number();
@@ -10,20 +10,20 @@ describe('Attachments', async () => {
   const caseId = random.number();
   const testId = random.number();
   const attachmentId = random.number();
-  const createdAttachment: Model.CreatedAttachment = await jsonFor('CreatedAttachment');
-  const attachmentForCase: Model.AttachmentForCase = await jsonFor('AttachmentForCase');
+  const createdAttachment: CreatedAttachment = jsonFor('CreatedAttachment');
+  const attachmentForCase: AttachmentForCase = jsonFor('AttachmentForCase');
   const attachmentsForCase = [attachmentForCase];
-  const attachmentForPlan: Model.AttachmentForPlan = await jsonFor('AttachmentForPlan');
+  const attachmentForPlan: AttachmentForPlan = jsonFor('AttachmentForPlan');
   const attachmentsForPlan = [attachmentForPlan];
-  const attachmentForPlanEntry: Model.AttachmentForPlanEntry = await jsonFor('AttachmentForPlanEntry');
+  const attachmentForPlanEntry: AttachmentForPlanEntry = jsonFor('AttachmentForPlanEntry');
   const attachmentsForPlanEntry = [attachmentForPlanEntry];
-  const attachmentForRun: Model.AttachmentForRun = await jsonFor('AttachmentForRun');
+  const attachmentForRun: AttachmentForRun = jsonFor('AttachmentForRun');
   const attachmentsForRun = [attachmentForRun];
-  const attachmentForTest: Model.AttachmentForTest = await jsonFor('AttachmentForTest');
+  const attachmentForTest: AttachmentForTest = jsonFor('AttachmentForTest');
   const attachmentsForTest = [attachmentForTest];
-  const attachment: Model.Attachment = await jsonFor('Attachment');
+  const attachment: Attachment = jsonFor('Attachment');
   const hasAttachment = /form-data; name="attachment"/m;
-  const addAttachmentPayload: Payload.AddAttachment = {
+  const addAttachmentPayload: AddAttachment = {
     name: 'attachment.txt',
     value: random.words(),
   };
