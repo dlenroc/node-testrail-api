@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.1.0](https://www.github.com/dlenroc/node-testrail-api/compare/v1.0.1...v1.1.0) (2020-12-05)
+
+
+### Features
+
+* add `add_attachment_to_case` endpoint ([a725318](https://www.github.com/dlenroc/node-testrail-api/commit/a725318b7fb0c9c1ebbc1148c79e9e789916f4a0))
+* allow 'boolean' and 'number[]' in filters ([1900a92](https://www.github.com/dlenroc/node-testrail-api/commit/1900a92e4fbd2762f705265668e90ff7f2bf1ef9))
+* split payload into separate files ([b08a4b7](https://www.github.com/dlenroc/node-testrail-api/commit/b08a4b71fc59008260bd653cb014f0de509ceed2))
+* **node:** reuse TCP connection ([dda5a3d](https://www.github.com/dlenroc/node-testrail-api/commit/dda5a3d672b5b5712dceef8ea3bda0c87ff8871d))
+* tests using 'mocha' and 'nock' ([3c2498b](https://www.github.com/dlenroc/node-testrail-api/commit/3c2498be14dd00e52d3af0829d670d823ca8115f))
+
 ### [1.0.1](https://github.com/dlenroc/node-testrail-api/compare/v1.0.0...v1.0.1) (2020-11-16)
 
 
