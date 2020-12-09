@@ -20,7 +20,7 @@ jobs:
           node-version: 14
       - run: npm install
         if: ${{ steps.release.outputs.release_created }}
-      - run: npm publish
+      - run: npm publish --access public
         if: ${{ steps.release.outputs.release_created }}
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
