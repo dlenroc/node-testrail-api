@@ -1,12 +1,12 @@
-export interface CaseFilters extends Record<string, unknown> {
+import { Pagination } from './Pagination';
+
+export interface CaseFilters extends Pagination, Record<string, unknown> {
   suite_id?: number;
   created_after?: number;
   created_before?: number;
   created_by?: number | number[];
   filter?: string;
-  limit?: number;
   milestone_id?: number | number[];
-  offset?: number;
   priority_id?: number | number[];
   refs?: string;
   section_id?: number;

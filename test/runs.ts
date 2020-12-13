@@ -21,7 +21,7 @@ describe('Runs', () => {
   });
 
   it('get runs', async () => {
-    on(`get_runs/${projectId}`)
+    on(`get_runs/${projectId}&limit=250&offset=0`)
       .reply(OK, runs);
 
     await api
@@ -30,7 +30,7 @@ describe('Runs', () => {
   });
 
   it('get filtered runs', async () => {
-    on(`get_runs/${projectId}&${qs(runFilters)}`)
+    on(`get_runs/${projectId}&${qs(runFilters)}&limit=250&offset=0`)
       .reply(OK, runs);
 
     await api

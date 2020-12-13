@@ -29,7 +29,7 @@ describe('Plans', () => {
   });
 
   it('get plans', async () => {
-    on(`get_plans/${projectId}`)
+    on(`get_plans/${projectId}&limit=250&offset=0`)
       .reply(OK, plans);
 
     await api
@@ -38,7 +38,7 @@ describe('Plans', () => {
   });
 
   it('get filtered plans', async () => {
-    on(`get_plans/${projectId}&${qs(planFilters)}`)
+    on(`get_plans/${projectId}&${qs(planFilters)}&limit=250&offset=0`)
       .reply(OK, plans);
 
     await api

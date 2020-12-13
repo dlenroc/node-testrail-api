@@ -19,7 +19,7 @@ describe('Tests', () => {
   });
 
   it('get tests', async () => {
-    on(`get_tests/${runId}`)
+    on(`get_tests/${runId}&limit=250&offset=0`)
       .reply(OK, tests);
 
     await api
@@ -28,7 +28,7 @@ describe('Tests', () => {
   });
 
   it('get filtered tests', async () => {
-    on(`get_tests/${runId}&${qs(testsFilters)}`)
+    on(`get_tests/${runId}&${qs(testsFilters)}&limit=250&offset=0`)
       .reply(OK, tests);
 
     await api

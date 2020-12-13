@@ -1,3 +1,5 @@
-export interface ProjectFilters extends Record<string, unknown> {
+import { Pagination } from './Pagination';
+
+export interface ProjectFilters extends Pagination, Record<string, unknown> {
   is_completed?: boolean;
 }

@@ -21,7 +21,7 @@ describe('Milestones', () => {
   });
 
   it('get milestones', async () => {
-    on(`get_milestones/${projectId}`)
+    on(`get_milestones/${projectId}&limit=250&offset=0`)
       .reply(OK, milestones);
 
     await api
@@ -30,7 +30,7 @@ describe('Milestones', () => {
   });
 
   it('get filtered milestones', async () => {
-    on(`get_milestones/${projectId}&${qs(milestoneFilters)}`)
+    on(`get_milestones/${projectId}&${qs(milestoneFilters)}&limit=250&offset=0`)
       .reply(OK, milestones);
 
     await api

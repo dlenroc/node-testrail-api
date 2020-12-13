@@ -27,7 +27,7 @@ describe('Cases', () => {
   });
 
   it('get cases', async () => {
-    on(`get_cases/${projectId}`)
+    on(`get_cases/${projectId}&limit=250&offset=0`)
       .reply(OK, testCases);
 
     await api
@@ -36,7 +36,7 @@ describe('Cases', () => {
   });
 
   it('get filtered cases', async () => {
-    on(`get_cases/${projectId}&${qs(caseFilters)}`)
+    on(`get_cases/${projectId}&${qs(caseFilters)}&limit=250&offset=0`)
       .reply(OK, testCases);
 
     await api
@@ -45,7 +45,7 @@ describe('Cases', () => {
   });
 
   it('get history for case', async () => {
-    on(`get_history_for_case/${caseId}`)
+    on(`get_history_for_case/${caseId}&limit=250&offset=0`)
       .reply(OK, caseHistories);
 
     await api

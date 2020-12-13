@@ -20,7 +20,7 @@ describe('Projects', () => {
   });
 
   it('get projects', async () => {
-    on('get_projects')
+    on('get_projects&limit=250&offset=0')
       .reply(OK, projects);
 
     await api
@@ -29,7 +29,7 @@ describe('Projects', () => {
   });
 
   it('get filtered projects', async () => {
-    on(`get_projects&${qs(projectFilters)}`)
+    on(`get_projects&${qs(projectFilters)}&limit=250&offset=0`)
       .reply(OK, projects);
 
     await api
