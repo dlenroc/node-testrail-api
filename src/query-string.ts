@@ -14,10 +14,6 @@ export function stringify(object?: Record<string, any>): string {
       newValue = value.join(',');
     }
 
-    if (qs !== '') {
-      qs += '&';
-    }
-
     qs += `&${key}=${encodeURIComponent(newValue)}`;
   }
 
