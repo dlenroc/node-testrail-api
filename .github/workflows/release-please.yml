@@ -11,6 +11,7 @@ jobs:
         id: release
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+          package-name: "@dlenroc/testrail"
           release-type: node
       - uses: actions/checkout@v2
         if: ${{ steps.release.outputs.release_created }}
