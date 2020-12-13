@@ -1,6 +1,5 @@
 [![Node.js CI](https://github.com/dlenroc/node-testrail-api/workflows/Node.js%20CI/badge.svg)](https://github.com/dlenroc/node-testrail-api/actions?query=workflow%3A"Node.js+CI")
 [![Supported Node.js version](https://img.shields.io/node/v/@dlenroc/testrail)](https://github.com/dlenroc/node-testrail-api/actions?query=workflow%3A"Node.js+CI")
-[![Dependencies status](https://img.shields.io/david/dlenroc/node-testrail-api)](package.json)
 [![NPM Version](https://img.shields.io/npm/v/@dlenroc/testrail?cacheSeconds=86400)](https://www.npmjs.com/package/@dlenroc/testrail)
 
 #### Installation
@@ -31,6 +30,10 @@ console.log(projects);
 #### Attachments
 
 ```typescript
+addAttachmentToCase(caseId: number, payload: AddAttachment): Promise<CreatedAttachment>;
+```
+
+```typescript
 addAttachmentToPlan(planId: number, payload: AddAttachment): Promise<CreatedAttachment>;
 ```
 
@@ -47,11 +50,11 @@ addAttachmentToRun(runId: number, payload: AddAttachment): Promise<CreatedAttach
 ```
 
 ```typescript
-getAttachmentsForCase(caseId: number): Promise<AttachmentForCase[]>;
+getAttachmentsForCase(caseId: number, filters?: Pagination): Promise<AttachmentForCase[]>;
 ```
 
 ```typescript
-getAttachmentsForPlan(planId: number): Promise<AttachmentForPlan[]>;
+getAttachmentsForPlan(planId: number, filters?: Pagination): Promise<AttachmentForPlan[]>;
 ```
 
 ```typescript
@@ -59,7 +62,7 @@ getAttachmentsForPlanEntry(planId: number, entryId: string): Promise<AttachmentF
 ```
 
 ```typescript
-getAttachmentsForRun(runId: number): Promise<AttachmentForRun[]>;
+getAttachmentsForRun(runId: number, filters?: Pagination): Promise<AttachmentForRun[]>;
 ```
 
 ```typescript
@@ -85,7 +88,7 @@ getCases(projectId: number, filters?: CaseFilters): Promise<Case[]>;
 ```
 
 ```typescript
-getHistoryForCase(caseId: number): Promise<TestRail.Model.CaseHistory[]>;
+getHistoryForCase(caseId: number, filters?: Pagination): Promise<CaseHistory[]>;
 ```
 
 ```typescript
@@ -93,11 +96,19 @@ addCase(sectionId: number, payload: AddCase): Promise<Case>;
 ```
 
 ```typescript
-updateCases(suiteId: number, payload: UpdateCases): Promise<void>;
+copyCasesToSection(sectionId: number, payload: CopyCasesToSection): Promise<void>;
 ```
 
 ```typescript
 updateCase(caseId: number, payload: UpdateCase): Promise<Case>;
+```
+
+```typescript
+updateCases(suiteId: number, payload: UpdateCases): Promise<void>;
+```
+
+```typescript
+moveCasesToSection(sectionId: number, payload: MoveCasesToSection): Promise<void>;
 ```
 
 ```typescript
@@ -283,7 +294,7 @@ addResult(testId: number, payload: AddResult): Promise<Result>;
 ```
 
 ```typescript
-addResultForCase(runId: number, caseId: number, payload: AddResultForCase): Promise<Result>;
+addResultForCase(runId: number, caseId: number, payload: AddResult): Promise<Result>;
 ```
 
 ```typescript
@@ -338,6 +349,10 @@ getSections(projectId: number, filters?: SectionFilters): Promise<Section[]>;
 
 ```typescript
 addSection(projectId: number, payload: AddSection): Promise<Section>;
+```
+
+```typescript
+moveSection(sectionId: number, payload: MoveSection): Promise<Section>;
 ```
 
 ```typescript
