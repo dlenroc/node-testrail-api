@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.1.1](https://www.github.com/dlenroc/node-testrail-api/compare/v1.1.0...v1.1.1) (2020-12-13)
+
+
+### Bug Fixes
+
+* extra `&` ([e423b19](https://www.github.com/dlenroc/node-testrail-api/commit/e423b19119b637626d96879bdc0248f1b6c7de9d))
+
 ## [1.1.0](https://www.github.com/dlenroc/node-testrail-api/compare/v1.0.1...v1.1.0) (2020-12-09)
 
 
