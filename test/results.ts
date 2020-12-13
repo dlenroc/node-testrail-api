@@ -15,7 +15,7 @@ describe('Results', () => {
   const addResultsForCases: AddResultsForCases = jsonFor('AddResultsForCases');
 
   it('get results', async () => {
-    on(`get_results/${testId}`)
+    on(`get_results/${testId}&limit=250&offset=0`)
       .reply(OK, results);
 
     await api
@@ -24,7 +24,7 @@ describe('Results', () => {
   });
 
   it('get filtered results', async () => {
-    on(`get_results/${testId}&${qs(resultFilters)}`)
+    on(`get_results/${testId}&${qs(resultFilters)}&limit=250&offset=0`)
       .reply(OK, results);
 
     await api
@@ -33,7 +33,7 @@ describe('Results', () => {
   });
 
   it('get results for case', async () => {
-    on(`get_results_for_case/${runId}/${caseId}`)
+    on(`get_results_for_case/${runId}/${caseId}&limit=250&offset=0`)
       .reply(OK, results);
 
     await api
@@ -42,7 +42,7 @@ describe('Results', () => {
   });
 
   it('get filtered results for case', async () => {
-    on(`get_results_for_case/${runId}/${caseId}&${qs(resultFilters)}`)
+    on(`get_results_for_case/${runId}/${caseId}&${qs(resultFilters)}&limit=250&offset=0`)
       .reply(OK, results);
 
     await api
@@ -51,7 +51,7 @@ describe('Results', () => {
   });
 
   it('get results for run', async () => {
-    on(`get_results_for_run/${runId}`)
+    on(`get_results_for_run/${runId}&limit=250&offset=0`)
       .reply(OK, results);
 
     await api
@@ -60,7 +60,7 @@ describe('Results', () => {
   });
 
   it('get filtered results for run', async () => {
-    on(`get_results_for_run/${runId}&${qs(resultForRunFilters)}`)
+    on(`get_results_for_run/${runId}&${qs(resultForRunFilters)}&limit=250&offset=0`)
       .reply(OK, results);
 
     await api

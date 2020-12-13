@@ -65,7 +65,7 @@ describe('Attachments', () => {
   });
 
   it('get attachments for case', async () => {
-    on(`get_attachments_for_case/${caseId}`)
+    on(`get_attachments_for_case/${caseId}&limit=250&offset=0`)
       .reply(OK, attachmentsForCase);
 
     await api
@@ -74,7 +74,7 @@ describe('Attachments', () => {
   });
 
   it('get attachments for plan', async () => {
-    on(`get_attachments_for_plan/${planId}`)
+    on(`get_attachments_for_plan/${planId}&limit=250&offset=0`)
       .reply(OK, attachmentsForPlan);
 
     await api
@@ -92,7 +92,7 @@ describe('Attachments', () => {
   });
 
   it('get attachments for run', async () => {
-    on(`get_attachments_for_run/${runId}`)
+    on(`get_attachments_for_run/${runId}&limit=250&offset=0`)
       .reply(OK, attachmentsForRun);
 
     await api

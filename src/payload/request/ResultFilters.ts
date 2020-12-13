@@ -1,6 +1,6 @@
-export interface ResultFilters extends Record<string, unknown> {
+import { Pagination } from './Pagination';
+
+export interface ResultFilters extends Pagination, Record<string, unknown> {
   defects?: string;
-  limit?: number;
-  offset?: number;
   status_id?: number | number[];
 }

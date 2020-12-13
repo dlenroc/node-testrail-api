@@ -21,7 +21,7 @@ describe('Sections', () => {
   });
 
   it('get sections', async () => {
-    on(`get_sections/${projectId}`)
+    on(`get_sections/${projectId}&limit=250&offset=0`)
       .reply(200, sections);
 
     await api
@@ -30,7 +30,7 @@ describe('Sections', () => {
   });
 
   it('get filtered sections', async () => {
-    on(`get_sections/${projectId}&${qs(sectionFilters)}`)
+    on(`get_sections/${projectId}&${qs(sectionFilters)}&limit=250&offset=0`)
       .reply(OK, sections);
 
     await api

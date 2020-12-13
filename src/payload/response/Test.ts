@@ -12,4 +12,6 @@ export interface Test extends Record<string, unknown> {
   template_id: number;
   title: string;
   type_id: number;
+  cases_display_order: number;
+  sections_display_order: number;
 }

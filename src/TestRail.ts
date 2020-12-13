@@ -40,20 +40,26 @@ class TestRail {
     return this._api('POST', `add_attachment_to_run/${runId}`, { form: { attachment: payload } });
   }
 
-  getAttachmentsForCase(caseId: number): Promise<Response.AttachmentForCase[]> {
-    return this._api('GET', `get_attachments_for_case/${caseId}`);
+  getAttachmentsForCase(caseId: number, filters?: Request.Pagination): Promise<Response.AttachmentForCase[]> {
+    return pagination('attachments', filters, (filters) => {
+      return this._api('GET', `get_attachments_for_case/${caseId}`, { query: filters });
+    });
   }
 
-  getAttachmentsForPlan(planId: number): Promise<Response.AttachmentForPlan[]> {
-    return this._api('GET', `get_attachments_for_plan/${planId}`);
+  getAttachmentsForPlan(planId: number, filters?: Request.Pagination): Promise<Response.AttachmentForPlan[]> {
+    return pagination('attachments', filters, (filters) => {
+      return this._api('GET', `get_attachments_for_plan/${planId}`, { query: filters });
+    });
   }
 
   getAttachmentsForPlanEntry(planId: number, entryId: string): Promise<Response.AttachmentForPlanEntry[]> {
     return this._api('GET', `get_attachments_for_plan_entry/${planId}/${entryId}`);
   }
 
-  getAttachmentsForRun(runId: number): Promise<Response.AttachmentForRun[]> {
-    return this._api('GET', `get_attachments_for_run/${runId}`);
+  getAttachmentsForRun(runId: number, filters?: Request.Pagination): Promise<Response.AttachmentForRun[]> {
+    return pagination('attachments', filters, (filters) => {
+      return this._api('GET', `get_attachments_for_run/${runId}`, { query: filters });
+    });
   }
 
   getAttachmentsForTest(testId: number): Promise<Response.AttachmentForTest[]> {
@@ -75,15 +81,23 @@ class TestRail {
   }
 
   getCases(projectId: number, filters?: Request.CaseFilters): Promise<Response.Case[]> {
-    return this._api('GET', `get_cases/${projectId}`, { query: filters });
+    return pagination('cases', filters, (filters) => {
+      return this._api('GET', `get_cases/${projectId}`, { query: filters });
+    });
   }
 
-  getHistoryForCase(caseId: number): Promise<Response.CaseHistory[]> {
-    return this._api('GET', `get_history_for_case/${caseId}`);
+  getHistoryForCase(caseId: number, filters?: Request.Pagination): Promise<Response.CaseHistory[]> {
+    return pagination('history', filters, (filters) => {
+      return this._api('GET', `get_history_for_case/${caseId}`, { query: filters });
+    });
   }
 
   addCase(sectionId: number, payload: Request.AddCase): Promise<Response.Case> {
     return this._api('POST', `add_case/${sectionId}`, { json: payload });
+  }
+
+  copyCasesToSection(sectionId: number, payload: Request.CopyCasesToSection): Promise<void> {
+    return this._api('POST', `copy_cases_to_section/${sectionId}`, { json: payload });
   }
 
   updateCase(caseId: number, payload: Request.UpdateCase): Promise<Response.Case> {
@@ -92,6 +106,10 @@ class TestRail {
 
   updateCases(suiteId: number, payload: Request.UpdateCases): Promise<void> {
     return this._api('POST', `update_cases/${suiteId}`, { json: payload });
+  }
+
+  moveCasesToSection(sectionId: number, payload: Request.MoveCasesToSection): Promise<void> {
+    return this._api('POST', `move_cases_to_section/${sectionId}`, { json: payload });
   }
 
   deleteCase(caseId: number): Promise<void> {
@@ -155,7 +173,9 @@ class TestRail {
   }
 
   getMilestones(projectId: number, filters?: Request.MilestoneFilters): Promise<Response.Milestone[]> {
-    return this._api('GET', `get_milestones/${projectId}`, { query: filters });
+    return pagination('milestones', filters, (filters) => {
+      return this._api('GET', `get_milestones/${projectId}`, { query: filters });
+    });
   }
 
   addMilestone(projectId: number, payload: Request.AddMilestone): Promise<Response.Milestone> {
@@ -177,7 +197,9 @@ class TestRail {
   }
 
   getPlans(projectId: number, filters?: Request.PlanFilters): Promise<Response.PlanItem[]> {
-    return this._api('GET', `get_plans/${projectId}`, { query: filters });
+    return pagination('plans', filters, (filters) => {
+      return this._api('GET', `get_plans/${projectId}`, { query: filters });
+    });
   }
 
   addPlan(projectId: number, payload: Request.AddPlan): Promise<Response.Plan> {
@@ -233,7 +255,9 @@ class TestRail {
   }
 
   getProjects(filters?: Request.ProjectFilters): Promise<Response.Project[]> {
-    return this._api('GET', 'get_projects', { query: filters });
+    return pagination('projects', filters, (filters) => {
+      return this._api('GET', 'get_projects', { query: filters });
+    });
   }
 
   addProject(payload: Request.AddProject): Promise<Response.Project> {
@@ -261,15 +285,21 @@ class TestRail {
   // Results
 
   getResults(testId: number, filters?: Request.ResultFilters): Promise<Response.Result[]> {
-    return this._api('GET', `get_results/${testId}`, { query: filters });
+    return pagination('results', filters, (filters) => {
+      return this._api('GET', `get_results/${testId}`, { query: filters });
+    });
   }
 
   getResultsForCase(runId: number, caseId: number, filters?: Request.ResultFilters): Promise<Response.Result[]> {
-    return this._api('GET', `get_results_for_case/${runId}/${caseId}`, { query: filters });
+    return pagination('results', filters, (filters) => {
+      return this._api('GET', `get_results_for_case/${runId}/${caseId}`, { query: filters });
+    });
   }
 
   getResultsForRun(runId: number, filters?: Request.ResultForRunFilters): Promise<Response.Result[]> {
-    return this._api('GET', `get_results_for_run/${runId}`, { query: filters });
+    return pagination('results', filters, (filters) => {
+      return this._api('GET', `get_results_for_run/${runId}`, { query: filters });
+    });
   }
 
   addResult(testId: number, payload: Request.AddResult): Promise<Response.Result> {
@@ -301,7 +331,9 @@ class TestRail {
   }
 
   getRuns(projectId: number, filters?: Request.RunFilters): Promise<Response.Run[]> {
-    return this._api('GET', `get_runs/${projectId}`, { query: filters });
+    return pagination('runs', filters, (filters) => {
+      return this._api('GET', `get_runs/${projectId}`, { query: filters });
+    });
   }
 
   addRun(projectId: number, payload: Request.AddRun): Promise<Response.Run> {
@@ -327,11 +359,17 @@ class TestRail {
   }
 
   getSections(projectId: number, filters?: Request.SectionFilters): Promise<Response.Section[]> {
-    return this._api('GET', `get_sections/${projectId}`, { query: filters });
+    return pagination('sections', filters, (filters) => {
+      return this._api('GET', `get_sections/${projectId}`, { query: filters });
+    });
   }
 
   addSection(projectId: number, payload: Request.AddSection): Promise<Response.Section> {
     return this._api('POST', `add_section/${projectId}`, { json: payload });
+  }
+
+  moveSection(sectionId: number, payload: Request.MoveSection): Promise<Response.Section> {
+    return this._api('POST', `move_section/${sectionId}`, { json: payload });
   }
 
   updateSection(sectionId: number, payload: Request.UpdateSection): Promise<Response.Section> {
@@ -383,7 +421,9 @@ class TestRail {
   }
 
   getTests(runId: number, filters?: Request.TestFilters): Promise<Response.Test[]> {
-    return this._api('GET', `get_tests/${runId}`, { query: filters });
+    return pagination('tests', filters, (filters) => {
+      return this._api('GET', `get_tests/${runId}`, { query: filters });
+    });
   }
 
   // Users
@@ -464,6 +504,37 @@ class TestRail {
       }
     }
   }
+}
+
+async function pagination<T>(key: string, filters: any, callback: (filters: any) => any): Promise<T[]> {
+  if (filters && (filters.hasOwnProperty('limit') || filters.hasOwnProperty('offset'))) {
+    const result = await callback(filters);
+
+    return Array.isArray(result)
+      ? result
+      : result[key] || [];
+  }
+
+  let page = 0;
+  let offset = 0;
+  const limit = 250;
+  const results = [];
+  const ids = new Set();
+
+  while (true) {
+    offset = page++ * limit;
+
+    let items = await pagination<T>(key, { ...filters, limit, offset }, callback);
+    items = items.filter((item: any) => (ids.has(item.id) ? false : ids.add(item.id)));
+
+    results.push(...items);
+
+    if (items.length != limit) {
+      break;
+    }
+  }
+
+  return results;
 }
 
 function appendToFormData(formData: FormData, name: string, value: string | Blob, filename?: string) {
