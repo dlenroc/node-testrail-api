@@ -20,7 +20,7 @@ describe('Shared Steps', () => {
   });
 
   it('get shared steps', async () => {
-    on(`get_shared_steps/${projectId}`)
+    on(`get_shared_steps/${projectId}&limit=250&offset=0`)
       .reply(OK, sharedSteps);
 
     await api
