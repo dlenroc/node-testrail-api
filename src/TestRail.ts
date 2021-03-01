@@ -352,6 +352,28 @@ class TestRail {
     return this._api('POST', `delete_run/${runId}`);
   }
 
+  // Shared steps
+
+  getSharedSteps(projectId: number): Promise<Response.SharedStep[]> {
+    return this._api('GET', `get_shared_steps/${projectId}`);
+  }
+
+  getSharedStep(stepId: number): Promise<Response.SharedStep> {
+    return this._api('GET', `get_shared_step/${stepId}`);
+  }
+
+  addSharedStep(projectId: number, payload: Request.AddSharedStep): Promise<Response.SharedStep> {
+    return this._api('POST', `add_shared_step/${projectId}`, { json: payload });
+  }
+
+  updateSharedStep(stepId: number, payload: Request.UpdateSharedStep): Promise<Response.SharedStep> {
+    return this._api('POST', `update_shared_step/${stepId}`, { json: payload });
+  }
+
+  deleteSharedStep(stepId: number): Promise<void> {
+    return this._api('POST', `delete_shared_step/${stepId}`);
+  }
+
   // Sections
 
   getSection(sectionId: number): Promise<Response.Section> {
