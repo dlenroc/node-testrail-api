@@ -27,6 +27,7 @@ export * from './Result';
 export * from './ResultField';
 export * from './Run';
 export * from './Section';
+export * from './SharedStep';
 export * from './Status';
 export * from './Suite';
 export * from './Template';
