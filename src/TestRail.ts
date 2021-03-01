@@ -354,8 +354,10 @@ class TestRail {
 
   // Shared steps
 
-  getSharedSteps(projectId: number): Promise<Response.SharedStep[]> {
-    return this._api('GET', `get_shared_steps/${projectId}`);
+  getSharedSteps(projectId: number, filters?: Request.SharedStepFilters): Promise<Response.SharedStep[]> {
+    return pagination('shared_steps', filters, (filters) => {
+      return this._api('GET', `get_shared_steps/${projectId}`, { query: filters });
+    });
   }
 
   getSharedStep(stepId: number): Promise<Response.SharedStep> {
@@ -370,8 +372,8 @@ class TestRail {
     return this._api('POST', `update_shared_step/${stepId}`, { json: payload });
   }
 
-  deleteSharedStep(stepId: number): Promise<void> {
-    return this._api('POST', `delete_shared_step/${stepId}`);
+  deleteSharedStep(stepId: number, payload?: Request.DeleteSharedStep): Promise<void> {
+    return this._api('POST', `delete_shared_step/${stepId}`, { json: payload });
   }
 
   // Sections

@@ -5,6 +5,8 @@ export interface SharedStep extends Record<string, unknown> {
   custom_steps_separated: {
     content?: string;
     expected?: string;
+    additional_info?: string;
+    refs?: string;
   }[];
   id: number;
   project_id: number;
