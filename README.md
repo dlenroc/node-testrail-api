@@ -363,6 +363,28 @@ updateSection(sectionId: number, payload: UpdateSection): Promise<Section>;
 deleteSection(sectionId: number): Promise<void>;
 ```
 
+#### Shared Steps
+
+```typescript
+getSharedStep(stepId: number): Promise<Response.SharedStep>;
+```
+
+```typescript
+getSharedSteps(projectId: number, filters?: Request.SharedStepFilters): Promise<Response.SharedStep[]>;
+```
+
+```typescript
+addSharedStep(projectId: number, payload: Request.AddSharedStep): Promise<Response.SharedStep>;
+```
+
+```typescript
+updateSharedStep(stepId: number, payload: Request.UpdateSharedStep): Promise<Response.SharedStep>;
+```
+
+```typescript
+deleteSharedStep(stepId: number, payload?: Request.DeleteSharedStep): Promise<void>;
+```
+
 #### Statuses
 
 ```typescript

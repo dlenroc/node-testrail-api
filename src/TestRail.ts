@@ -352,30 +352,6 @@ class TestRail {
     return this._api('POST', `delete_run/${runId}`);
   }
 
-  // Shared steps
-
-  getSharedSteps(projectId: number, filters?: Request.SharedStepFilters): Promise<Response.SharedStep[]> {
-    return pagination('shared_steps', filters, (filters) => {
-      return this._api('GET', `get_shared_steps/${projectId}`, { query: filters });
-    });
-  }
-
-  getSharedStep(stepId: number): Promise<Response.SharedStep> {
-    return this._api('GET', `get_shared_step/${stepId}`);
-  }
-
-  addSharedStep(projectId: number, payload: Request.AddSharedStep): Promise<Response.SharedStep> {
-    return this._api('POST', `add_shared_step/${projectId}`, { json: payload });
-  }
-
-  updateSharedStep(stepId: number, payload: Request.UpdateSharedStep): Promise<Response.SharedStep> {
-    return this._api('POST', `update_shared_step/${stepId}`, { json: payload });
-  }
-
-  deleteSharedStep(stepId: number, payload?: Request.DeleteSharedStep): Promise<void> {
-    return this._api('POST', `delete_shared_step/${stepId}`, { json: payload });
-  }
-
   // Sections
 
   getSection(sectionId: number): Promise<Response.Section> {
@@ -402,6 +378,30 @@ class TestRail {
 
   deleteSection(sectionId: number): Promise<void> {
     return this._api('POST', `delete_section/${sectionId}`);
+  }
+
+  // Shared steps
+
+  getSharedStep(stepId: number): Promise<Response.SharedStep> {
+    return this._api('GET', `get_shared_step/${stepId}`);
+  }
+
+  getSharedSteps(projectId: number, filters?: Request.SharedStepFilters): Promise<Response.SharedStep[]> {
+    return pagination('shared_steps', filters, (filters) => {
+      return this._api('GET', `get_shared_steps/${projectId}`, { query: filters });
+    });
+  }
+
+  addSharedStep(projectId: number, payload: Request.AddSharedStep): Promise<Response.SharedStep> {
+    return this._api('POST', `add_shared_step/${projectId}`, { json: payload });
+  }
+
+  updateSharedStep(stepId: number, payload: Request.UpdateSharedStep): Promise<Response.SharedStep> {
+    return this._api('POST', `update_shared_step/${stepId}`, { json: payload });
+  }
+
+  deleteSharedStep(stepId: number, payload?: Request.DeleteSharedStep): Promise<void> {
+    return this._api('POST', `delete_shared_step/${stepId}`, { json: payload });
   }
 
   // Statuses
