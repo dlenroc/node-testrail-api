@@ -366,23 +366,23 @@ deleteSection(sectionId: number): Promise<void>;
 #### Shared Steps
 
 ```typescript
-getSharedStep(stepId: number): Promise<Response.SharedStep>;
+getSharedStep(stepId: number): Promise<SharedStep>;
 ```
 
 ```typescript
-getSharedSteps(projectId: number, filters?: Request.SharedStepFilters): Promise<Response.SharedStep[]>;
+getSharedSteps(projectId: number, filters?: SharedStepFilters): Promise<SharedStep[]>;
 ```
 
 ```typescript
-addSharedStep(projectId: number, payload: Request.AddSharedStep): Promise<Response.SharedStep>;
+addSharedStep(projectId: number, payload: AddSharedStep): Promise<SharedStep>;
 ```
 
 ```typescript
-updateSharedStep(stepId: number, payload: Request.UpdateSharedStep): Promise<Response.SharedStep>;
+updateSharedStep(stepId: number, payload: UpdateSharedStep): Promise<SharedStep>;
 ```
 
 ```typescript
-deleteSharedStep(stepId: number, payload?: Request.DeleteSharedStep): Promise<void>;
+deleteSharedStep(stepId: number, payload?: DeleteSharedStep): Promise<void>;
 ```
 
 #### Statuses
