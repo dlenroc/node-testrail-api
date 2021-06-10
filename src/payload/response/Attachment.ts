@@ -11,7 +11,7 @@ export interface Attachment extends Record<string, unknown> {
   is_image: boolean;
   legacy_id: number;
   name: string;
-  user_id: number;
-  size: number;
   project_id: number;
+  size: number;
+  user_id: number;
 }
