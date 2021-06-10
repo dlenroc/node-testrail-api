@@ -1,6 +1,7 @@
 import { Attachment } from './Attachment';
 
 export interface AttachmentForPlanEntry extends Attachment {
-  entity_attachments_id: number;
-  icon_name: string;
+  entity_type: 'entry';
+  plan_entry_id: string;
+  plan_id: number;
 }
