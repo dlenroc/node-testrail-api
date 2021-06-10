@@ -1,6 +1,5 @@
 import { Attachment } from './Attachment';
 
 export interface AttachmentForTest extends Attachment {
-  case_id: number;
-  result_id: number;
+  entity_type: 'test_change';
 }
