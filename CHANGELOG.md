@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.4.1](https://www.github.com/dlenroc/node-testrail-api/compare/v1.4.0...v1.4.1) (2021-07-10)
+
+
+### Bug Fixes
+
+* `attachment_id` type ([faa9f1c](https://www.github.com/dlenroc/node-testrail-api/commit/faa9f1c12a0b5a99707e3b79621c0aaaeaa4cb73))
+
 ## [1.4.0](https://www.github.com/dlenroc/node-testrail-api/compare/v1.3.0...v1.4.0) (2021-06-10)
 
 
