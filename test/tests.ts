@@ -1,10 +1,10 @@
-import { random } from 'faker';
+import { datatype } from 'faker';
 import { Test, TestFilters } from '..';
 import { api, jsonFor, OK, on, qs } from './_helper';
 
 describe('Tests', () => {
-  const testId = random.number();
-  const runId = random.number();
+  const testId = datatype.number();
+  const runId = datatype.number();
   const test: Test = jsonFor('Test');
   const tests: Test[] = [test];
   const testsFilters: TestFilters = jsonFor('TestFilters');

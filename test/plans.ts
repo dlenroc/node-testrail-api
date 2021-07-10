@@ -1,12 +1,12 @@
-import { random } from 'faker';
+import { datatype } from 'faker';
 import { AddPlan, AddPlanEntry, AddRunToPlanEntry, Plan, PlanEntry, PlanFilters, PlanItem, UpdatePlan, UpdatePlanEntry, UpdateRunInPlanEntry } from '..';
 import { api, jsonFor, OK, on, qs } from './_helper';
 
 describe('Plans', () => {
-  const planId = random.number();
-  const projectId = random.number();
-  const entryId = random.uuid();
-  const runId = random.number();
+  const planId = datatype.number();
+  const projectId = datatype.number();
+  const entryId = datatype.uuid();
+  const runId = datatype.number();
   const plan: Plan = jsonFor('Plan');
   const planItem: PlanItem = jsonFor('PlanItem');
   const plans = [planItem];

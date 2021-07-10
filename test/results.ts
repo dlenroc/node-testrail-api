@@ -1,11 +1,11 @@
-import { random } from 'faker';
+import { datatype } from 'faker';
 import { AddResult, AddResults, AddResultsForCases, Result, ResultFilters, ResultForRunFilters } from '..';
 import { api, jsonFor, OK, on, qs } from './_helper';
 
 describe('Results', () => {
-  const testId = random.number();
-  const runId = random.number();
-  const caseId = random.number();
+  const testId = datatype.number();
+  const runId = datatype.number();
+  const caseId = datatype.number();
   const result: Result = jsonFor('Result');
   const results = [result];
   const resultFilters: ResultFilters = jsonFor('ResultFilters');

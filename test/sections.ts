@@ -1,10 +1,10 @@
-import { random } from 'faker';
+import { datatype } from 'faker';
 import { AddSection, Section, SectionFilters, UpdateSection } from '..';
 import { api, jsonFor, OK, on, qs } from './_helper';
 
 describe('Sections', () => {
-  const sectionId = random.number();
-  const projectId = random.number();
+  const sectionId = datatype.number();
+  const projectId = datatype.number();
   const section: Section = jsonFor('Section');
   const sections = [section];
   const sectionFilters: SectionFilters = jsonFor('SectionFilters');

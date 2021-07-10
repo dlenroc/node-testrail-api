@@ -1,9 +1,9 @@
-import { random } from 'faker';
+import { datatype } from 'faker';
 import { AddProject, Project, ProjectFilters, UpdateProject } from '..';
 import { api, jsonFor, OK, on, qs } from './_helper';
 
 describe('Projects', () => {
-  const projectId = random.number();
+  const projectId = datatype.number();
   const project: Project = jsonFor('Project');
   const projects = [project];
   const projectFilters: ProjectFilters = jsonFor('ProjectFilters');

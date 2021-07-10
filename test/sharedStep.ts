@@ -1,10 +1,10 @@
-import { random } from 'faker';
+import { datatype } from 'faker';
 import { AddSharedStep, SharedStep, UpdateSharedStep } from '..';
 import { api, jsonFor, OK, on } from './_helper';
 
 describe('Shared Steps', () => {
-  const sharedStepId = random.number();
-  const projectId = random.number();
+  const sharedStepId = datatype.number();
+  const projectId = datatype.number();
   const sharedStep: SharedStep = jsonFor('SharedStep');
   const sharedSteps = [sharedStep];
   const addSharedStepPayload: AddSharedStep = jsonFor('AddSharedStep');

@@ -1,10 +1,10 @@
-import { random } from 'faker';
+import { datatype } from 'faker';
 import { AddRun, Run, RunFilters, UpdateRun } from '..';
 import { api, jsonFor, OK, on, qs } from './_helper';
 
 describe('Runs', () => {
-  const runId = random.number();
-  const projectId = random.number();
+  const runId = datatype.number();
+  const projectId = datatype.number();
   const run: Run = jsonFor('Run');
   const runs = [run];
   const runFilters: RunFilters = jsonFor('RunFilters');

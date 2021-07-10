@@ -1,15 +1,15 @@
-import { random } from 'faker';
+import { datatype, random } from 'faker';
 import { AddAttachment, Attachment, AttachmentForCase, AttachmentForPlan, AttachmentForPlanEntry, AttachmentForRun, AttachmentForTest, CreatedAttachment } from '..';
 import { api, jsonFor, OK, on } from './_helper';
 
 describe('Attachments', () => {
-  const planId = random.number();
-  const entryId = random.uuid();
-  const resultId = random.number();
-  const runId = random.number();
-  const caseId = random.number();
-  const testId = random.number();
-  const attachmentId = random.number();
+  const planId = datatype.number();
+  const entryId = datatype.uuid();
+  const resultId = datatype.number();
+  const runId = datatype.number();
+  const caseId = datatype.number();
+  const testId = datatype.number();
+  const attachmentId = datatype.uuid()
   const createdAttachment: CreatedAttachment = jsonFor('CreatedAttachment');
   const attachmentForCase: AttachmentForCase = jsonFor('AttachmentForCase');
   const attachmentsForCase = [attachmentForCase];

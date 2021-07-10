@@ -1,3 +1,3 @@
 export interface CreatedAttachment extends Record<string, unknown> {
-  attachment_id: number;
+  attachment_id: string;
 }

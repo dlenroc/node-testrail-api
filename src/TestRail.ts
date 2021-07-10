@@ -66,11 +66,11 @@ class TestRail {
     return this._api('GET', `get_attachments_for_test/${testId}`);
   }
 
-  getAttachment(attachmentId: number): Promise<Blob> {
+  getAttachment(attachmentId: string): Promise<Blob> {
     return this._api('GET', `get_attachment/${attachmentId}`);
   }
 
-  deleteAttachment(attachmentId: number): Promise<void> {
+  deleteAttachment(attachmentId: string): Promise<void> {
     return this._api('POST', `delete_attachment/${attachmentId}`);
   }
 

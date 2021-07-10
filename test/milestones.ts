@@ -1,10 +1,10 @@
-import { random } from 'faker';
+import { datatype } from 'faker';
 import { AddMilestone, Milestone, MilestoneFilters, UpdateMilestone } from '..';
 import { api, jsonFor, OK, on, qs } from './_helper';
 
 describe('Milestones', () => {
-  const milestoneId = random.number();
-  const projectId = random.number();
+  const milestoneId = datatype.number();
+  const projectId = datatype.number();
   const milestone: Milestone = jsonFor('Milestone');
   const milestones = [milestone];
   const milestoneFilters: MilestoneFilters = jsonFor('MilestoneFilters');
