@@ -1,10 +1,10 @@
-import { random } from 'faker';
+import { datatype } from 'faker';
 import { AddSuite, Suite, UpdateSuite } from '..';
 import { api, jsonFor, OK, on } from './_helper';
 
 describe('Suites', () => {
-  const suiteId = random.number();
-  const projectId = random.number();
+  const suiteId = datatype.number();
+  const projectId = datatype.number();
   const suite: Suite = jsonFor('Suite');
   const suites = [suite];
   const addSuitePayload: AddSuite = jsonFor('AddSuite');

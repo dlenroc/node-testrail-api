@@ -1,11 +1,11 @@
-import { random } from 'faker';
+import { datatype } from 'faker';
 import { AddConfig, AddConfigGroup, Config, ConfigItem, UpdateConfig, UpdateConfigGroup } from '..';
 import { api, jsonFor, OK, on } from './_helper';
 
 describe('Configurations', () => {
-  const projectId = random.number();
-  const configGroupId = random.number();
-  const configId = random.number();
+  const projectId = datatype.number();
+  const configGroupId = datatype.number();
+  const configId = datatype.number();
   const config: Config = jsonFor('Config');
   const configItem: ConfigItem = jsonFor('ConfigItem');
   const configs = [config];

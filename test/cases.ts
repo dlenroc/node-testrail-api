@@ -1,12 +1,12 @@
-import { random } from 'faker';
+import { datatype } from 'faker';
 import { AddCase, Case, CaseFilters, CaseHistory, DeleteCases, UpdateCase, UpdateCases } from '..';
 import { api, jsonFor, OK, on, qs } from './_helper';
 
 describe('Cases', () => {
-  const caseId = random.number();
-  const projectId = random.number();
-  const sectionId = random.number();
-  const suiteId = random.number();
+  const caseId = datatype.number();
+  const projectId = datatype.number();
+  const sectionId = datatype.number();
+  const suiteId = datatype.number();
   const testCase: Case = jsonFor('Case');
   const testCases = [testCase];
   const caseFilters: CaseFilters = jsonFor('CaseFilters');

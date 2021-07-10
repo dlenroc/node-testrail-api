@@ -1,9 +1,9 @@
-import { random } from 'faker';
+import { datatype } from 'faker';
 import { Template } from '..';
 import { api, jsonFor, OK, on } from './_helper';
 
 describe('Templates', () => {
-  const templateId = random.number();
+  const templateId = datatype.number();
   const template: Template = jsonFor('Template');
   const templates = [template];
 

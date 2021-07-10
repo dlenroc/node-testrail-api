@@ -1,10 +1,10 @@
-import { random } from 'faker';
+import { datatype } from 'faker';
 import { Report, ReportUrls } from '..';
 import { api, jsonFor, OK, on } from './_helper';
 
 describe('Reports', () => {
-  const projectId = random.number();
-  const reportTemplateId = random.number();
+  const projectId = datatype.number();
+  const reportTemplateId = datatype.number();
   const report: Report = jsonFor('Report');
   const reports = [report];
   const reportUrls: ReportUrls = jsonFor('ReportUrls');
