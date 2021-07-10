@@ -1,4 +1,4 @@
-# @dlenroc/testrail · [![NPM Version](https://img.shields.io/npm/v/@dlenroc/testrail)](https://www.npmjs.com/package/@dlenroc/testrail) [![Supported Node.js version](https://img.shields.io/node/v/@dlenroc/testrail)](https://github.com/dlenroc/node-testrail-api/actions?query=workflow%3A"Node.js+CI") [![Node.js CI](https://github.com/dlenroc/node-testrail-api/workflows/Node.js%20CI/badge.svg)](https://github.com/dlenroc/node-testrail-api/actions?query=workflow%3A"Node.js+CI")
+# @dlenroc/testrail · [![NPM Version](https://img.shields.io/npm/v/@dlenroc/testrail)](https://www.npmjs.com/package/@dlenroc/testrail) [![Supported Node.js version](https://img.shields.io/node/v/@dlenroc/testrail)](https://github.com/dlenroc/node-testrail-api/actions?query=workflow%3A"Node.js+CI")
 
 ## Installation
 
