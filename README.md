@@ -1,14 +1,12 @@
-[![Node.js CI](https://github.com/dlenroc/node-testrail-api/workflows/Node.js%20CI/badge.svg)](https://github.com/dlenroc/node-testrail-api/actions?query=workflow%3A"Node.js+CI")
-[![Supported Node.js version](https://img.shields.io/node/v/@dlenroc/testrail)](https://github.com/dlenroc/node-testrail-api/actions?query=workflow%3A"Node.js+CI")
-[![NPM Version](https://img.shields.io/npm/v/@dlenroc/testrail?cacheSeconds=86400)](https://www.npmjs.com/package/@dlenroc/testrail)
+# @dlenroc/testrail · [![NPM Version](https://img.shields.io/npm/v/@dlenroc/testrail)](https://www.npmjs.com/package/@dlenroc/testrail) [![Supported Node.js version](https://img.shields.io/node/v/@dlenroc/testrail)](https://github.com/dlenroc/node-testrail-api/actions?query=workflow%3A"Node.js+CI")
 
-#### Installation
+## Installation
 
 ```bash
 npm install @dlenroc/testrail --save
 ```
 
-#### Example
+## Example
 
 ```typescript
 // import TestRail from '@dlenroc/testrail';
@@ -27,422 +25,422 @@ console.log(projects);
 
 ## APIs
 
-#### Attachments
+### Attachments
 
 ```typescript
-addAttachmentToCase(caseId: number, payload: AddAttachment): Promise<CreatedAttachment>;
+addAttachmentToCase(caseId: number, payload: AddAttachment): Promise<CreatedAttachment>
 ```
 
 ```typescript
-addAttachmentToPlan(planId: number, payload: AddAttachment): Promise<CreatedAttachment>;
+addAttachmentToPlan(planId: number, payload: AddAttachment): Promise<CreatedAttachment>
 ```
 
 ```typescript
-addAttachmentToPlanEntry(planId: number, entryId: string, payload: AddAttachment): Promise<CreatedAttachment>;
+addAttachmentToPlanEntry(planId: number, entryId: string, payload: AddAttachment): Promise<CreatedAttachment>
 ```
 
 ```typescript
-addAttachmentToResult(resultId: number, payload: AddAttachment): Promise<CreatedAttachment>;
+addAttachmentToResult(resultId: number, payload: AddAttachment): Promise<CreatedAttachment>
 ```
 
 ```typescript
-addAttachmentToRun(runId: number, payload: AddAttachment): Promise<CreatedAttachment>;
+addAttachmentToRun(runId: number, payload: AddAttachment): Promise<CreatedAttachment>
 ```
 
 ```typescript
-getAttachmentsForCase(caseId: number, filters?: Pagination): Promise<AttachmentForCase[]>;
+getAttachmentsForCase(caseId: number, filters?: Pagination): Promise<AttachmentForCase[]>
 ```
 
 ```typescript
-getAttachmentsForPlan(planId: number, filters?: Pagination): Promise<AttachmentForPlan[]>;
+getAttachmentsForPlan(planId: number, filters?: Pagination): Promise<AttachmentForPlan[]>
 ```
 
 ```typescript
-getAttachmentsForPlanEntry(planId: number, entryId: string): Promise<AttachmentForPlanEntry[]>;
+getAttachmentsForPlanEntry(planId: number, entryId: string): Promise<AttachmentForPlanEntry[]>
 ```
 
 ```typescript
-getAttachmentsForRun(runId: number, filters?: Pagination): Promise<AttachmentForRun[]>;
+getAttachmentsForRun(runId: number, filters?: Pagination): Promise<AttachmentForRun[]>
 ```
 
 ```typescript
-getAttachmentsForTest(testId: number): Promise<AttachmentForTest[]>;
+getAttachmentsForTest(testId: number): Promise<AttachmentForTest[]>
 ```
 
 ```typescript
-getAttachment(attachmentId: number): Promise<Blob>;
+getAttachment(attachmentId: string): Promise<Blob>
 ```
 
 ```typescript
-deleteAttachment(attachmentId: number): Promise<void>;
+deleteAttachment(attachmentId: string): Promise<void>
 ```
 
-#### Cases
+### Cases
 
 ```typescript
-getCase(caseId: number): Promise<Case>;
+getCase(caseId: number): Promise<Case>
 ```
 
 ```typescript
-getCases(projectId: number, filters?: CaseFilters): Promise<Case[]>;
+getCases(projectId: number, filters?: CaseFilters): Promise<Case[]>
 ```
 
 ```typescript
-getHistoryForCase(caseId: number, filters?: Pagination): Promise<CaseHistory[]>;
+getHistoryForCase(caseId: number, filters?: Pagination): Promise<CaseHistory[]>
 ```
 
 ```typescript
-addCase(sectionId: number, payload: AddCase): Promise<Case>;
+addCase(sectionId: number, payload: AddCase): Promise<Case>
 ```
 
 ```typescript
-copyCasesToSection(sectionId: number, payload: CopyCasesToSection): Promise<void>;
+copyCasesToSection(sectionId: number, payload: CopyCasesToSection): Promise<void>
 ```
 
 ```typescript
-updateCase(caseId: number, payload: UpdateCase): Promise<Case>;
+updateCase(caseId: number, payload: UpdateCase): Promise<Case>
 ```
 
 ```typescript
-updateCases(suiteId: number, payload: UpdateCases): Promise<void>;
+updateCases(suiteId: number, payload: UpdateCases): Promise<void>
 ```
 
 ```typescript
-moveCasesToSection(sectionId: number, payload: MoveCasesToSection): Promise<void>;
+moveCasesToSection(sectionId: number, payload: MoveCasesToSection): Promise<void>
 ```
 
 ```typescript
-deleteCase(caseId: number): Promise<void>;
+deleteCase(caseId: number): Promise<void>
 ```
 
 ```typescript
-deleteCases(suiteId: number, payload: DeleteCases): Promise<void>;
+deleteCases(suiteId: number, payload: DeleteCases): Promise<void>
 ```
 
-#### Case Fields
+### Case Fields
 
 ```typescript
-getCaseFields(): Promise<CaseField[]>;
+getCaseFields(): Promise<CaseField[]>
 ```
 
 ```typescript
-addCaseField(payload: AddCaseField): Promise<CaseField>;
+addCaseField(payload: AddCaseField): Promise<CaseField>
 ```
 
-#### Case Types
+### Case Types
 
 ```typescript
-getCaseTypes(): Promise<CaseType[]>;
+getCaseTypes(): Promise<CaseType[]>
 ```
 
-#### Configurations
+### Configurations
 
 ```typescript
-getConfigs(projectId: number): Promise<Config[]>;
+getConfigs(projectId: number): Promise<Config[]>
 ```
 
 ```typescript
-addConfigGroup(projectId: number, payload: AddConfigGroup): Promise<Config>;
+addConfigGroup(projectId: number, payload: AddConfigGroup): Promise<Config>
 ```
 
 ```typescript
-addConfig(configGroupId: number, payload: AddConfig): Promise<ConfigItem>;
+addConfig(configGroupId: number, payload: AddConfig): Promise<ConfigItem>
 ```
 
 ```typescript
-updateConfigGroup(configGroupId: number, payload: UpdateConfigGroup): Promise<Config>;
+updateConfigGroup(configGroupId: number, payload: UpdateConfigGroup): Promise<Config>
 ```
 
 ```typescript
-updateConfig(configId: number, payload: UpdateConfig): Promise<ConfigItem>;
+updateConfig(configId: number, payload: UpdateConfig): Promise<ConfigItem>
 ```
 
 ```typescript
-deleteConfigGroup(configGroupId: number): Promise<void>;
+deleteConfigGroup(configGroupId: number): Promise<void>
 ```
 
 ```typescript
-deleteConfig(configId: number): Promise<void>;
+deleteConfig(configId: number): Promise<void>
 ```
 
-#### Milestones
+### Milestones
 
 ```typescript
-getMilestone(milestoneId: number): Promise<Milestone>;
+getMilestone(milestoneId: number): Promise<Milestone>
 ```
 
 ```typescript
-getMilestones(projectId: number, filters?: MilestoneFilters): Promise<Milestone[]>;
+getMilestones(projectId: number, filters?: MilestoneFilters): Promise<Milestone[]>
 ```
 
 ```typescript
-addMilestone(projectId: number, payload: AddMilestone): Promise<Milestone>;
+addMilestone(projectId: number, payload: AddMilestone): Promise<Milestone>
 ```
 
 ```typescript
-updateMilestone(milestoneId: number, payload: UpdateMilestone): Promise<Milestone>;
+updateMilestone(milestoneId: number, payload: UpdateMilestone): Promise<Milestone>
 ```
 
 ```typescript
-deleteMilestone(milestoneId: number): Promise<void>;
+deleteMilestone(milestoneId: number): Promise<void>
 ```
 
-#### Plans
+### Plans
 
 ```typescript
-getPlan(planId: number): Promise<Plan>;
+getPlan(planId: number): Promise<Plan>
 ```
 
 ```typescript
-getPlans(projectId: number, filters?: PlanFilters): Promise<PlanItem[]>;
+getPlans(projectId: number, filters?: PlanFilters): Promise<PlanItem[]>
 ```
 
 ```typescript
-addPlan(projectId: number, payload: AddPlan): Promise<Plan>;
+addPlan(projectId: number, payload: AddPlan): Promise<Plan>
 ```
 
 ```typescript
-addPlanEntry(planId: number, payload: AddPlanEntry): Promise<PlanEntry>;
+addPlanEntry(planId: number, payload: AddPlanEntry): Promise<PlanEntry>
 ```
 
 ```typescript
-addRunToPlanEntry(planId: number, entryId: string, payload: AddRunToPlanEntry): Promise<PlanEntry>;
+addRunToPlanEntry(planId: number, entryId: string, payload: AddRunToPlanEntry): Promise<PlanEntry>
 ```
 
 ```typescript
-updatePlan(planId: number, payload: UpdatePlan): Promise<Plan>;
+updatePlan(planId: number, payload: UpdatePlan): Promise<Plan>
 ```
 
 ```typescript
-updatePlanEntry(planId: number, entryId: string, payload: UpdatePlanEntry): Promise<PlanEntry>;
+updatePlanEntry(planId: number, entryId: string, payload: UpdatePlanEntry): Promise<PlanEntry>
 ```
 
 ```typescript
-updateRunInPlanEntry(planId: number, runId: number, payload: UpdateRunInPlanEntry): Promise<PlanEntry>;
+updateRunInPlanEntry(planId: number, runId: number, payload: UpdateRunInPlanEntry): Promise<PlanEntry>
 ```
 
 ```typescript
-closePlan(planId: number): Promise<Plan>;
+closePlan(planId: number): Promise<Plan>
 ```
 
 ```typescript
-deletePlan(planId: number): Promise<void>;
+deletePlan(planId: number): Promise<void>
 ```
 
 ```typescript
-deletePlanEntry(planId: number, entryId: string): Promise<void>;
+deletePlanEntry(planId: number, entryId: string): Promise<void>
 ```
 
 ```typescript
-deleteRunFromPlanEntry(runId: number): Promise<void>;
+deleteRunFromPlanEntry(runId: number): Promise<void>
 ```
 
-#### Priorities
+### Priorities
 
 ```typescript
-getPriorities(): Promise<Priority[]>;
+getPriorities(): Promise<Priority[]>
 ```
 
-#### Projects
+### Projects
 
 ```typescript
-getProject(projectId: number): Promise<Project>;
+getProject(projectId: number): Promise<Project>
 ```
 
 ```typescript
-getProjects(filters?: ProjectFilters): Promise<Project[]>;
+getProjects(filters?: ProjectFilters): Promise<Project[]>
 ```
 
 ```typescript
-addProject(payload: AddProject): Promise<Project>;
+addProject(payload: AddProject): Promise<Project>
 ```
 
 ```typescript
-updateProject(projectId: number, payload: UpdateProject): Promise<Project>;
+updateProject(projectId: number, payload: UpdateProject): Promise<Project>
 ```
 
 ```typescript
-deleteProject(projectId: number): Promise<void>;
+deleteProject(projectId: number): Promise<void>
 ```
 
-#### Reports
+### Reports
 
 ```typescript
-getReports(projectId: number): Promise<Report[]>;
+getReports(projectId: number): Promise<Report[]>
 ```
 
 ```typescript
-runReport(reportTemplateId: number): Promise<ReportUrls>;
+runReport(reportTemplateId: number): Promise<ReportUrls>
 ```
 
-#### Results
+### Results
 
 ```typescript
-getResults(testId: number, filters?: ResultFilters): Promise<Result[]>;
+getResults(testId: number, filters?: ResultFilters): Promise<Result[]>
 ```
 
 ```typescript
-getResultsForCase(runId: number, caseId: number, filters?: ResultFilters): Promise<Result[]>;
+getResultsForCase(runId: number, caseId: number, filters?: ResultFilters): Promise<Result[]>
 ```
 
 ```typescript
-getResultsForRun(runId: number, filters?: ResultForRunFilters): Promise<Result[]>;
+getResultsForRun(runId: number, filters?: ResultForRunFilters): Promise<Result[]>
 ```
 
 ```typescript
-addResult(testId: number, payload: AddResult): Promise<Result>;
+addResult(testId: number, payload: AddResult): Promise<Result>
 ```
 
 ```typescript
-addResultForCase(runId: number, caseId: number, payload: AddResult): Promise<Result>;
+addResultForCase(runId: number, caseId: number, payload: AddResult): Promise<Result>
 ```
 
 ```typescript
-addResults(runId: number, payload: AddResults): Promise<Result[]>;
+addResults(runId: number, payload: AddResults): Promise<Result[]>
 ```
 
 ```typescript
-addResultsForCases(runId: number, payload: AddResultsForCases): Promise<Result[]>;
+addResultsForCases(runId: number, payload: AddResultsForCases): Promise<Result[]>
 ```
 
-#### Result Fields
+### Result Fields
 
 ```typescript
-getResultFields(): Promise<ResultField[]>;
+getResultFields(): Promise<ResultField[]>
 ```
 
-#### Runs
+### Runs
 
 ```typescript
-getRun(runId: number): Promise<Run>;
+getRun(runId: number): Promise<Run>
 ```
 
 ```typescript
-getRuns(projectId: number, filters?: RunFilters): Promise<Run[]>;
+getRuns(projectId: number, filters?: RunFilters): Promise<Run[]>
 ```
 
 ```typescript
-addRun(projectId: number, payload: AddRun): Promise<Run>;
+addRun(projectId: number, payload: AddRun): Promise<Run>
 ```
 
 ```typescript
-updateRun(runId: number, payload: UpdateRun): Promise<Run>;
+updateRun(runId: number, payload: UpdateRun): Promise<Run>
 ```
 
 ```typescript
-closeRun(runId: number): Promise<Run>;
+closeRun(runId: number): Promise<Run>
 ```
 
 ```typescript
-deleteRun(runId: number): Promise<void>;
+deleteRun(runId: number): Promise<void>
 ```
 
-#### Sections
+### Sections
 
 ```typescript
-getSection(sectionId: number): Promise<Section>;
+getSection(sectionId: number): Promise<Section>
 ```
 
 ```typescript
-getSections(projectId: number, filters?: SectionFilters): Promise<Section[]>;
+getSections(projectId: number, filters?: SectionFilters): Promise<Section[]>
 ```
 
 ```typescript
-addSection(projectId: number, payload: AddSection): Promise<Section>;
+addSection(projectId: number, payload: AddSection): Promise<Section>
 ```
 
 ```typescript
-moveSection(sectionId: number, payload: MoveSection): Promise<Section>;
+moveSection(sectionId: number, payload: MoveSection): Promise<Section>
 ```
 
 ```typescript
-updateSection(sectionId: number, payload: UpdateSection): Promise<Section>;
+updateSection(sectionId: number, payload: UpdateSection): Promise<Section>
 ```
 
 ```typescript
-deleteSection(sectionId: number): Promise<void>;
+deleteSection(sectionId: number): Promise<void>
 ```
 
-#### Shared Steps
+### Shared steps
 
 ```typescript
-getSharedStep(stepId: number): Promise<SharedStep>;
+getSharedStep(stepId: number): Promise<SharedStep>
 ```
 
 ```typescript
-getSharedSteps(projectId: number, filters?: SharedStepFilters): Promise<SharedStep[]>;
+getSharedSteps(projectId: number, filters?: SharedStepFilters): Promise<SharedStep[]>
 ```
 
 ```typescript
-addSharedStep(projectId: number, payload: AddSharedStep): Promise<SharedStep>;
+addSharedStep(projectId: number, payload: AddSharedStep): Promise<SharedStep>
 ```
 
 ```typescript
-updateSharedStep(stepId: number, payload: UpdateSharedStep): Promise<SharedStep>;
+updateSharedStep(stepId: number, payload: UpdateSharedStep): Promise<SharedStep>
 ```
 
 ```typescript
-deleteSharedStep(stepId: number, payload?: DeleteSharedStep): Promise<void>;
+deleteSharedStep(stepId: number, payload?: DeleteSharedStep): Promise<void>
 ```
 
-#### Statuses
+### Statuses
 
 ```typescript
-getStatuses(): Promise<Status[]>;
+getStatuses(): Promise<Status[]>
 ```
 
-#### Suites
+### Suites
 
 ```typescript
-getSuite(suiteId: number): Promise<Suite>;
+getSuite(suiteId: number): Promise<Suite>
 ```
 
 ```typescript
-getSuites(projectId: number): Promise<Suite[]>;
+getSuites(projectId: number): Promise<Suite[]>
 ```
 
 ```typescript
-addSuite(projectId: number, payload: AddSuite): Promise<Suite>;
+addSuite(projectId: number, payload: AddSuite): Promise<Suite>
 ```
 
 ```typescript
-updateSuite(suiteId: number, payload: UpdateSuite): Promise<Suite>;
+updateSuite(suiteId: number, payload: UpdateSuite): Promise<Suite>
 ```
 
 ```typescript
-deleteSuite(suiteId: number): Promise<void>;
+deleteSuite(suiteId: number): Promise<void>
 ```
 
-#### Templates
+### Templates
 
 ```typescript
-getTemplates(projectId: number): Promise<Template[]>;
+getTemplates(projectId: number): Promise<Template[]>
 ```
 
-#### Tests
+### Tests
 
 ```typescript
-getTest(testId: number): Promise<Test>;
+getTest(testId: number): Promise<Test>
 ```
 
 ```typescript
-getTests(runId: number, filters?: TestFilters): Promise<Test[]>;
+getTests(runId: number, filters?: TestFilters): Promise<Test[]>
 ```
 
-#### Users
+### Users
 
 ```typescript
-getUser(userId: number): Promise<User>;
+getUser(userId: number): Promise<User>
 ```
 
 ```typescript
-getCurrentUser(): Promise<User>;
+getCurrentUser(): Promise<User>
 ```
 
 ```typescript
-getUserByEmail(email: string): Promise<User>;
+getUserByEmail(email: string): Promise<User>
 ```
 
 ```typescript
-getUsers(filters?: UserFilters): Promise<User[]>;
+getUsers(filters?: UserFilters): Promise<User[]>
 ```
