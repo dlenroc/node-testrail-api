@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.4.2](https://www.github.com/dlenroc/node-testrail-api/compare/v1.4.1...v1.4.2) (2021-09-17)
+
+
+### Bug Fixes
+
+* `updateRunInPlanEntry` method ([fbedff6](https://www.github.com/dlenroc/node-testrail-api/commit/fbedff6eb241a69154bb43fde85c25fe5fbd4d58))
+
 ### [1.4.1](https://www.github.com/dlenroc/node-testrail-api/compare/v1.4.0...v1.4.1) (2021-07-10)
 
 
