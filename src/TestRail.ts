@@ -222,8 +222,8 @@ class TestRail {
     return this._api('POST', `update_plan_entry/${planId}/${entryId}`, { json: payload });
   }
 
-  updateRunInPlanEntry(planId: number, runId: number, payload: Request.UpdateRunInPlanEntry): Promise<Response.PlanEntry> {
-    return this._api('POST', `update_run_in_plan_entry/${planId}/${runId}`, { json: payload });
+  updateRunInPlanEntry(runId: number, payload: Request.UpdateRunInPlanEntry): Promise<Response.PlanEntry> {
+    return this._api('POST', `update_run_in_plan_entry/${runId}`, { json: payload });
   }
 
   closePlan(planId: number): Promise<Response.Plan> {

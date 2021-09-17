@@ -92,11 +92,11 @@ describe('Plans', () => {
   });
 
   it('update run in plan entry', async () => {
-    on(`update_run_in_plan_entry/${planId}/${runId}`, updateRunInPlanEntry)
+    on(`update_run_in_plan_entry/${runId}`, updateRunInPlanEntry)
       .reply(OK, planEntry);
 
     await api
-      .updateRunInPlanEntry(planId, runId, updateRunInPlanEntry)
+      .updateRunInPlanEntry(runId, updateRunInPlanEntry)
       .should.eventually.be.deep.equal(planEntry);
   });
 
