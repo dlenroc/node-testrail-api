@@ -216,7 +216,7 @@ updatePlanEntry(planId: number, entryId: string, payload: UpdatePlanEntry): Prom
 ```
 
 ```typescript
-updateRunInPlanEntry(planId: number, runId: number, payload: UpdateRunInPlanEntry): Promise<PlanEntry>
+updateRunInPlanEntry(runId: number, payload: UpdateRunInPlanEntry): Promise<PlanEntry>
 ```
 
 ```typescript
