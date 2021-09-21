@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.4.4](https://www.github.com/dlenroc/node-testrail-api/compare/v1.4.3...v1.4.4) (2021-09-21)
+
+
+### Bug Fixes
+
+* restore `node-fetch` version range ([33e544b](https://www.github.com/dlenroc/node-testrail-api/commit/33e544bbe8b2afb75fb9690216f47c335eac8698))
+
 ### [1.4.3](https://www.github.com/dlenroc/node-testrail-api/compare/v1.4.2...v1.4.3) (2021-09-21)
 
 
