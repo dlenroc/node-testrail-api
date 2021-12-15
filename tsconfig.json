@@ -1,7 +1,6 @@
 {
   "compilerOptions": {
     "outDir": "./dist",
-    "declarationDir": "./dist",
     "target": "ES2018",
     "lib": [
       "DOM",
@@ -9,8 +8,6 @@
     ],
     "sourceMap": true,
     "removeComments": true,
-    "declarationMap": true,
-    "declaration": true,
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
@@ -19,8 +16,5 @@
     "forceConsistentCasingInFileNames": true,
     "esModuleInterop": true,
     "moduleResolution": "Node"
-  },
-  "include": [
-    "src"
-  ]
+  }
 }
