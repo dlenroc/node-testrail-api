@@ -372,6 +372,10 @@ getSharedSteps(projectId: number, filters?: SharedStepFilters): Promise<SharedSt
 ```
 
 ```typescript
+getSharedStepHistory(stepId: number, filters?: Pagination): Promise<SharedStepHistory[]> {
+```
+
+```typescript
 addSharedStep(projectId: number, payload: AddSharedStep): Promise<SharedStep>
 ```
 
@@ -387,6 +391,10 @@ deleteSharedStep(stepId: number, payload?: DeleteSharedStep): Promise<void>
 
 ```typescript
 getStatuses(): Promise<Status[]>
+```
+
+```typescript
+getCaseStatuses(filters?: Pagination): Promise<CaseStatus[]>
 ```
 
 ### Suites
