@@ -392,6 +392,12 @@ class TestRail {
     });
   }
 
+  getSharedStepHistory(stepId: number, filters?: Request.Pagination): Promise<Response.SharedStepHistory[]> {
+    return pagination('step_history', filters, (filters) => {
+      return this._api('GET', `get_shared_step_history/${stepId}`, { query: filters });
+    });
+  }
+
   addSharedStep(projectId: number, payload: Request.AddSharedStep): Promise<Response.SharedStep> {
     return this._api('POST', `add_shared_step/${projectId}`, { json: payload });
   }
@@ -408,6 +414,12 @@ class TestRail {
 
   getStatuses(): Promise<Response.Status[]> {
     return this._api('GET', 'get_statuses');
+  }
+
+  getCaseStatuses(filters?: Request.Pagination): Promise<Response.CaseStatus[]> {
+    return pagination('case_statuses', filters, (filters) => {
+      return this._api('GET', 'get_case_statuses', { query: filters });
+    });
   }
 
   // Suites

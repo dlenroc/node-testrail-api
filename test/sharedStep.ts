@@ -1,11 +1,13 @@
 import { datatype } from 'faker';
-import { AddSharedStep, SharedStep, UpdateSharedStep } from '..';
+import { AddSharedStep, SharedStep, SharedStepHistory, UpdateSharedStep } from '..';
 import { api, jsonFor, OK, on } from './_helper';
 
 describe('Shared Steps', () => {
   const sharedStepId = datatype.number();
   const projectId = datatype.number();
   const sharedStep: SharedStep = jsonFor('SharedStep');
+  const sharedStepHistory: SharedStepHistory = jsonFor('CaseHistory');
+  const sharedStepHistories = [sharedStepHistory];
   const sharedSteps = [sharedStep];
   const addSharedStepPayload: AddSharedStep = jsonFor('AddSharedStep');
   const updateSharedStepPayload: UpdateSharedStep = jsonFor('UpdateSharedStep');
@@ -26,6 +28,15 @@ describe('Shared Steps', () => {
     await api
       .getSharedSteps(projectId)
       .should.eventually.be.deep.equal(sharedSteps);
+  });
+
+  it('get shared step history', async () => {
+    on(`get_shared_step_history/${sharedStepId}&limit=250&offset=0`)
+      .reply(OK, sharedStepHistories);
+
+    await api
+      .getSharedStepHistory(sharedStepId)
+      .should.eventually.be.deep.equal(sharedStepHistories);
   });
 
   it('add shared step', async () => {
