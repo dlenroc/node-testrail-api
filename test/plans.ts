@@ -1,12 +1,12 @@
-import { datatype } from 'faker';
+import { faker } from '@faker-js/faker';
 import { AddPlan, AddPlanEntry, AddRunToPlanEntry, Plan, PlanEntry, PlanFilters, PlanItem, UpdatePlan, UpdatePlanEntry, UpdateRunInPlanEntry } from '..';
 import { api, jsonFor, OK, on, qs } from './_helper';
 
 describe('Plans', () => {
-  const planId = datatype.number();
-  const projectId = datatype.number();
-  const entryId = datatype.uuid();
-  const runId = datatype.number();
+  const planId = faker.datatype.number();
+  const projectId = faker.datatype.number();
+  const entryId = faker.datatype.uuid();
+  const runId = faker.datatype.number();
   const plan: Plan = jsonFor('Plan');
   const planItem: PlanItem = jsonFor('PlanItem');
   const plans = [planItem];

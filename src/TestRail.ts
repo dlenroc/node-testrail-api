@@ -166,6 +166,30 @@ class TestRail {
     return this._api('POST', `delete_config/${configId}`);
   }
 
+  // Groups
+
+  getGroup(groupId: number): Promise<Response.Group> {
+    return this._api('GET', `get_group/${groupId}`);
+  }
+
+  getGroups(filters?: Request.Pagination): Promise<Response.Group[]> {
+    return pagination('groups', filters, (filters) => {
+      return this._api('GET', 'get_groups', { query: filters });
+    });
+  }
+
+  addGroup(payload: Request.AddGroup): Promise<Response.Group> {
+    return this._api('POST', 'add_group', { json: payload });
+  }
+
+  updateGroup(groupId: number, payload: Request.AddGroup): Promise<Response.Group> {
+    return this._api('POST', `update_group/${groupId}`, { json: payload });
+  }
+
+  deleteGroup(groupId: number): Promise<void> {
+    return this._api('POST', `delete_group/${groupId}`);
+  }
+
   // Milestones
 
   getMilestone(milestoneId: number): Promise<Response.Milestone> {
@@ -324,6 +348,14 @@ class TestRail {
     return this._api('GET', 'get_result_fields');
   }
 
+  // Roles
+
+  getRoles(filters?: Request.Pagination): Promise<Response.Role[]> {
+    return pagination('roles', filters, (filters) => {
+      return this._api('GET', 'get_roles', { query: filters });
+    });
+  }
+
   // Runs
 
   getRun(runId: number): Promise<Response.Run> {
@@ -478,6 +510,14 @@ class TestRail {
 
   getUsers(filters?: Request.UserFilters): Promise<Response.User[]> {
     return this._api('GET', 'get_users', { query: filters });
+  }
+
+  addUser(payload: Request.AddUser): Promise<Response.User> {
+    return this._api('POST', 'add_user', { json: payload });
+  }
+
+  updateUser(userId: number, payload: Request.AddUser): Promise<Response.User> {
+    return this._api('POST', `update_user/${userId}`, { json: payload });
   }
 
   // Internal

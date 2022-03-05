@@ -1,11 +1,11 @@
-import { datatype } from 'faker';
+import { faker } from '@faker-js/faker';
 import { AddResult, AddResults, AddResultsForCases, Result, ResultFilters, ResultForRunFilters } from '..';
 import { api, jsonFor, OK, on, qs } from './_helper';
 
 describe('Results', () => {
-  const testId = datatype.number();
-  const runId = datatype.number();
-  const caseId = datatype.number();
+  const testId = faker.datatype.number();
+  const runId = faker.datatype.number();
+  const caseId = faker.datatype.number();
   const result: Result = jsonFor('Result');
   const results = [result];
   const resultFilters: ResultFilters = jsonFor('ResultFilters');

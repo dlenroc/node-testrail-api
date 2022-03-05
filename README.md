@@ -163,6 +163,28 @@ deleteConfigGroup(configGroupId: number): Promise<void>
 deleteConfig(configId: number): Promise<void>
 ```
 
+### Groups
+
+```typecript
+getGroup(groupId: number): Promise<Group>
+```
+
+```typecript
+getGroups(filters?: Pagination): Promise<Group[]>
+```
+
+```typecript
+addGroup(payload: AddGroup): Promise<Group>
+```
+
+```typecript
+updateGroup(groupId: number, payload: AddGroup): Promise<Group>
+```
+
+```typecript
+deleteGroup(groupId: number): Promise<void>
+```
+
 ### Milestones
 
 ```typescript
@@ -183,6 +205,12 @@ updateMilestone(milestoneId: number, payload: UpdateMilestone): Promise<Mileston
 
 ```typescript
 deleteMilestone(milestoneId: number): Promise<void>
+```
+
+### Roles
+
+```typescript
+getRoles(filters?: Pagination): Promise<Role[]>
 ```
 
 ### Plans
@@ -451,4 +479,12 @@ getUserByEmail(email: string): Promise<User>
 
 ```typescript
 getUsers(filters?: UserFilters): Promise<User[]>
+```
+
+```typescript
+addUser(payload: AddUser): Promise<User>
+```
+
+```typescript
+updateUser(userId: number, payload: AddUser): Promise<User>
 ```

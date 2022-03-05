@@ -1,10 +1,10 @@
-import { datatype } from 'faker';
+import { faker } from '@faker-js/faker';
 import { Test, TestFilters } from '..';
 import { api, jsonFor, OK, on, qs } from './_helper';
 
 describe('Tests', () => {
-  const testId = datatype.number();
-  const runId = datatype.number();
+  const testId = faker.datatype.number();
+  const runId = faker.datatype.number();
   const test: Test = jsonFor('Test');
   const tests: Test[] = [test];
   const testsFilters: TestFilters = jsonFor('TestFilters');

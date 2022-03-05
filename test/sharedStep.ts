@@ -1,10 +1,10 @@
-import { datatype } from 'faker';
+import { faker } from '@faker-js/faker';
 import { AddSharedStep, SharedStep, SharedStepHistory, UpdateSharedStep } from '..';
 import { api, jsonFor, OK, on } from './_helper';
 
 describe('Shared Steps', () => {
-  const sharedStepId = datatype.number();
-  const projectId = datatype.number();
+  const sharedStepId = faker.datatype.number();
+  const projectId = faker.datatype.number();
   const sharedStep: SharedStep = jsonFor('SharedStep');
   const sharedStepHistory: SharedStepHistory = jsonFor('CaseHistory');
   const sharedStepHistories = [sharedStepHistory];

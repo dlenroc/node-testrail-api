@@ -1,13 +1,14 @@
-import { internet, random } from 'faker';
-import { User, UserFilters } from '..';
+import { faker } from '@faker-js/faker';
+import { AddUser, User, UserFilters } from '..';
 import { api, jsonFor, OK, on, qs } from './_helper';
 
 describe('Users', () => {
-  const userId = random.number();
-  const email = internet.email();
+  const userId = faker.random.number();
+  const email = faker.internet.email();
   const user: User = jsonFor('User');
   const users: User[] = [user];
   const userFilters: UserFilters = jsonFor('UserFilters');
+  const addOrUpdateUserPayload: AddUser = jsonFor('AddUser');
 
   it('get user', async () => {
     on(`get_user/${userId}`)
@@ -52,5 +53,23 @@ describe('Users', () => {
     await api
       .getUsers(userFilters)
       .should.eventually.be.deep.equal(users);
+  });
+
+  it('add user', async () => {
+    on('add_user', addOrUpdateUserPayload)
+      .reply(OK, user);
+
+    await api
+      .addUser(addOrUpdateUserPayload)
+      .should.eventually.be.deep.equal(user);
+  });
+
+  it('update user', async () => {
+    on(`update_user/${userId}`, addOrUpdateUserPayload)
+      .reply(OK, user);
+
+    await api
+      .updateUser(userId, addOrUpdateUserPayload)
+      .should.eventually.be.deep.equal(user);
   });
 });
