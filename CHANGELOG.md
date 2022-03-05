@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.6.0](https://github.com/dlenroc/node-testrail-api/compare/v1.5.0...v1.6.0) (2022-03-05)
+
+
+### Features
+
+* TestRail 7.4 support ([8e36526](https://github.com/dlenroc/node-testrail-api/commit/8e36526db30767a6c079821b4bd4523c8c2e2394))
+
 ## [1.5.0](https://www.github.com/dlenroc/node-testrail-api/compare/v1.4.4...v1.5.0) (2022-01-11)
 
 
