@@ -1,9 +1,9 @@
-import { datatype } from 'faker';
+import { faker } from '@faker-js/faker';
 import { Template } from '..';
 import { api, jsonFor, OK, on } from './_helper';
 
 describe('Templates', () => {
-  const templateId = datatype.number();
+  const templateId = faker.datatype.number();
   const template: Template = jsonFor('Template');
   const templates = [template];
 

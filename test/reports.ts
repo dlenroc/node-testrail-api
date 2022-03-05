@@ -1,10 +1,10 @@
-import { datatype } from 'faker';
+import { faker } from '@faker-js/faker';
 import { Report, ReportUrls } from '..';
 import { api, jsonFor, OK, on } from './_helper';
 
 describe('Reports', () => {
-  const projectId = datatype.number();
-  const reportTemplateId = datatype.number();
+  const projectId = faker.datatype.number();
+  const reportTemplateId = faker.datatype.number();
   const report: Report = jsonFor('Report');
   const reports = [report];
   const reportUrls: ReportUrls = jsonFor('ReportUrls');

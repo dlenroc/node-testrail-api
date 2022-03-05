@@ -1,12 +1,12 @@
-import { datatype } from 'faker';
+import { faker } from '@faker-js/faker';
 import { AddCase, Case, CaseFilters, CaseHistory, DeleteCases, UpdateCase, UpdateCases } from '..';
 import { api, jsonFor, OK, on, qs } from './_helper';
 
 describe('Cases', () => {
-  const caseId = datatype.number();
-  const projectId = datatype.number();
-  const sectionId = datatype.number();
-  const suiteId = datatype.number();
+  const caseId = faker.datatype.number();
+  const projectId = faker.datatype.number();
+  const sectionId = faker.datatype.number();
+  const suiteId = faker.datatype.number();
   const testCase: Case = jsonFor('Case');
   const testCases = [testCase];
   const caseFilters: CaseFilters = jsonFor('CaseFilters');

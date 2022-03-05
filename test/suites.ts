@@ -1,10 +1,10 @@
-import { datatype } from 'faker';
+import { faker } from '@faker-js/faker';
 import { AddSuite, Suite, UpdateSuite } from '..';
 import { api, jsonFor, OK, on } from './_helper';
 
 describe('Suites', () => {
-  const suiteId = datatype.number();
-  const projectId = datatype.number();
+  const suiteId = faker.datatype.number();
+  const projectId = faker.datatype.number();
   const suite: Suite = jsonFor('Suite');
   const suites = [suite];
   const addSuitePayload: AddSuite = jsonFor('AddSuite');

@@ -1,15 +1,15 @@
-import { datatype, random } from 'faker';
+import { faker } from '@faker-js/faker';
 import { AddAttachment, Attachment, AttachmentForCase, AttachmentForPlan, AttachmentForPlanEntry, AttachmentForRun, AttachmentForTest, CreatedAttachment } from '..';
 import { api, jsonFor, OK, on } from './_helper';
 
 describe('Attachments', () => {
-  const planId = datatype.number();
-  const entryId = datatype.uuid();
-  const resultId = datatype.number();
-  const runId = datatype.number();
-  const caseId = datatype.number();
-  const testId = datatype.number();
-  const attachmentId = datatype.uuid()
+  const planId = faker.datatype.number();
+  const entryId = faker.datatype.uuid();
+  const resultId = faker.datatype.number();
+  const runId = faker.datatype.number();
+  const caseId = faker.datatype.number();
+  const testId = faker.datatype.number();
+  const attachmentId = faker.datatype.uuid();
   const createdAttachment: CreatedAttachment = jsonFor('CreatedAttachment');
   const attachmentForCase: AttachmentForCase = jsonFor('AttachmentForCase');
   const attachmentsForCase = [attachmentForCase];
@@ -25,7 +25,7 @@ describe('Attachments', () => {
   const hasAttachment = /form-data; name="attachment"/m;
   const addAttachmentPayload: AddAttachment = {
     name: 'attachment.txt',
-    value: random.words(),
+    value: faker.random.words(),
   };
 
   it('add attachment to plan', async () => {
