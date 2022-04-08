@@ -34,7 +34,7 @@
     "node-fetch": "^2.6.4"
   },
   "devDependencies": {
-    "@faker-js/faker": "^6.0.0-alpha.7",
+    "@faker-js/faker": "^6.1.2",
     "@types/chai": "^4.3.0",
     "@types/chai-as-promised": "^7.1.5",
     "@types/deasync": "^0.1.2",
@@ -43,15 +43,15 @@
     "@types/node": "*",
     "chai": "^4.3.6",
     "chai-as-promised": "^7.1.1",
-    "deasync": "^0.1.24",
+    "deasync": "^0.1.26",
     "glob": "^7.2.0",
     "intermock": "^0.2.5",
-    "mocha": "^9.2.1",
+    "mocha": "^9.2.2",
     "nock": "^13.2.4",
-    "rollup": "^2.69.1",
+    "rollup": "^2.70.1",
     "rollup-plugin-terser": "^7.0.2",
     "rollup-plugin-typescript2": "^0.31.2",
-    "ts-node": "^10.6.0",
-    "typescript": "^4.6.2"
+    "ts-node": "^10.7.0",
+    "typescript": "^4.6.3"
   }
 }

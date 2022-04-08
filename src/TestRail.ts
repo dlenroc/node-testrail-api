@@ -601,9 +601,7 @@ async function pagination<T>(key: string, filters: any, callback: (filters: any)
     offset = page++ * limit;
 
     let items = await pagination<T>(key, { ...filters, limit, offset }, callback);
-    items = items.filter((item: any) => (ids.has(item.id) ? false : ids.add(item.id)));
-
-    results.push(...items);
+    results.push(...items.filter((item: any) => (ids.has(item.id) ? false : ids.add(item.id))));
 
     if (items.length != limit) {
       break;
