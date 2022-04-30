@@ -37,7 +37,7 @@ describe('Attachments', () => {
       .should.eventually.be.deep.equal(createdAttachment);
   });
 
-  it('add attachment to plan', async () => {
+  it('add attachment to plan entry', async () => {
     on(`add_attachment_to_plan_entry/${planId}/${entryId}`, hasAttachment)
       .reply(OK, createdAttachment);
 
