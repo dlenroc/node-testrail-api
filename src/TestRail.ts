@@ -612,7 +612,7 @@ async function pagination<T>(key: string, filters: any, callback: (filters: any)
 }
 
 function appendToFormData(formData: FormData, name: string, value: string | Blob, filename?: string) {
-  if (typeof window !== 'undefined' && window?.FormData === FormData) {
+  if (typeof Blob !== 'undefined' && typeof window !== 'undefined' && window?.FormData === FormData) {
     const blob = value instanceof Blob ? value : new Blob([value]);
     formData.append(name, blob, filename);
   } else {
