@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.6.2](https://github.com/dlenroc/node-testrail-api/compare/v1.6.1...v1.6.2) (2022-04-30)
+
+
+### Bug Fixes
+
+* `Blob` support check ([0de256b](https://github.com/dlenroc/node-testrail-api/commit/0de256bce14b6a272e195ee4cb6d0a100e4167de))
+* Node.js 18 support ([33980a3](https://github.com/dlenroc/node-testrail-api/commit/33980a37f96fa10f6b6b5a7251cec564b3e0d0ad))
+
 ### [1.6.1](https://github.com/dlenroc/node-testrail-api/compare/v1.6.0...v1.6.1) (2022-04-08)
 
 
