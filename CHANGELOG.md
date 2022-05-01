@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.6.3](https://github.com/dlenroc/node-testrail-api/compare/v1.6.2...v1.6.3) (2022-05-01)
+
+
+### Bug Fixes
+
+* use `_links.next` in pagination ([766505a](https://github.com/dlenroc/node-testrail-api/commit/766505ae99d62cb499fdf8bbf66fef822878ab29))
+
 ### [1.6.2](https://github.com/dlenroc/node-testrail-api/compare/v1.6.1...v1.6.2) (2022-04-30)
 
 
