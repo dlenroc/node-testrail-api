@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.7.1](https://github.com/dlenroc/node-testrail-api/compare/v1.7.0...v1.7.1) (2022-06-25)
+
+
+### Bug Fixes
+
+* `getVariables` typing ([d57ba78](https://github.com/dlenroc/node-testrail-api/commit/d57ba7823b3e6d97cbdcffda14ebe97f748bf2e4))
+
 ## [1.7.0](https://github.com/dlenroc/node-testrail-api/compare/v1.6.3...v1.7.0) (2022-06-25)
 
 
