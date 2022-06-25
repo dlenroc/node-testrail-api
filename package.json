@@ -27,7 +27,7 @@
     "test": "mocha -A -r ts-node/register test/**/*.ts"
   },
   "engines": {
-    "node": ">=12"
+    "node": ">=10"
   },
   "dependencies": {
     "form-data": "^4",
