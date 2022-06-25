@@ -514,7 +514,7 @@ updateUser(userId: number, payload: AddUser): Promise<User>
 ### Variables
 
 ```typescript
-getVariables(projectId: number, filters?: TestFilters): Promise<Variable[]>
+getVariables(projectId: number, filters?: Pagination): Promise<Variable[]>
 ```
 
 ```typescript
