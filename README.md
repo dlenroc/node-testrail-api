@@ -163,6 +163,28 @@ deleteConfigGroup(configGroupId: number): Promise<void>
 deleteConfig(configId: number): Promise<void>
 ```
 
+### Datasets
+
+```typescript
+getDataset(datasetId: number): Promise<Dataset>
+```
+
+```typescript
+getDatasets(projectId: number, filters?: Pagination): Promise<Dataset[]>
+```
+
+```typescript
+addDataset(projectId: number, payload: AddDataset): Promise<Group>
+```
+
+```typescript
+updateDataset(datasetId: number, payload: AddDataset): Promise<Group>
+```
+
+```typescript
+deleteDataset(datasetId: number): Promise<void>
+```
+
 ### Groups
 
 ```typecript
@@ -487,4 +509,22 @@ addUser(payload: AddUser): Promise<User>
 
 ```typescript
 updateUser(userId: number, payload: AddUser): Promise<User>
+```
+
+### Variables
+
+```typescript
+getVariables(projectId: number, filters?: TestFilters): Promise<Variable[]>
+```
+
+```typescript
+addVariable(projectId: number, payload: AddVariable): Promise<Variable>
+```
+
+```typescript
+updateVariable(variableId: number, payload: AddVariable): Promise<Variable>
+```
+
+```typescript
+deleteVariable(variableId: number): Promise<void>
 ```
