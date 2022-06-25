@@ -544,9 +544,9 @@ class TestRail {
     return this._api('POST', `update_user/${userId}`, { json: payload });
   }
 
-  // Users
+  // Variables
 
-  getVariables(projectId: number, filters?: Request.TestFilters): Promise<Response.Variable[]> {
+  getVariables(projectId: number, filters?: Request.Pagination): Promise<Response.Variable[]> {
     return pagination('variables', filters, (filters) => {
       return this._api('GET', `get_variables/${projectId}`, { query: filters });
     });
