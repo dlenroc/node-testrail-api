@@ -166,6 +166,30 @@ class TestRail {
     return this._api('POST', `delete_config/${configId}`);
   }
 
+  // Datasets
+
+  getDataset(datasetId: number): Promise<Response.Dataset> {
+    return this._api('GET', `get_dataset/${datasetId}`);
+  }
+
+  getDatasets(projectId: number, filters?: Request.Pagination): Promise<Response.Dataset[]> {
+    return pagination('datasets', filters, (filters) => {
+      return this._api('GET', `get_datasets/${projectId}`, { query: filters });
+    });
+  }
+
+  addDataset(projectId: number, payload: Request.AddDataset): Promise<Response.Group> {
+    return this._api('POST', `add_dataset/${projectId}`, { json: payload });
+  }
+
+  updateDataset(datasetId: number, payload: Request.AddDataset): Promise<Response.Group> {
+    return this._api('POST', `update_dataset/${datasetId}`, { json: payload });
+  }
+
+  deleteDataset(datasetId: number): Promise<void> {
+    return this._api('POST', `delete_dataset/${datasetId}`);
+  }
+
   // Groups
 
   getGroup(groupId: number): Promise<Response.Group> {
@@ -518,6 +542,26 @@ class TestRail {
 
   updateUser(userId: number, payload: Request.AddUser): Promise<Response.User> {
     return this._api('POST', `update_user/${userId}`, { json: payload });
+  }
+
+  // Users
+
+  getVariables(projectId: number, filters?: Request.TestFilters): Promise<Response.Variable[]> {
+    return pagination('variables', filters, (filters) => {
+      return this._api('GET', `get_variables/${projectId}`, { query: filters });
+    });
+  }
+
+  addVariable(projectId: number, payload: Request.AddVariable): Promise<Response.Variable> {
+    return this._api('POST', `add_variable/${projectId}`, { json: payload });
+  }
+
+  updateVariable(variableId: number, payload: Request.AddVariable): Promise<Response.Variable> {
+    return this._api('POST', `update_variable/${variableId}`, { json: payload });
+  }
+
+  deleteVariable(variableId: number): Promise<void> {
+    return this._api('POST', `delete_variable/${variableId}`);
   }
 
   // Internal
