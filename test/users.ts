@@ -3,7 +3,7 @@ import { AddUser, User, UserFilters } from '..';
 import { api, jsonFor, OK, on, qs } from './_helper';
 
 describe('Users', () => {
-  const userId = faker.random.number();
+  const userId = faker.datatype.number();
   const email = faker.internet.email();
   const user: User = jsonFor('User');
   const users: User[] = [user];
