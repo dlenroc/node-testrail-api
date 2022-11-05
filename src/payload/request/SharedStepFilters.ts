@@ -1,4 +1,4 @@
-import { Pagination } from './Pagination';
+import type { Pagination } from './Pagination';
 
 export interface SharedStepFilters extends Pagination, Record<string, unknown> {
   created_after?: number;

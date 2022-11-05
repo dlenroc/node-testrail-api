@@ -1,4 +1,4 @@
-import { UpdateRun } from './UpdateRun';
+import type { UpdateRun } from './UpdateRun';
 
 export interface AddRun extends UpdateRun {
   suite_id?: number;

@@ -1,4 +1,4 @@
-import { PlanEntry } from './PlanEntry';
+import type { PlanEntry } from './PlanEntry';
 
 export interface Plan extends Record<string, unknown> {
   assignedto_id?: number;

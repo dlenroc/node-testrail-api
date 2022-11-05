@@ -1,15 +1,19 @@
-import { Request, Response } from './payload';
+import type { Request, Response } from './payload';
 import { stringify as qs } from './query-string';
 import { TestRailException } from './TestRailException';
 
 export * from './payload';
 export type { Request as Payload, Response as Model };
 
+declare class FormData { append(...args: any): void };
+declare var fetch: any;
+declare var window: any;
+
 class TestRail {
   static Exception = TestRailException;
-  private readonly username?: string;
-  private readonly password?: string;
   private readonly baseURL: string;
+  private readonly username: string | undefined;
+  private readonly password: string | undefined;
 
   constructor(config?: { host: string; username: string; password: string }) {
     // @ts-ignore - Backward compatibility
@@ -566,7 +570,7 @@ class TestRail {
 
   // Internal
 
-  private async _api<T>(method: string, path: string, { query, json, form }: { query?: object; json?: object; form?: object } = {}): Promise<T> {
+  private async _api<T>(method: string, path: string, { query, json, form }: { query?: object | undefined; json?: object | undefined; form?: object } = {}): Promise<T> {
     const headers: any = {};
     const url = this.baseURL + path + qs(query);
 

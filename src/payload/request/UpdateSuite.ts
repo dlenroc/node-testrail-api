@@ -1,3 +1,3 @@
-import { AddSuite } from './AddSuite';
+import type { AddSuite } from './AddSuite';
 
 export type UpdateSuite = AddSuite;
