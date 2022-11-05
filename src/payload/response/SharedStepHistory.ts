@@ -1,4 +1,4 @@
-import { SharedStep } from './SharedStep';
+import type { SharedStep } from './SharedStep';
 
 export interface SharedStepHistory extends Record<string, unknown> {
   custom_steps_separated: SharedStep['custom_steps_separated'];

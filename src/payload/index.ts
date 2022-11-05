@@ -1,5 +1,5 @@
-import * as Request from './request';
-import * as Response from './response';
+import type * as Request from './request';
+import type * as Response from './response';
 
 export * from './request';
 export * from './response';

@@ -1,3 +1,3 @@
-import { AddConfigGroup } from './AddConfigGroup';
+import type { AddConfigGroup } from './AddConfigGroup';
 
 export type AddConfig = AddConfigGroup;

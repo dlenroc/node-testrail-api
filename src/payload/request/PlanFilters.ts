@@ -1,4 +1,4 @@
-import { Pagination } from './Pagination';
+import type { Pagination } from './Pagination';
 
 export interface PlanFilters extends Pagination, Record<string, unknown> {
   created_after?: number;

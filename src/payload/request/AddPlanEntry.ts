@@ -1,4 +1,4 @@
-import { AddRunToPlanEntry } from './AddRunToPlanEntry';
+import type { AddRunToPlanEntry } from './AddRunToPlanEntry';
 
 export interface AddPlanEntry extends Record<string, unknown> {
   suite_id?: number;

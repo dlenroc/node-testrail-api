@@ -1,4 +1,4 @@
-import { Attachment } from './Attachment';
+import type { Attachment } from './Attachment';
 
 export interface AttachmentForPlanEntry extends Attachment {
   entity_type: 'entry';

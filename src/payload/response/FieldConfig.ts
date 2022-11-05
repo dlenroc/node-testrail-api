@@ -1,5 +1,5 @@
-import { Context } from './Context';
-import { Option } from './Option';
+import type { Context } from './Context';
+import type { Option } from './Option';
 
 export interface FieldConfig extends Record<string, unknown> {
   context: Context;

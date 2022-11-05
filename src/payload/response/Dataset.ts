@@ -1,4 +1,4 @@
-import { Variable } from './Variables';
+import type { Variable } from './Variables';
 
 export interface Dataset extends Record<string, unknown> {
   id: number;

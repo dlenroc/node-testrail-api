@@ -3,7 +3,6 @@
     "outDir": "./dist",
     "target": "ES2018",
     "lib": [
-      "DOM",
       "ES2018"
     ],
     "sourceMap": true,
