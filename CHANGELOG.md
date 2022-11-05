@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.7.2](https://github.com/dlenroc/node-testrail-api/compare/v1.7.1...v1.7.2) (2022-11-05)
+
+
+### Bug Fixes
+
+* typescript support ([54d15d5](https://github.com/dlenroc/node-testrail-api/commit/54d15d5b3fa6fd671e2916f84742cef68c0c41ff))
+
 ## [1.7.1](https://github.com/dlenroc/node-testrail-api/compare/v1.7.0...v1.7.1) (2022-06-25)
 
 
