@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker';
-import { AddMilestone, Milestone, MilestoneFilters, UpdateMilestone } from '..';
-import { api, jsonFor, OK, on, qs } from './_helper';
+import type { AddMilestone, Milestone, MilestoneFilters, UpdateMilestone } from '..';
+import { OK, api, jsonFor, on, qs } from './_helper';
 
 describe('Milestones', () => {
   const milestoneId = faker.datatype.number();

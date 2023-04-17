@@ -1,4 +1,4 @@
-import { Priority } from '..';
+import type { Priority } from '..';
 import { api, jsonFor, OK, on } from './_helper';
 
 describe('Priorities', () => {

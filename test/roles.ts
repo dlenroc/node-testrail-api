@@ -1,4 +1,4 @@
-import { Role } from '..';
+import type { Role } from '..';
 import { api, jsonFor, OK, on } from './_helper';
 
 describe('Roles', () => {

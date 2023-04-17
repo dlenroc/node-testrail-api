@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker';
-import { AddProject, Project, ProjectFilters, UpdateProject } from '..';
-import { api, jsonFor, OK, on, qs } from './_helper';
+import type { AddProject, Project, ProjectFilters, UpdateProject } from '..';
+import { OK, api, jsonFor, on, qs } from './_helper';
 
 describe('Projects', () => {
   const projectId = faker.datatype.number();

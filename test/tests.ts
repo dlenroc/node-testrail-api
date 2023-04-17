@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker';
-import { Test, TestFilters } from '..';
-import { api, jsonFor, OK, on, qs } from './_helper';
+import type { Test, TestFilters } from '..';
+import { OK, api, jsonFor, on, qs } from './_helper';
 
 describe('Tests', () => {
   const testId = faker.datatype.number();

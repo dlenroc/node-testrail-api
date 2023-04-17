@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker';
-import { AddSection, Section, SectionFilters, UpdateSection } from '..';
-import { api, jsonFor, OK, on, qs } from './_helper';
+import type { AddSection, Section, SectionFilters, UpdateSection } from '..';
+import { OK, api, jsonFor, on, qs } from './_helper';
 
 describe('Sections', () => {
   const sectionId = faker.datatype.number();

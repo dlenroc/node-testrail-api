@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker';
-import { AddSharedStep, SharedStep, SharedStepHistory, UpdateSharedStep } from '..';
-import { api, jsonFor, OK, on } from './_helper';
+import type { AddSharedStep, SharedStep, SharedStepHistory, UpdateSharedStep } from '..';
+import { OK, api, jsonFor, on } from './_helper';
 
 describe('Shared Steps', () => {
   const sharedStepId = faker.datatype.number();

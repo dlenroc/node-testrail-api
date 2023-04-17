@@ -1,700 +1,480 @@
-import type { Request, Response } from './payload';
-import { stringify as qs } from './query-string';
+import type { TestRailCtx } from './TestRailCtx';
 import { TestRailException } from './TestRailException';
+import * as methods from './groups';
+import type { Request, Response } from './payload';
 
 export * from './payload';
 export type { Request as Payload, Response as Model };
 
-declare class FormData { append(...args: any): void };
-declare var fetch: any;
-declare var window: any;
+type OmitFirstArg<F> = F extends (x: any, ...args: infer P) => infer R ? (...args: P) => R : never;
 
-class TestRail {
+export default class TestRail {
   static Exception = TestRailException;
-  private readonly baseURL: string;
-  private readonly username: string | undefined;
-  private readonly password: string | undefined;
-
-  constructor(config?: { host: string; username: string; password: string }) {
-    // @ts-ignore - Backward compatibility
-    this.username = config?.username || config?.user;
-    this.password = config?.password;
-    this.baseURL = (config?.host || '') + '/index.php?/api/v2/';
-  }
-
-  // Attachments
-
-  addAttachmentToCase(caseId: number, payload: Request.AddAttachment): Promise<Response.CreatedAttachment> {
-    return this._api('POST', `add_attachment_to_case/${caseId}`, { form: { attachment: payload } });
-  }
-
-  addAttachmentToPlan(planId: number, payload: Request.AddAttachment): Promise<Response.CreatedAttachment> {
-    return this._api('POST', `add_attachment_to_plan/${planId}`, { form: { attachment: payload } });
-  }
-
-  addAttachmentToPlanEntry(planId: number, entryId: string, payload: Request.AddAttachment): Promise<Response.CreatedAttachment> {
-    return this._api('POST', `add_attachment_to_plan_entry/${planId}/${entryId}`, { form: { attachment: payload } });
-  }
-
-  addAttachmentToResult(resultId: number, payload: Request.AddAttachment): Promise<Response.CreatedAttachment> {
-    return this._api('POST', `add_attachment_to_result/${resultId}`, { form: { attachment: payload } });
-  }
-
-  addAttachmentToRun(runId: number, payload: Request.AddAttachment): Promise<Response.CreatedAttachment> {
-    return this._api('POST', `add_attachment_to_run/${runId}`, { form: { attachment: payload } });
-  }
-
-  getAttachmentsForCase(caseId: number, filters?: Request.Pagination): Promise<Response.AttachmentForCase[]> {
-    return pagination('attachments', filters, (filters) => {
-      return this._api('GET', `get_attachments_for_case/${caseId}`, { query: filters });
-    });
-  }
-
-  getAttachmentsForPlan(planId: number, filters?: Request.Pagination): Promise<Response.AttachmentForPlan[]> {
-    return pagination('attachments', filters, (filters) => {
-      return this._api('GET', `get_attachments_for_plan/${planId}`, { query: filters });
-    });
-  }
-
-  getAttachmentsForPlanEntry(planId: number, entryId: string): Promise<Response.AttachmentForPlanEntry[]> {
-    return this._api('GET', `get_attachments_for_plan_entry/${planId}/${entryId}`);
-  }
-
-  getAttachmentsForRun(runId: number, filters?: Request.Pagination): Promise<Response.AttachmentForRun[]> {
-    return pagination('attachments', filters, (filters) => {
-      return this._api('GET', `get_attachments_for_run/${runId}`, { query: filters });
-    });
-  }
-
-  getAttachmentsForTest(testId: number): Promise<Response.AttachmentForTest[]> {
-    return this._api('GET', `get_attachments_for_test/${testId}`);
-  }
-
-  getAttachment(attachmentId: string): Promise<Blob> {
-    return this._api('GET', `get_attachment/${attachmentId}`);
-  }
-
-  deleteAttachment(attachmentId: string): Promise<void> {
-    return this._api('POST', `delete_attachment/${attachmentId}`);
-  }
-
-  // Cases
-
-  getCase(caseId: number): Promise<Response.Case> {
-    return this._api('GET', `get_case/${caseId}`);
-  }
-
-  getCases(projectId: number, filters?: Request.CaseFilters): Promise<Response.Case[]> {
-    return pagination('cases', filters, (filters) => {
-      return this._api('GET', `get_cases/${projectId}`, { query: filters });
-    });
-  }
-
-  getHistoryForCase(caseId: number, filters?: Request.Pagination): Promise<Response.CaseHistory[]> {
-    return pagination('history', filters, (filters) => {
-      return this._api('GET', `get_history_for_case/${caseId}`, { query: filters });
-    });
-  }
-
-  addCase(sectionId: number, payload: Request.AddCase): Promise<Response.Case> {
-    return this._api('POST', `add_case/${sectionId}`, { json: payload });
-  }
-
-  copyCasesToSection(sectionId: number, payload: Request.CopyCasesToSection): Promise<void> {
-    return this._api('POST', `copy_cases_to_section/${sectionId}`, { json: payload });
-  }
-
-  updateCase(caseId: number, payload: Request.UpdateCase): Promise<Response.Case> {
-    return this._api('POST', `update_case/${caseId}`, { json: payload });
-  }
-
-  updateCases(suiteId: number, payload: Request.UpdateCases): Promise<void> {
-    return this._api('POST', `update_cases/${suiteId}`, { json: payload });
-  }
-
-  moveCasesToSection(sectionId: number, payload: Request.MoveCasesToSection): Promise<void> {
-    return this._api('POST', `move_cases_to_section/${sectionId}`, { json: payload });
-  }
-
-  deleteCase(caseId: number): Promise<void> {
-    return this._api('POST', `delete_case/${caseId}`);
-  }
-
-  deleteCases(suiteId: number, payload: Request.DeleteCases): Promise<void> {
-    return this._api('POST', `delete_cases/${suiteId}`, { json: payload });
-  }
-
-  // Case Fields
-
-  getCaseFields(): Promise<Response.CaseField[]> {
-    return this._api('GET', 'get_case_fields');
-  }
-
-  addCaseField(payload: Request.AddCaseField): Promise<Response.CaseField> {
-    return this._api('POST', 'add_case_field', { json: payload });
-  }
-
-  // Case Types
-
-  getCaseTypes(): Promise<Response.CaseType[]> {
-    return this._api('GET', 'get_case_types');
-  }
-
-  // Configurations
-
-  getConfigs(projectId: number): Promise<Response.Config[]> {
-    return this._api('GET', `get_configs/${projectId}`);
-  }
-
-  addConfigGroup(projectId: number, payload: Request.AddConfigGroup): Promise<Response.Config> {
-    return this._api('POST', `add_config_group/${projectId}`, { json: payload });
-  }
-
-  addConfig(configGroupId: number, payload: Request.AddConfig): Promise<Response.ConfigItem> {
-    return this._api('POST', `add_config/${configGroupId}`, { json: payload });
-  }
-
-  updateConfigGroup(configGroupId: number, payload: Request.UpdateConfigGroup): Promise<Response.Config> {
-    return this._api('POST', `update_config_group/${configGroupId}`, { json: payload });
-  }
-
-  updateConfig(configId: number, payload: Request.UpdateConfig): Promise<Response.ConfigItem> {
-    return this._api('POST', `update_config/${configId}`, { json: payload });
-  }
-
-  deleteConfigGroup(configGroupId: number): Promise<void> {
-    return this._api('POST', `delete_config_group/${configGroupId}`);
-  }
-
-  deleteConfig(configId: number): Promise<void> {
-    return this._api('POST', `delete_config/${configId}`);
-  }
-
-  // Datasets
-
-  getDataset(datasetId: number): Promise<Response.Dataset> {
-    return this._api('GET', `get_dataset/${datasetId}`);
-  }
-
-  getDatasets(projectId: number, filters?: Request.Pagination): Promise<Response.Dataset[]> {
-    return pagination('datasets', filters, (filters) => {
-      return this._api('GET', `get_datasets/${projectId}`, { query: filters });
-    });
-  }
-
-  addDataset(projectId: number, payload: Request.AddDataset): Promise<Response.Group> {
-    return this._api('POST', `add_dataset/${projectId}`, { json: payload });
-  }
-
-  updateDataset(datasetId: number, payload: Request.AddDataset): Promise<Response.Group> {
-    return this._api('POST', `update_dataset/${datasetId}`, { json: payload });
-  }
-
-  deleteDataset(datasetId: number): Promise<void> {
-    return this._api('POST', `delete_dataset/${datasetId}`);
-  }
-
-  // Groups
-
-  getGroup(groupId: number): Promise<Response.Group> {
-    return this._api('GET', `get_group/${groupId}`);
-  }
-
-  getGroups(filters?: Request.Pagination): Promise<Response.Group[]> {
-    return pagination('groups', filters, (filters) => {
-      return this._api('GET', 'get_groups', { query: filters });
-    });
-  }
-
-  addGroup(payload: Request.AddGroup): Promise<Response.Group> {
-    return this._api('POST', 'add_group', { json: payload });
-  }
-
-  updateGroup(groupId: number, payload: Request.AddGroup): Promise<Response.Group> {
-    return this._api('POST', `update_group/${groupId}`, { json: payload });
-  }
-
-  deleteGroup(groupId: number): Promise<void> {
-    return this._api('POST', `delete_group/${groupId}`);
-  }
-
-  // Milestones
-
-  getMilestone(milestoneId: number): Promise<Response.Milestone> {
-    return this._api('GET', `get_milestone/${milestoneId}`);
-  }
-
-  getMilestones(projectId: number, filters?: Request.MilestoneFilters): Promise<Response.Milestone[]> {
-    return pagination('milestones', filters, (filters) => {
-      return this._api('GET', `get_milestones/${projectId}`, { query: filters });
-    });
-  }
-
-  addMilestone(projectId: number, payload: Request.AddMilestone): Promise<Response.Milestone> {
-    return this._api('POST', `add_milestone/${projectId}`, { json: payload });
-  }
-
-  updateMilestone(milestoneId: number, payload: Request.UpdateMilestone): Promise<Response.Milestone> {
-    return this._api('POST', `update_milestone/${milestoneId}`, { json: payload });
-  }
-
-  deleteMilestone(milestoneId: number): Promise<void> {
-    return this._api('POST', `delete_milestone/${milestoneId}`);
-  }
-
-  // Plans
-
-  getPlan(planId: number): Promise<Response.Plan> {
-    return this._api('GET', `get_plan/${planId}`);
-  }
-
-  getPlans(projectId: number, filters?: Request.PlanFilters): Promise<Response.PlanItem[]> {
-    return pagination('plans', filters, (filters) => {
-      return this._api('GET', `get_plans/${projectId}`, { query: filters });
-    });
-  }
-
-  addPlan(projectId: number, payload: Request.AddPlan): Promise<Response.Plan> {
-    return this._api('POST', `add_plan/${projectId}`, { json: payload });
-  }
-
-  addPlanEntry(planId: number, payload: Request.AddPlanEntry): Promise<Response.PlanEntry> {
-    return this._api('POST', `add_plan_entry/${planId}`, { json: payload });
-  }
-
-  addRunToPlanEntry(planId: number, entryId: string, payload: Request.AddRunToPlanEntry): Promise<Response.PlanEntry> {
-    return this._api('POST', `add_run_to_plan_entry/${planId}/${entryId}`, { json: payload });
-  }
-
-  updatePlan(planId: number, payload: Request.UpdatePlan): Promise<Response.Plan> {
-    return this._api('POST', `update_plan/${planId}`, { json: payload });
-  }
-
-  updatePlanEntry(planId: number, entryId: string, payload: Request.UpdatePlanEntry): Promise<Response.PlanEntry> {
-    return this._api('POST', `update_plan_entry/${planId}/${entryId}`, { json: payload });
-  }
-
-  updateRunInPlanEntry(runId: number, payload: Request.UpdateRunInPlanEntry): Promise<Response.PlanEntry> {
-    return this._api('POST', `update_run_in_plan_entry/${runId}`, { json: payload });
-  }
-
-  closePlan(planId: number): Promise<Response.Plan> {
-    return this._api('POST', `close_plan/${planId}`);
-  }
-
-  deletePlan(planId: number): Promise<void> {
-    return this._api('POST', `delete_plan/${planId}`);
-  }
-
-  deletePlanEntry(planId: number, entryId: string): Promise<void> {
-    return this._api('POST', `delete_plan_entry/${planId}/${entryId}`);
-  }
-
-  deleteRunFromPlanEntry(runId: number): Promise<void> {
-    return this._api('POST', `delete_run_from_plan_entry/${runId}`);
-  }
-
-  // Priorities
-
-  getPriorities(): Promise<Response.Priority[]> {
-    return this._api('GET', 'get_priorities');
-  }
-
-  // Projects
-
-  getProject(projectId: number): Promise<Response.Project> {
-    return this._api('GET', `get_project/${projectId}`);
-  }
-
-  getProjects(filters?: Request.ProjectFilters): Promise<Response.Project[]> {
-    return pagination('projects', filters, (filters) => {
-      return this._api('GET', 'get_projects', { query: filters });
-    });
-  }
-
-  addProject(payload: Request.AddProject): Promise<Response.Project> {
-    return this._api('POST', 'add_project', { json: payload });
-  }
-
-  updateProject(projectId: number, payload: Request.UpdateProject): Promise<Response.Project> {
-    return this._api('POST', `update_project/${projectId}`, { json: payload });
-  }
-
-  deleteProject(projectId: number): Promise<void> {
-    return this._api('POST', `delete_project/${projectId}`);
-  }
-
-  // Reports
-
-  getReports(projectId: number): Promise<Response.Report[]> {
-    return this._api('GET', `get_reports/${projectId}`);
-  }
-
-  runReport(reportTemplateId: number): Promise<Response.ReportUrls> {
-    return this._api('POST', `run_report/${reportTemplateId}`);
-  }
-
-  // Results
-
-  getResults(testId: number, filters?: Request.ResultFilters): Promise<Response.Result[]> {
-    return pagination('results', filters, (filters) => {
-      return this._api('GET', `get_results/${testId}`, { query: filters });
-    });
-  }
-
-  getResultsForCase(runId: number, caseId: number, filters?: Request.ResultFilters): Promise<Response.Result[]> {
-    return pagination('results', filters, (filters) => {
-      return this._api('GET', `get_results_for_case/${runId}/${caseId}`, { query: filters });
-    });
-  }
-
-  getResultsForRun(runId: number, filters?: Request.ResultForRunFilters): Promise<Response.Result[]> {
-    return pagination('results', filters, (filters) => {
-      return this._api('GET', `get_results_for_run/${runId}`, { query: filters });
-    });
-  }
-
-  addResult(testId: number, payload: Request.AddResult): Promise<Response.Result> {
-    return this._api('POST', `add_result/${testId}`, { json: payload });
-  }
-
-  addResultForCase(runId: number, caseId: number, payload: Request.AddResult): Promise<Response.Result> {
-    return this._api('POST', `add_result_for_case/${runId}/${caseId}`, { json: payload });
-  }
-
-  addResults(runId: number, payload: Request.AddResults): Promise<Response.Result[]> {
-    return this._api('POST', `add_results/${runId}`, { json: payload });
-  }
-
-  addResultsForCases(runId: number, payload: Request.AddResultsForCases): Promise<Response.Result[]> {
-    return this._api('POST', `add_results_for_cases/${runId}`, { json: payload });
-  }
-
-  // Result Fields
-
-  getResultFields(): Promise<Response.ResultField[]> {
-    return this._api('GET', 'get_result_fields');
-  }
-
-  // Roles
-
-  getRoles(filters?: Request.Pagination): Promise<Response.Role[]> {
-    return pagination('roles', filters, (filters) => {
-      return this._api('GET', 'get_roles', { query: filters });
-    });
-  }
-
-  // Runs
-
-  getRun(runId: number): Promise<Response.Run> {
-    return this._api('GET', `get_run/${runId}`);
-  }
-
-  getRuns(projectId: number, filters?: Request.RunFilters): Promise<Response.Run[]> {
-    return pagination('runs', filters, (filters) => {
-      return this._api('GET', `get_runs/${projectId}`, { query: filters });
-    });
-  }
-
-  addRun(projectId: number, payload: Request.AddRun): Promise<Response.Run> {
-    return this._api('POST', `add_run/${projectId}`, { json: payload });
-  }
-
-  updateRun(runId: number, payload: Request.UpdateRun): Promise<Response.Run> {
-    return this._api('POST', `update_run/${runId}`, { json: payload });
-  }
-
-  closeRun(runId: number): Promise<Response.Run> {
-    return this._api('POST', `close_run/${runId}`);
-  }
-
-  deleteRun(runId: number): Promise<void> {
-    return this._api('POST', `delete_run/${runId}`);
-  }
-
-  // Sections
-
-  getSection(sectionId: number): Promise<Response.Section> {
-    return this._api('GET', `get_section/${sectionId}`);
-  }
-
-  getSections(projectId: number, filters?: Request.SectionFilters): Promise<Response.Section[]> {
-    return pagination('sections', filters, (filters) => {
-      return this._api('GET', `get_sections/${projectId}`, { query: filters });
-    });
-  }
-
-  addSection(projectId: number, payload: Request.AddSection): Promise<Response.Section> {
-    return this._api('POST', `add_section/${projectId}`, { json: payload });
-  }
-
-  moveSection(sectionId: number, payload: Request.MoveSection): Promise<Response.Section> {
-    return this._api('POST', `move_section/${sectionId}`, { json: payload });
-  }
-
-  updateSection(sectionId: number, payload: Request.UpdateSection): Promise<Response.Section> {
-    return this._api('POST', `update_section/${sectionId}`, { json: payload });
-  }
-
-  deleteSection(sectionId: number): Promise<void> {
-    return this._api('POST', `delete_section/${sectionId}`);
-  }
-
-  // Shared steps
-
-  getSharedStep(stepId: number): Promise<Response.SharedStep> {
-    return this._api('GET', `get_shared_step/${stepId}`);
-  }
-
-  getSharedSteps(projectId: number, filters?: Request.SharedStepFilters): Promise<Response.SharedStep[]> {
-    return pagination('shared_steps', filters, (filters) => {
-      return this._api('GET', `get_shared_steps/${projectId}`, { query: filters });
-    });
-  }
-
-  getSharedStepHistory(stepId: number, filters?: Request.Pagination): Promise<Response.SharedStepHistory[]> {
-    return pagination('step_history', filters, (filters) => {
-      return this._api('GET', `get_shared_step_history/${stepId}`, { query: filters });
-    });
-  }
-
-  addSharedStep(projectId: number, payload: Request.AddSharedStep): Promise<Response.SharedStep> {
-    return this._api('POST', `add_shared_step/${projectId}`, { json: payload });
-  }
-
-  updateSharedStep(stepId: number, payload: Request.UpdateSharedStep): Promise<Response.SharedStep> {
-    return this._api('POST', `update_shared_step/${stepId}`, { json: payload });
-  }
-
-  deleteSharedStep(stepId: number, payload?: Request.DeleteSharedStep): Promise<void> {
-    return this._api('POST', `delete_shared_step/${stepId}`, { json: payload });
-  }
-
-  // Statuses
-
-  getStatuses(): Promise<Response.Status[]> {
-    return this._api('GET', 'get_statuses');
-  }
-
-  getCaseStatuses(filters?: Request.Pagination): Promise<Response.CaseStatus[]> {
-    return pagination('case_statuses', filters, (filters) => {
-      return this._api('GET', 'get_case_statuses', { query: filters });
-    });
-  }
-
-  // Suites
-
-  getSuite(suiteId: number): Promise<Response.Suite> {
-    return this._api('GET', `get_suite/${suiteId}`);
-  }
-
-  getSuites(projectId: number): Promise<Response.Suite[]> {
-    return this._api('GET', `get_suites/${projectId}`);
-  }
-
-  addSuite(projectId: number, payload: Request.AddSuite): Promise<Response.Suite> {
-    return this._api('POST', `add_suite/${projectId}`, { json: payload });
-  }
-
-  updateSuite(suiteId: number, payload: Request.UpdateSuite): Promise<Response.Suite> {
-    return this._api('POST', `update_suite/${suiteId}`, { json: payload });
-  }
-
-  deleteSuite(suiteId: number): Promise<void> {
-    return this._api('POST', `delete_suite/${suiteId}`);
-  }
-
-  // Templates
-
-  getTemplates(projectId: number): Promise<Response.Template[]> {
-    return this._api('GET', `get_templates/${projectId}`);
-  }
-
-  // Tests
-
-  getTest(testId: number): Promise<Response.Test> {
-    return this._api('GET', `get_test/${testId}`);
-  }
-
-  getTests(runId: number, filters?: Request.TestFilters): Promise<Response.Test[]> {
-    return pagination('tests', filters, (filters) => {
-      return this._api('GET', `get_tests/${runId}`, { query: filters });
-    });
-  }
-
-  // Users
-
-  getUser(userId: number): Promise<Response.User> {
-    return this._api('GET', `get_user/${userId}`);
-  }
-
-  getCurrentUser(): Promise<Response.User> {
-    return this._api('GET', `get_current_user`);
-  }
-
-  getUserByEmail(email: string): Promise<Response.User> {
-    return this._api('GET', 'get_user_by_email', { query: { email } });
-  }
-
-  getUsers(filters?: Request.UserFilters): Promise<Response.User[]> {
-    return this._api('GET', 'get_users', { query: filters });
-  }
-
-  addUser(payload: Request.AddUser): Promise<Response.User> {
-    return this._api('POST', 'add_user', { json: payload });
-  }
-
-  updateUser(userId: number, payload: Request.AddUser): Promise<Response.User> {
-    return this._api('POST', `update_user/${userId}`, { json: payload });
-  }
-
-  // Variables
-
-  getVariables(projectId: number, filters?: Request.Pagination): Promise<Response.Variable[]> {
-    return pagination('variables', filters, (filters) => {
-      return this._api('GET', `get_variables/${projectId}`, { query: filters });
-    });
-  }
-
-  addVariable(projectId: number, payload: Request.AddVariable): Promise<Response.Variable> {
-    return this._api('POST', `add_variable/${projectId}`, { json: payload });
-  }
-
-  updateVariable(variableId: number, payload: Request.AddVariable): Promise<Response.Variable> {
-    return this._api('POST', `update_variable/${variableId}`, { json: payload });
-  }
-
-  deleteVariable(variableId: number): Promise<void> {
-    return this._api('POST', `delete_variable/${variableId}`);
-  }
-
-  // Internal
-
-  private async _api<T>(method: string, path: string, { query, json, form }: { query?: object | undefined; json?: object | undefined; form?: object } = {}): Promise<T> {
-    const headers: any = {};
-    const url = this.baseURL + path + qs(query);
-
-    // Add authentication header
-    if (this.username && this.password) {
-      headers.Authorization = `Basic ${base64(`${this.username}:${this.password}`)}`;
-    }
-
-    // TestRail requires 'Content-Type: application/json' for all requests except those containing form data
-    if (!form) {
-      headers['Content-Type'] = 'application/json';
-    }
-
-    // Determine body & request type
-    let body;
-
-    if (json) {
-      body = JSON.stringify(json);
-    } else if (form) {
-      body = new FormData();
-      for (const [key, value] of Object.entries(form)) {
-        if (value.name && value.value) {
-          appendToFormData(body, key, value.value, value.name);
-        } else {
-          appendToFormData(body, key, value);
-        }
-      }
-    }
-
-    while (true) {
-      const response = await fetch(url, { method, body, headers });
-
-      // Retry on 429 Too Many Requests
-      if (response.status === 429) {
-        const retryAfter = parseInt(response.headers.get('Retry-After') || '1') * 1000;
-        await sleep(retryAfter);
-        continue;
-      }
-
-      // Retry on 409 Conflict - Daily Maintenance
-      if (response.status === 409) {
-        await sleep(10 * 1000);
-        continue;
-      }
-
-      // Content-Type based response
-      const result = response.headers.get('Content-Type')?.includes('json')
-        ? await response.json().catch(() => ({}))
-        : await response.blob();
-
-      if (response.ok) {
-        return result;
-      } else {
-        throw new TestRail.Exception(result.error || 'No additional error message received');
-      }
-    }
-  }
+  private readonly ctx: TestRailCtx;
+
+  constructor(config?: { host: string; username: string; password: string, signal?: AbortSignal }) {
+    this.ctx = {
+      baseURL: (config?.host || '') + '/index.php?/api/v2/',
+      // @ts-ignore - Backward compatibility
+      ...config?.username && { username: config?.username || config?.user },
+      ...config?.password && { password: config?.password },
+      ...config?.signal && { signal: config.signal }
+    };
+  }
+
+  addAttachmentToCase: OmitFirstArg<typeof methods['addAttachmentToCase']> = function (this: TestRail, ...args) {
+    return methods.addAttachmentToCase(this.ctx, ...args);
+  };
+
+  addAttachmentToPlan: OmitFirstArg<typeof methods['addAttachmentToPlan']> = function (this: TestRail, ...args) {
+    return methods.addAttachmentToPlan(this.ctx, ...args);
+  };
+
+  addAttachmentToPlanEntry: OmitFirstArg<typeof methods['addAttachmentToPlanEntry']> = function (this: TestRail, ...args) {
+    return methods.addAttachmentToPlanEntry(this.ctx, ...args);
+  };
+
+  addAttachmentToResult: OmitFirstArg<typeof methods['addAttachmentToResult']> = function (this: TestRail, ...args) {
+    return methods.addAttachmentToResult(this.ctx, ...args);
+  };
+
+  addAttachmentToRun: OmitFirstArg<typeof methods['addAttachmentToRun']> = function (this: TestRail, ...args) {
+    return methods.addAttachmentToRun(this.ctx, ...args);
+  };
+
+  getAttachmentsForCase: OmitFirstArg<typeof methods['getAttachmentsForCase']> = function (this: TestRail, ...args) {
+    return methods.getAttachmentsForCase(this.ctx, ...args);
+  };
+
+  getAttachmentsForPlan: OmitFirstArg<typeof methods['getAttachmentsForPlan']> = function (this: TestRail, ...args) {
+    return methods.getAttachmentsForPlan(this.ctx, ...args);
+  };
+
+  getAttachmentsForPlanEntry: OmitFirstArg<typeof methods['getAttachmentsForPlanEntry']> = function (this: TestRail, ...args) {
+    return methods.getAttachmentsForPlanEntry(this.ctx, ...args);
+  };
+
+  getAttachmentsForRun: OmitFirstArg<typeof methods['getAttachmentsForRun']> = function (this: TestRail, ...args) {
+    return methods.getAttachmentsForRun(this.ctx, ...args);
+  };
+
+  getAttachmentsForTest: OmitFirstArg<typeof methods['getAttachmentsForTest']> = function (this: TestRail, ...args) {
+    return methods.getAttachmentsForTest(this.ctx, ...args);
+  };
+
+  getAttachment: OmitFirstArg<typeof methods['getAttachment']> = function (this: TestRail, ...args) {
+    return methods.getAttachment(this.ctx, ...args);
+  };
+
+  deleteAttachment: OmitFirstArg<typeof methods['deleteAttachment']> = function (this: TestRail, ...args) {
+    return methods.deleteAttachment(this.ctx, ...args);
+  };
+
+  getCase: OmitFirstArg<typeof methods['getCase']> = function (this: TestRail, ...args) {
+    return methods.getCase(this.ctx, ...args);
+  };
+
+  getCases: OmitFirstArg<typeof methods['getCases']> = function (this: TestRail, ...args) {
+    return methods.getCases(this.ctx, ...args);
+  };
+
+  getHistoryForCase: OmitFirstArg<typeof methods['getHistoryForCase']> = function (this: TestRail, ...args) {
+    return methods.getHistoryForCase(this.ctx, ...args);
+  };
+
+  addCase: OmitFirstArg<typeof methods['addCase']> = function (this: TestRail, ...args) {
+    return methods.addCase(this.ctx, ...args);
+  };
+
+  copyCasesToSection: OmitFirstArg<typeof methods['copyCasesToSection']> = function (this: TestRail, ...args) {
+    return methods.copyCasesToSection(this.ctx, ...args);
+  };
+
+  updateCase: OmitFirstArg<typeof methods['updateCase']> = function (this: TestRail, ...args) {
+    return methods.updateCase(this.ctx, ...args);
+  };
+
+  updateCases: OmitFirstArg<typeof methods['updateCases']> = function (this: TestRail, ...args) {
+    return methods.updateCases(this.ctx, ...args);
+  };
+
+  moveCasesToSection: OmitFirstArg<typeof methods['moveCasesToSection']> = function (this: TestRail, ...args) {
+    return methods.moveCasesToSection(this.ctx, ...args);
+  };
+
+  deleteCase: OmitFirstArg<typeof methods['deleteCase']> = function (this: TestRail, ...args) {
+    return methods.deleteCase(this.ctx, ...args);
+  };
+
+  deleteCases: OmitFirstArg<typeof methods['deleteCases']> = function (this: TestRail, ...args) {
+    return methods.deleteCases(this.ctx, ...args);
+  };
+
+  getCaseFields: OmitFirstArg<typeof methods['getCaseFields']> = function (this: TestRail, ...args) {
+    return methods.getCaseFields(this.ctx, ...args);
+  };
+
+  addCaseField: OmitFirstArg<typeof methods['addCaseField']> = function (this: TestRail, ...args) {
+    return methods.addCaseField(this.ctx, ...args);
+  };
+
+  getCaseTypes: OmitFirstArg<typeof methods['getCaseTypes']> = function (this: TestRail, ...args) {
+    return methods.getCaseTypes(this.ctx, ...args);
+  };
+
+  getConfigs: OmitFirstArg<typeof methods['getConfigs']> = function (this: TestRail, ...args) {
+    return methods.getConfigs(this.ctx, ...args);
+  };
+
+  addConfigGroup: OmitFirstArg<typeof methods['addConfigGroup']> = function (this: TestRail, ...args) {
+    return methods.addConfigGroup(this.ctx, ...args);
+  };
+
+  addConfig: OmitFirstArg<typeof methods['addConfig']> = function (this: TestRail, ...args) {
+    return methods.addConfig(this.ctx, ...args);
+  };
+
+  updateConfigGroup: OmitFirstArg<typeof methods['updateConfigGroup']> = function (this: TestRail, ...args) {
+    return methods.updateConfigGroup(this.ctx, ...args);
+  };
+
+  updateConfig: OmitFirstArg<typeof methods['updateConfig']> = function (this: TestRail, ...args) {
+    return methods.updateConfig(this.ctx, ...args);
+  };
+
+  deleteConfigGroup: OmitFirstArg<typeof methods['deleteConfigGroup']> = function (this: TestRail, ...args) {
+    return methods.deleteConfigGroup(this.ctx, ...args);
+  };
+
+  deleteConfig: OmitFirstArg<typeof methods['deleteConfig']> = function (this: TestRail, ...args) {
+    return methods.deleteConfig(this.ctx, ...args);
+  };
+
+  getDataset: OmitFirstArg<typeof methods['getDataset']> = function (this: TestRail, ...args) {
+    return methods.getDataset(this.ctx, ...args);
+  };
+
+  getDatasets: OmitFirstArg<typeof methods['getDatasets']> = function (this: TestRail, ...args) {
+    return methods.getDatasets(this.ctx, ...args);
+  };
+
+  addDataset: OmitFirstArg<typeof methods['addDataset']> = function (this: TestRail, ...args) {
+    return methods.addDataset(this.ctx, ...args);
+  };
+
+  updateDataset: OmitFirstArg<typeof methods['updateDataset']> = function (this: TestRail, ...args) {
+    return methods.updateDataset(this.ctx, ...args);
+  };
+
+  deleteDataset: OmitFirstArg<typeof methods['deleteDataset']> = function (this: TestRail, ...args) {
+    return methods.deleteDataset(this.ctx, ...args);
+  };
+
+  getGroup: OmitFirstArg<typeof methods['getGroup']> = function (this: TestRail, ...args) {
+    return methods.getGroup(this.ctx, ...args);
+  };
+
+  getGroups: OmitFirstArg<typeof methods['getGroups']> = function (this: TestRail, ...args) {
+    return methods.getGroups(this.ctx, ...args);
+  };
+
+  addGroup: OmitFirstArg<typeof methods['addGroup']> = function (this: TestRail, ...args) {
+    return methods.addGroup(this.ctx, ...args);
+  };
+
+  updateGroup: OmitFirstArg<typeof methods['updateGroup']> = function (this: TestRail, ...args) {
+    return methods.updateGroup(this.ctx, ...args);
+  };
+
+  deleteGroup: OmitFirstArg<typeof methods['deleteGroup']> = function (this: TestRail, ...args) {
+    return methods.deleteGroup(this.ctx, ...args);
+  };
+
+  getMilestone: OmitFirstArg<typeof methods['getMilestone']> = function (this: TestRail, ...args) {
+    return methods.getMilestone(this.ctx, ...args);
+  };
+
+  getMilestones: OmitFirstArg<typeof methods['getMilestones']> = function (this: TestRail, ...args) {
+    return methods.getMilestones(this.ctx, ...args);
+  };
+
+  addMilestone: OmitFirstArg<typeof methods['addMilestone']> = function (this: TestRail, ...args) {
+    return methods.addMilestone(this.ctx, ...args);
+  };
+
+  updateMilestone: OmitFirstArg<typeof methods['updateMilestone']> = function (this: TestRail, ...args) {
+    return methods.updateMilestone(this.ctx, ...args);
+  };
+
+  deleteMilestone: OmitFirstArg<typeof methods['deleteMilestone']> = function (this: TestRail, ...args) {
+    return methods.deleteMilestone(this.ctx, ...args);
+  };
+
+  getPlan: OmitFirstArg<typeof methods['getPlan']> = function (this: TestRail, ...args) {
+    return methods.getPlan(this.ctx, ...args);
+  };
+
+  getPlans: OmitFirstArg<typeof methods['getPlans']> = function (this: TestRail, ...args) {
+    return methods.getPlans(this.ctx, ...args);
+  };
+
+  addPlan: OmitFirstArg<typeof methods['addPlan']> = function (this: TestRail, ...args) {
+    return methods.addPlan(this.ctx, ...args);
+  };
+
+  addPlanEntry: OmitFirstArg<typeof methods['addPlanEntry']> = function (this: TestRail, ...args) {
+    return methods.addPlanEntry(this.ctx, ...args);
+  };
+
+  addRunToPlanEntry: OmitFirstArg<typeof methods['addRunToPlanEntry']> = function (this: TestRail, ...args) {
+    return methods.addRunToPlanEntry(this.ctx, ...args);
+  };
+
+  updatePlan: OmitFirstArg<typeof methods['updatePlan']> = function (this: TestRail, ...args) {
+    return methods.updatePlan(this.ctx, ...args);
+  };
+
+  updatePlanEntry: OmitFirstArg<typeof methods['updatePlanEntry']> = function (this: TestRail, ...args) {
+    return methods.updatePlanEntry(this.ctx, ...args);
+  };
+
+  updateRunInPlanEntry: OmitFirstArg<typeof methods['updateRunInPlanEntry']> = function (this: TestRail, ...args) {
+    return methods.updateRunInPlanEntry(this.ctx, ...args);
+  };
+
+  closePlan: OmitFirstArg<typeof methods['closePlan']> = function (this: TestRail, ...args) {
+    return methods.closePlan(this.ctx, ...args);
+  };
+
+  deletePlan: OmitFirstArg<typeof methods['deletePlan']> = function (this: TestRail, ...args) {
+    return methods.deletePlan(this.ctx, ...args);
+  };
+
+  deletePlanEntry: OmitFirstArg<typeof methods['deletePlanEntry']> = function (this: TestRail, ...args) {
+    return methods.deletePlanEntry(this.ctx, ...args);
+  };
+
+  deleteRunFromPlanEntry: OmitFirstArg<typeof methods['deleteRunFromPlanEntry']> = function (this: TestRail, ...args) {
+    return methods.deleteRunFromPlanEntry(this.ctx, ...args);
+  };
+
+  getPriorities: OmitFirstArg<typeof methods['getPriorities']> = function (this: TestRail, ...args) {
+    return methods.getPriorities(this.ctx, ...args);
+  };
+
+  getProject: OmitFirstArg<typeof methods['getProject']> = function (this: TestRail, ...args) {
+    return methods.getProject(this.ctx, ...args);
+  };
+
+  getProjects: OmitFirstArg<typeof methods['getProjects']> = function (this: TestRail, ...args) {
+    return methods.getProjects(this.ctx, ...args);
+  };
+
+  addProject: OmitFirstArg<typeof methods['addProject']> = function (this: TestRail, ...args) {
+    return methods.addProject(this.ctx, ...args);
+  };
+
+  updateProject: OmitFirstArg<typeof methods['updateProject']> = function (this: TestRail, ...args) {
+    return methods.updateProject(this.ctx, ...args);
+  };
+
+  deleteProject: OmitFirstArg<typeof methods['deleteProject']> = function (this: TestRail, ...args) {
+    return methods.deleteProject(this.ctx, ...args);
+  };
+
+  getReports: OmitFirstArg<typeof methods['getReports']> = function (this: TestRail, ...args) {
+    return methods.getReports(this.ctx, ...args);
+  };
+
+  runReport: OmitFirstArg<typeof methods['runReport']> = function (this: TestRail, ...args) {
+    return methods.runReport(this.ctx, ...args);
+  };
+
+  getResults: OmitFirstArg<typeof methods['getResults']> = function (this: TestRail, ...args) {
+    return methods.getResults(this.ctx, ...args);
+  };
+
+  getResultsForCase: OmitFirstArg<typeof methods['getResultsForCase']> = function (this: TestRail, ...args) {
+    return methods.getResultsForCase(this.ctx, ...args);
+  };
+
+  getResultsForRun: OmitFirstArg<typeof methods['getResultsForRun']> = function (this: TestRail, ...args) {
+    return methods.getResultsForRun(this.ctx, ...args);
+  };
+
+  addResult: OmitFirstArg<typeof methods['addResult']> = function (this: TestRail, ...args) {
+    return methods.addResult(this.ctx, ...args);
+  };
+
+  addResultForCase: OmitFirstArg<typeof methods['addResultForCase']> = function (this: TestRail, ...args) {
+    return methods.addResultForCase(this.ctx, ...args);
+  };
+
+  addResults: OmitFirstArg<typeof methods['addResults']> = function (this: TestRail, ...args) {
+    return methods.addResults(this.ctx, ...args);
+  };
+
+  addResultsForCases: OmitFirstArg<typeof methods['addResultsForCases']> = function (this: TestRail, ...args) {
+    return methods.addResultsForCases(this.ctx, ...args);
+  };
+
+  getResultFields: OmitFirstArg<typeof methods['getResultFields']> = function (this: TestRail, ...args) {
+    return methods.getResultFields(this.ctx, ...args);
+  };
+
+  getRoles: OmitFirstArg<typeof methods['getRoles']> = function (this: TestRail, ...args) {
+    return methods.getRoles(this.ctx, ...args);
+  };
+
+  getRun: OmitFirstArg<typeof methods['getRun']> = function (this: TestRail, ...args) {
+    return methods.getRun(this.ctx, ...args);
+  };
+
+  getRuns: OmitFirstArg<typeof methods['getRuns']> = function (this: TestRail, ...args) {
+    return methods.getRuns(this.ctx, ...args);
+  };
+
+  addRun: OmitFirstArg<typeof methods['addRun']> = function (this: TestRail, ...args) {
+    return methods.addRun(this.ctx, ...args);
+  };
+
+  updateRun: OmitFirstArg<typeof methods['updateRun']> = function (this: TestRail, ...args) {
+    return methods.updateRun(this.ctx, ...args);
+  };
+
+  closeRun: OmitFirstArg<typeof methods['closeRun']> = function (this: TestRail, ...args) {
+    return methods.closeRun(this.ctx, ...args);
+  };
+
+  deleteRun: OmitFirstArg<typeof methods['deleteRun']> = function (this: TestRail, ...args) {
+    return methods.deleteRun(this.ctx, ...args);
+  };
+
+  getSection: OmitFirstArg<typeof methods['getSection']> = function (this: TestRail, ...args) {
+    return methods.getSection(this.ctx, ...args);
+  };
+
+  getSections: OmitFirstArg<typeof methods['getSections']> = function (this: TestRail, ...args) {
+    return methods.getSections(this.ctx, ...args);
+  };
+
+  addSection: OmitFirstArg<typeof methods['addSection']> = function (this: TestRail, ...args) {
+    return methods.addSection(this.ctx, ...args);
+  };
+
+  moveSection: OmitFirstArg<typeof methods['moveSection']> = function (this: TestRail, ...args) {
+    return methods.moveSection(this.ctx, ...args);
+  };
+
+  updateSection: OmitFirstArg<typeof methods['updateSection']> = function (this: TestRail, ...args) {
+    return methods.updateSection(this.ctx, ...args);
+  };
+
+  deleteSection: OmitFirstArg<typeof methods['deleteSection']> = function (this: TestRail, ...args) {
+    return methods.deleteSection(this.ctx, ...args);
+  };
+
+  getSharedStep: OmitFirstArg<typeof methods['getSharedStep']> = function (this: TestRail, ...args) {
+    return methods.getSharedStep(this.ctx, ...args);
+  };
+
+  getSharedSteps: OmitFirstArg<typeof methods['getSharedSteps']> = function (this: TestRail, ...args) {
+    return methods.getSharedSteps(this.ctx, ...args);
+  };
+
+  getSharedStepHistory: OmitFirstArg<typeof methods['getSharedStepHistory']> = function (this: TestRail, ...args) {
+    return methods.getSharedStepHistory(this.ctx, ...args);
+  };
+
+  addSharedStep: OmitFirstArg<typeof methods['addSharedStep']> = function (this: TestRail, ...args) {
+    return methods.addSharedStep(this.ctx, ...args);
+  };
+
+  updateSharedStep: OmitFirstArg<typeof methods['updateSharedStep']> = function (this: TestRail, ...args) {
+    return methods.updateSharedStep(this.ctx, ...args);
+  };
+
+  deleteSharedStep: OmitFirstArg<typeof methods['deleteSharedStep']> = function (this: TestRail, ...args) {
+    return methods.deleteSharedStep(this.ctx, ...args);
+  };
+
+  getStatuses: OmitFirstArg<typeof methods['getStatuses']> = function (this: TestRail, ...args) {
+    return methods.getStatuses(this.ctx, ...args);
+  };
+
+  getCaseStatuses: OmitFirstArg<typeof methods['getCaseStatuses']> = function (this: TestRail, ...args) {
+    return methods.getCaseStatuses(this.ctx, ...args);
+  };
+
+  getSuite: OmitFirstArg<typeof methods['getSuite']> = function (this: TestRail, ...args) {
+    return methods.getSuite(this.ctx, ...args);
+  };
+
+  getSuites: OmitFirstArg<typeof methods['getSuites']> = function (this: TestRail, ...args) {
+    return methods.getSuites(this.ctx, ...args);
+  };
+
+  addSuite: OmitFirstArg<typeof methods['addSuite']> = function (this: TestRail, ...args) {
+    return methods.addSuite(this.ctx, ...args);
+  };
+
+  updateSuite: OmitFirstArg<typeof methods['updateSuite']> = function (this: TestRail, ...args) {
+    return methods.updateSuite(this.ctx, ...args);
+  };
+
+  deleteSuite: OmitFirstArg<typeof methods['deleteSuite']> = function (this: TestRail, ...args) {
+    return methods.deleteSuite(this.ctx, ...args);
+  };
+
+  getTemplates: OmitFirstArg<typeof methods['getTemplates']> = function (this: TestRail, ...args) {
+    return methods.getTemplates(this.ctx, ...args);
+  };
+
+  getTest: OmitFirstArg<typeof methods['getTest']> = function (this: TestRail, ...args) {
+    return methods.getTest(this.ctx, ...args);
+  };
+
+  getTests: OmitFirstArg<typeof methods['getTests']> = function (this: TestRail, ...args) {
+    return methods.getTests(this.ctx, ...args);
+  };
+
+  getUser: OmitFirstArg<typeof methods['getUser']> = function (this: TestRail, ...args) {
+    return methods.getUser(this.ctx, ...args);
+  };
+
+  getCurrentUser: OmitFirstArg<typeof methods['getCurrentUser']> = function (this: TestRail, ...args) {
+    return methods.getCurrentUser(this.ctx, ...args);
+  };
+
+  getUserByEmail: OmitFirstArg<typeof methods['getUserByEmail']> = function (this: TestRail, ...args) {
+    return methods.getUserByEmail(this.ctx, ...args);
+  };
+
+  getUsers: OmitFirstArg<typeof methods['getUsers']> = function (this: TestRail, ...args) {
+    return methods.getUsers(this.ctx, ...args);
+  };
+
+  addUser: OmitFirstArg<typeof methods['addUser']> = function (this: TestRail, ...args) {
+    return methods.addUser(this.ctx, ...args);
+  };
+
+  updateUser: OmitFirstArg<typeof methods['updateUser']> = function (this: TestRail, ...args) {
+    return methods.updateUser(this.ctx, ...args);
+  };
+
+  getVariables: OmitFirstArg<typeof methods['getVariables']> = function (this: TestRail, ...args) {
+    return methods.getVariables(this.ctx, ...args);
+  };
+
+  addVariable: OmitFirstArg<typeof methods['addVariable']> = function (this: TestRail, ...args) {
+    return methods.addVariable(this.ctx, ...args);
+  };
+
+  updateVariable: OmitFirstArg<typeof methods['updateVariable']> = function (this: TestRail, ...args) {
+    return methods.updateVariable(this.ctx, ...args);
+  };
+
+  deleteVariable: OmitFirstArg<typeof methods['deleteVariable']> = function (this: TestRail, ...args) {
+    return methods.deleteVariable(this.ctx, ...args);
+  };
 }
-
-async function pagination<T>(key: string, filters: any, callback: (filters: any) => any): Promise<T[]> {
-  if (filters && (filters.hasOwnProperty('limit') || filters.hasOwnProperty('offset'))) {
-    const result = await callback(filters);
-
-    return Array.isArray(result)
-      ? result
-      : result[key] || [];
-  }
-
-  let page = 0;
-  let offset = 0;
-  let result, items, hasNextPage, hasNewItems;
-
-  const limit = 250;
-  const results = [];
-  const ids = new Set();
-
-  do {
-    offset = page++ * limit;
-    result = await callback({ ...filters, limit, offset });
-
-    // API version < 6.7
-    if (Array.isArray(result)) {
-      hasNewItems = false;
-      hasNextPage = result.length === limit;
-      items = result;
-    } else {
-      hasNewItems = true;
-      hasNextPage = !!result?._links?.next;
-      items = result[key] || [];
-    }
-
-    // Filter out duplicates
-    for (const item of items) {
-      if (!ids.has(item.id)) {
-        ids.add(item.id);
-        results.push(item);
-
-        hasNewItems = true;
-      }
-    }
-  } while (hasNextPage && hasNewItems);
-
-  return results;
-}
-
-function appendToFormData(formData: FormData, name: string, value: string | Blob, filename?: string) {
-  if (typeof Blob !== 'undefined' && typeof window !== 'undefined' && window?.FormData === FormData) {
-    const blob = value instanceof Blob ? value : new Blob([value]);
-    formData.append(name, blob, filename);
-  } else {
-    formData.append(name, value, filename);
-  }
-}
-
-function base64(string: string) {
-  if (typeof btoa !== 'undefined') {
-    return btoa(string);
-  } else {
-    return Buffer.from(string).toString('base64');
-  }
-}
-
-function sleep(timeout: number): Promise<void> {
-  return new Promise((resolve) => setTimeout(resolve, timeout));
-}
-
-export default TestRail;

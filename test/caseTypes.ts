@@ -1,4 +1,4 @@
-import { CaseType } from '..';
+import type { CaseType } from '..';
 import { api, jsonFor, OK, on } from './_helper';
 
 describe('Case Types', () => {

@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker';
-import { AddDataset, Dataset } from '../src/types';
-import { api, jsonFor, OK, on } from './_helper';
+import type { AddDataset, Dataset } from '..';
+import { OK, api, jsonFor, on } from './_helper';
 
 describe('Dataset', () => {
   const projectId = faker.datatype.number();

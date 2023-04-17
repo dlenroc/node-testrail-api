@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker';
-import { AddPlan, AddPlanEntry, AddRunToPlanEntry, Plan, PlanEntry, PlanFilters, PlanItem, UpdatePlan, UpdatePlanEntry, UpdateRunInPlanEntry } from '..';
-import { api, jsonFor, OK, on, qs } from './_helper';
+import type { AddPlan, AddPlanEntry, AddRunToPlanEntry, Plan, PlanEntry, PlanFilters, PlanItem, UpdatePlan, UpdatePlanEntry, UpdateRunInPlanEntry } from '..';
+import { OK, api, jsonFor, on, qs } from './_helper';
 
 describe('Plans', () => {
   const planId = faker.datatype.number();

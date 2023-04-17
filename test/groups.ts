@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker';
-import { AddGroup, Group } from '..';
-import { api, jsonFor, OK, on } from './_helper';
+import type { AddGroup, Group } from '..';
+import { OK, api, jsonFor, on } from './_helper';
 
 describe('Groups', () => {
   const groupId = faker.datatype.number();

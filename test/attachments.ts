@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker';
-import { AddAttachment, Attachment, AttachmentForCase, AttachmentForPlan, AttachmentForPlanEntry, AttachmentForRun, AttachmentForTest, CreatedAttachment } from '..';
-import { api, jsonFor, OK, on } from './_helper';
+import type { AddAttachment, Attachment, AttachmentForCase, AttachmentForPlan, AttachmentForPlanEntry, AttachmentForRun, AttachmentForTest, CreatedAttachment } from '..';
+import { OK, api, jsonFor, on } from './_helper';
 
 describe('Attachments', () => {
   const planId = faker.datatype.number();
