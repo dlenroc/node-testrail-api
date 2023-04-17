@@ -1,5 +1,5 @@
-import { AddCaseField, CaseField } from '..';
-import { api, jsonFor, OK, on } from './_helper';
+import type { AddCaseField, CaseField } from '..';
+import { OK, api, jsonFor, on } from './_helper';
 
 describe('Case Fields', () => {
   const caseField: CaseField = jsonFor('CaseField');

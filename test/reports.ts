@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker';
-import { Report, ReportUrls } from '..';
-import { api, jsonFor, OK, on } from './_helper';
+import type { Report, ReportUrls } from '..';
+import { OK, api, jsonFor, on } from './_helper';
 
 describe('Reports', () => {
   const projectId = faker.datatype.number();

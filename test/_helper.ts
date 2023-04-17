@@ -1,17 +1,16 @@
 import chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
-import sync from 'deasync';
 import fs from 'fs';
-import glob from 'glob';
+import { globSync } from 'glob';
 import { mock as tsMock } from 'intermock';
-import nock, { RequestBodyMatcher } from 'nock';
+import nock, { type RequestBodyMatcher } from 'nock';
 import TestRail from '..';
 
-export { stringify as qs } from '../src/query-string';
+export { qs } from '../src/internal/request';
 
 chai.use(chaiAsPromised).should();
 
-const tsFiles: [string, string][] = (sync(glob)('./src/**/*.ts') as string[])
+const tsFiles: [string, string][] = globSync('./src/**/*.ts')
   .map((file) => [file, fs.readFileSync(file, { encoding: 'utf-8' })]);
 
 tsFiles.push(['Record.ts', `type Record<K extends keyof any, T> = { [P in K]: T }`]);
@@ -63,7 +62,7 @@ export function jsonFor(name: string, ...names: string[]): any {
   }
 
   if (interfaces.length === 1) {
-    return result[interfaces[0]];
+    return result[interfaces[0]!];
   }
 
   return result;

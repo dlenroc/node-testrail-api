@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker';
-import { AddSuite, Suite, UpdateSuite } from '..';
-import { api, jsonFor, OK, on } from './_helper';
+import type { AddSuite, Suite, UpdateSuite } from '..';
+import { OK, api, jsonFor, on } from './_helper';
 
 describe('Suites', () => {
   const suiteId = faker.datatype.number();

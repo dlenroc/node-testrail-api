@@ -1,5 +1,5 @@
-import { CaseStatus, Status } from '..';
-import { api, jsonFor, OK, on } from './_helper';
+import type { CaseStatus, Status } from '..';
+import { OK, api, jsonFor, on } from './_helper';
 
 describe('Statuses', () => {
   const status: Status = jsonFor('Status');

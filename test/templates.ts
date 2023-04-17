@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker';
-import { Template } from '..';
+import type { Template } from '..';
 import { api, jsonFor, OK, on } from './_helper';
 
 describe('Templates', () => {

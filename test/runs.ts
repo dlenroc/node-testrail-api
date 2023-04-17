@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker';
-import { AddRun, Run, RunFilters, UpdateRun } from '..';
-import { api, jsonFor, OK, on, qs } from './_helper';
+import type { AddRun, Run, RunFilters, UpdateRun } from '..';
+import { OK, api, jsonFor, on, qs } from './_helper';
 
 describe('Runs', () => {
   const runId = faker.datatype.number();

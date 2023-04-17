@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker';
-import { AddConfig, AddConfigGroup, Config, ConfigItem, UpdateConfig, UpdateConfigGroup } from '..';
-import { api, jsonFor, OK, on } from './_helper';
+import type { AddConfig, AddConfigGroup, Config, ConfigItem, UpdateConfig, UpdateConfigGroup } from '..';
+import { OK, api, jsonFor, on } from './_helper';
 
 describe('Configurations', () => {
   const projectId = faker.datatype.number();

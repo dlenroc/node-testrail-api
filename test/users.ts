@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker';
-import { AddUser, User, UserFilters } from '..';
-import { api, jsonFor, OK, on, qs } from './_helper';
+import type { AddUser, User, UserFilters } from '..';
+import { OK, api, jsonFor, on, qs } from './_helper';
 
 describe('Users', () => {
   const userId = faker.datatype.number();

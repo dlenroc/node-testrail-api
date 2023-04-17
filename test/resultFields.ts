@@ -1,4 +1,4 @@
-import { ResultField } from '..';
+import type { ResultField } from '..';
 import { api, jsonFor, OK, on } from './_helper';
 
 describe('Result Fields', () => {

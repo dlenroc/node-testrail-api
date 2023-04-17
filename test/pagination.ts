@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker';
-import { Case } from '..';
+import type { Case } from '..';
 import { api, jsonFor, OK, on } from './_helper';
 
 describe('Pagination', () => {

@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker';
-import { AddResult, AddResults, AddResultsForCases, Result, ResultFilters, ResultForRunFilters } from '..';
-import { api, jsonFor, OK, on, qs } from './_helper';
+import type { AddResult, AddResults, AddResultsForCases, Result, ResultFilters, ResultForRunFilters } from '..';
+import { OK, api, jsonFor, on, qs } from './_helper';
 
 describe('Results', () => {
   const testId = faker.datatype.number();

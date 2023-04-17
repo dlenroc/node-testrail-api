@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker';
-import { AddVariable, Variable } from '../src/types';
-import { api, jsonFor, OK, on } from './_helper';
+import type { AddVariable, Variable } from '..';
+import { OK, api, jsonFor, on } from './_helper';
 
 describe('Variables', () => {
   const projectId = faker.datatype.number();
