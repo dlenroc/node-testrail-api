@@ -70,6 +70,14 @@ export default class TestRail {
     return methods.deleteAttachment(this.ctx, ...args);
   };
 
+  getBdd: OmitFirstArg<typeof methods['getBdd']> = function (this: TestRail, ...args) {
+    return methods.getBdd(this.ctx, ...args);
+  };
+
+  addBdd: OmitFirstArg<typeof methods['addBdd']> = function (this: TestRail, ...args) {
+    return methods.addBdd(this.ctx, ...args);
+  };
+
   getCase: OmitFirstArg<typeof methods['getCase']> = function (this: TestRail, ...args) {
     return methods.getCase(this.ctx, ...args);
   };

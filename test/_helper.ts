@@ -28,7 +28,7 @@ export const api = new TestRail({ host, username, password });
 export function on(path: string, requestBody?: RequestBodyMatcher | any) {
   const options = {
     reqheaders: {
-      'Content-Type': path.startsWith('add_attachment')
+      'Content-Type': path.match('add_(attachment|bdd)')
         ? /multipart\/form-data/
         : 'application/json',
     },
