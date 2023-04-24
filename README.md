@@ -75,6 +75,16 @@ getAttachment(attachmentId: string): Promise<Blob>
 deleteAttachment(attachmentId: string): Promise<void>
 ```
 
+### BDDs
+
+```typescript
+getBdd(caseId: number): Promise<Blob>
+```
+
+```typescript
+addBdd(sectionId: number, payload: AddAttachment): Promise<Case>
+```
+
 ### Cases
 
 ```typescript

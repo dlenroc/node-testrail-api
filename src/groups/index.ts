@@ -1,4 +1,5 @@
 export * from './attachments.js';
+export * from './bdd.js';
 export * from './case-fields.js';
 export * from './case-types.js';
 export * from './cases.js';
