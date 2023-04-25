@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.8.1](https://github.com/dlenroc/node-testrail-api/compare/v1.8.0...v1.8.1) (2023-04-25)
+
+
+### Bug Fixes
+
+* config compatibility ([8700f9e](https://github.com/dlenroc/node-testrail-api/commit/8700f9ec947ec89ff77ca3f3b0f6ba491907e6cb))
+
 ## [1.8.0](https://github.com/dlenroc/node-testrail-api/compare/v1.7.2...v1.8.0) (2023-04-24)
 
 
