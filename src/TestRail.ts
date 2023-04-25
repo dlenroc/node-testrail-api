@@ -16,8 +16,9 @@ export default class TestRail {
     this.ctx = {
       baseURL: (config?.host || '') + '/index.php?/api/v2/',
       // @ts-ignore - Backward compatibility
-      ...config?.username && { username: config?.username || config?.user },
-      ...config?.password && { password: config?.password },
+      ...config?.user && { username: config.user },
+      ...config?.username && { username: config.username },
+      ...config?.password && { password: config.password },
       ...config?.signal && { signal: config.signal }
     };
   }
