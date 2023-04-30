@@ -1,489 +1,527 @@
 import type { TestRailCtx } from './TestRailCtx';
 import { TestRailException } from './TestRailException';
 import * as methods from './groups';
-import type { Request, Response } from './payload';
+import type { AddAttachment, AddCase, AddCaseField, AddConfig, AddConfigGroup, AddDataset, AddGroup, AddMilestone, AddPlan, AddPlanEntry, AddProject, AddResult, AddResults, AddResultsForCases, AddRun, AddRunToPlanEntry, AddSection, AddSharedStep, AddSuite, AddUser, AddVariable, AttachmentForCase, AttachmentForPlan, AttachmentForPlanEntry, AttachmentForRun, AttachmentForTest, Case, CaseField, CaseFilters, CaseHistory, CaseStatus, CaseType, Config, ConfigItem, CopyCasesToSection, CreatedAttachment, Dataset, DeleteCases, DeleteSharedStep, Group, Milestone, MilestoneFilters, MoveCasesToSection, MoveSection, Pagination, Plan, PlanEntry, PlanFilters, PlanItem, Priority, Project, ProjectFilters, Report, ReportUrls, Request, Response, Result, ResultField, ResultFilters, ResultForRunFilters, Role, Run, RunFilters, Section, SectionFilters, SharedStep, SharedStepFilters, SharedStepHistory, Status, Suite, Template, Test, TestFilters, UpdateCase, UpdateCases, UpdateConfig, UpdateConfigGroup, UpdateMilestone, UpdatePlan, UpdatePlanEntry, UpdateProject, UpdateRun, UpdateRunInPlanEntry, UpdateSection, UpdateSharedStep, UpdateSuite, User, UserFilters, Variable } from './payload';
 
 export * from './payload';
 export type { Request as Payload, Response as Model };
 
-type OmitFirstArg<F> = F extends (x: any, ...args: infer P) => infer R ? (...args: P) => R : never;
+type Signal = { signal: AbortSignal };
+type Mutable<T> = { -readonly [P in keyof T]: T[P] };
 
 export default class TestRail {
   static Exception = TestRailException;
   private readonly ctx: TestRailCtx;
 
-  constructor(config?: { host: string; username: string; password: string, signal?: AbortSignal }) {
+  constructor(config?: Pick<TestRailCtx, 'username' | 'password' | 'signal' | 'implementations'> & { host: string; }) {
     this.ctx = {
       baseURL: (config?.host || '') + '/index.php?/api/v2/',
       // @ts-ignore - Backward compatibility
-      ...config?.user && { username: config.user },
-      ...config?.username && { username: config.username },
-      ...config?.password && { password: config.password },
-      ...config?.signal && { signal: config.signal }
+      ...(config?.user && { username: config.user }),
+      ...(config?.username && { username: config.username }),
+      ...(config?.password && { password: config.password }),
+      ...(config?.signal && { signal: config.signal }),
+      ...(config?.implementations && { implementations: config.implementations }),
     };
   }
 
-  addAttachmentToCase: OmitFirstArg<typeof methods['addAttachmentToCase']> = function (this: TestRail, ...args) {
-    return methods.addAttachmentToCase(this.ctx, ...args);
-  };
-
-  addAttachmentToPlan: OmitFirstArg<typeof methods['addAttachmentToPlan']> = function (this: TestRail, ...args) {
-    return methods.addAttachmentToPlan(this.ctx, ...args);
-  };
-
-  addAttachmentToPlanEntry: OmitFirstArg<typeof methods['addAttachmentToPlanEntry']> = function (this: TestRail, ...args) {
-    return methods.addAttachmentToPlanEntry(this.ctx, ...args);
-  };
-
-  addAttachmentToResult: OmitFirstArg<typeof methods['addAttachmentToResult']> = function (this: TestRail, ...args) {
-    return methods.addAttachmentToResult(this.ctx, ...args);
-  };
-
-  addAttachmentToRun: OmitFirstArg<typeof methods['addAttachmentToRun']> = function (this: TestRail, ...args) {
-    return methods.addAttachmentToRun(this.ctx, ...args);
-  };
-
-  getAttachmentsForCase: OmitFirstArg<typeof methods['getAttachmentsForCase']> = function (this: TestRail, ...args) {
-    return methods.getAttachmentsForCase(this.ctx, ...args);
-  };
-
-  getAttachmentsForPlan: OmitFirstArg<typeof methods['getAttachmentsForPlan']> = function (this: TestRail, ...args) {
-    return methods.getAttachmentsForPlan(this.ctx, ...args);
-  };
-
-  getAttachmentsForPlanEntry: OmitFirstArg<typeof methods['getAttachmentsForPlanEntry']> = function (this: TestRail, ...args) {
-    return methods.getAttachmentsForPlanEntry(this.ctx, ...args);
-  };
-
-  getAttachmentsForRun: OmitFirstArg<typeof methods['getAttachmentsForRun']> = function (this: TestRail, ...args) {
-    return methods.getAttachmentsForRun(this.ctx, ...args);
-  };
-
-  getAttachmentsForTest: OmitFirstArg<typeof methods['getAttachmentsForTest']> = function (this: TestRail, ...args) {
-    return methods.getAttachmentsForTest(this.ctx, ...args);
-  };
-
-  getAttachment: OmitFirstArg<typeof methods['getAttachment']> = function (this: TestRail, ...args) {
-    return methods.getAttachment(this.ctx, ...args);
-  };
-
-  deleteAttachment: OmitFirstArg<typeof methods['deleteAttachment']> = function (this: TestRail, ...args) {
-    return methods.deleteAttachment(this.ctx, ...args);
-  };
-
-  getBdd: OmitFirstArg<typeof methods['getBdd']> = function (this: TestRail, ...args) {
-    return methods.getBdd(this.ctx, ...args);
-  };
-
-  addBdd: OmitFirstArg<typeof methods['addBdd']> = function (this: TestRail, ...args) {
-    return methods.addBdd(this.ctx, ...args);
-  };
-
-  getCase: OmitFirstArg<typeof methods['getCase']> = function (this: TestRail, ...args) {
-    return methods.getCase(this.ctx, ...args);
-  };
-
-  getCases: OmitFirstArg<typeof methods['getCases']> = function (this: TestRail, ...args) {
-    return methods.getCases(this.ctx, ...args);
-  };
-
-  getHistoryForCase: OmitFirstArg<typeof methods['getHistoryForCase']> = function (this: TestRail, ...args) {
-    return methods.getHistoryForCase(this.ctx, ...args);
-  };
-
-  addCase: OmitFirstArg<typeof methods['addCase']> = function (this: TestRail, ...args) {
-    return methods.addCase(this.ctx, ...args);
-  };
-
-  copyCasesToSection: OmitFirstArg<typeof methods['copyCasesToSection']> = function (this: TestRail, ...args) {
-    return methods.copyCasesToSection(this.ctx, ...args);
-  };
-
-  updateCase: OmitFirstArg<typeof methods['updateCase']> = function (this: TestRail, ...args) {
-    return methods.updateCase(this.ctx, ...args);
-  };
-
-  updateCases: OmitFirstArg<typeof methods['updateCases']> = function (this: TestRail, ...args) {
-    return methods.updateCases(this.ctx, ...args);
-  };
-
-  moveCasesToSection: OmitFirstArg<typeof methods['moveCasesToSection']> = function (this: TestRail, ...args) {
-    return methods.moveCasesToSection(this.ctx, ...args);
-  };
-
-  deleteCase: OmitFirstArg<typeof methods['deleteCase']> = function (this: TestRail, ...args) {
-    return methods.deleteCase(this.ctx, ...args);
-  };
-
-  deleteCases: OmitFirstArg<typeof methods['deleteCases']> = function (this: TestRail, ...args) {
-    return methods.deleteCases(this.ctx, ...args);
-  };
-
-  getCaseFields: OmitFirstArg<typeof methods['getCaseFields']> = function (this: TestRail, ...args) {
-    return methods.getCaseFields(this.ctx, ...args);
-  };
-
-  addCaseField: OmitFirstArg<typeof methods['addCaseField']> = function (this: TestRail, ...args) {
-    return methods.addCaseField(this.ctx, ...args);
-  };
-
-  getCaseTypes: OmitFirstArg<typeof methods['getCaseTypes']> = function (this: TestRail, ...args) {
-    return methods.getCaseTypes(this.ctx, ...args);
-  };
-
-  getConfigs: OmitFirstArg<typeof methods['getConfigs']> = function (this: TestRail, ...args) {
-    return methods.getConfigs(this.ctx, ...args);
-  };
-
-  addConfigGroup: OmitFirstArg<typeof methods['addConfigGroup']> = function (this: TestRail, ...args) {
-    return methods.addConfigGroup(this.ctx, ...args);
-  };
-
-  addConfig: OmitFirstArg<typeof methods['addConfig']> = function (this: TestRail, ...args) {
-    return methods.addConfig(this.ctx, ...args);
-  };
-
-  updateConfigGroup: OmitFirstArg<typeof methods['updateConfigGroup']> = function (this: TestRail, ...args) {
-    return methods.updateConfigGroup(this.ctx, ...args);
-  };
-
-  updateConfig: OmitFirstArg<typeof methods['updateConfig']> = function (this: TestRail, ...args) {
-    return methods.updateConfig(this.ctx, ...args);
-  };
-
-  deleteConfigGroup: OmitFirstArg<typeof methods['deleteConfigGroup']> = function (this: TestRail, ...args) {
-    return methods.deleteConfigGroup(this.ctx, ...args);
-  };
-
-  deleteConfig: OmitFirstArg<typeof methods['deleteConfig']> = function (this: TestRail, ...args) {
-    return methods.deleteConfig(this.ctx, ...args);
-  };
-
-  getDataset: OmitFirstArg<typeof methods['getDataset']> = function (this: TestRail, ...args) {
-    return methods.getDataset(this.ctx, ...args);
-  };
-
-  getDatasets: OmitFirstArg<typeof methods['getDatasets']> = function (this: TestRail, ...args) {
-    return methods.getDatasets(this.ctx, ...args);
-  };
-
-  addDataset: OmitFirstArg<typeof methods['addDataset']> = function (this: TestRail, ...args) {
-    return methods.addDataset(this.ctx, ...args);
-  };
-
-  updateDataset: OmitFirstArg<typeof methods['updateDataset']> = function (this: TestRail, ...args) {
-    return methods.updateDataset(this.ctx, ...args);
-  };
-
-  deleteDataset: OmitFirstArg<typeof methods['deleteDataset']> = function (this: TestRail, ...args) {
-    return methods.deleteDataset(this.ctx, ...args);
-  };
-
-  getGroup: OmitFirstArg<typeof methods['getGroup']> = function (this: TestRail, ...args) {
-    return methods.getGroup(this.ctx, ...args);
-  };
-
-  getGroups: OmitFirstArg<typeof methods['getGroups']> = function (this: TestRail, ...args) {
-    return methods.getGroups(this.ctx, ...args);
-  };
-
-  addGroup: OmitFirstArg<typeof methods['addGroup']> = function (this: TestRail, ...args) {
-    return methods.addGroup(this.ctx, ...args);
-  };
-
-  updateGroup: OmitFirstArg<typeof methods['updateGroup']> = function (this: TestRail, ...args) {
-    return methods.updateGroup(this.ctx, ...args);
-  };
-
-  deleteGroup: OmitFirstArg<typeof methods['deleteGroup']> = function (this: TestRail, ...args) {
-    return methods.deleteGroup(this.ctx, ...args);
-  };
-
-  getMilestone: OmitFirstArg<typeof methods['getMilestone']> = function (this: TestRail, ...args) {
-    return methods.getMilestone(this.ctx, ...args);
-  };
-
-  getMilestones: OmitFirstArg<typeof methods['getMilestones']> = function (this: TestRail, ...args) {
-    return methods.getMilestones(this.ctx, ...args);
-  };
-
-  addMilestone: OmitFirstArg<typeof methods['addMilestone']> = function (this: TestRail, ...args) {
-    return methods.addMilestone(this.ctx, ...args);
-  };
-
-  updateMilestone: OmitFirstArg<typeof methods['updateMilestone']> = function (this: TestRail, ...args) {
-    return methods.updateMilestone(this.ctx, ...args);
-  };
-
-  deleteMilestone: OmitFirstArg<typeof methods['deleteMilestone']> = function (this: TestRail, ...args) {
-    return methods.deleteMilestone(this.ctx, ...args);
-  };
-
-  getPlan: OmitFirstArg<typeof methods['getPlan']> = function (this: TestRail, ...args) {
-    return methods.getPlan(this.ctx, ...args);
-  };
-
-  getPlans: OmitFirstArg<typeof methods['getPlans']> = function (this: TestRail, ...args) {
-    return methods.getPlans(this.ctx, ...args);
-  };
-
-  addPlan: OmitFirstArg<typeof methods['addPlan']> = function (this: TestRail, ...args) {
-    return methods.addPlan(this.ctx, ...args);
-  };
-
-  addPlanEntry: OmitFirstArg<typeof methods['addPlanEntry']> = function (this: TestRail, ...args) {
-    return methods.addPlanEntry(this.ctx, ...args);
-  };
-
-  addRunToPlanEntry: OmitFirstArg<typeof methods['addRunToPlanEntry']> = function (this: TestRail, ...args) {
-    return methods.addRunToPlanEntry(this.ctx, ...args);
-  };
-
-  updatePlan: OmitFirstArg<typeof methods['updatePlan']> = function (this: TestRail, ...args) {
-    return methods.updatePlan(this.ctx, ...args);
-  };
-
-  updatePlanEntry: OmitFirstArg<typeof methods['updatePlanEntry']> = function (this: TestRail, ...args) {
-    return methods.updatePlanEntry(this.ctx, ...args);
-  };
-
-  updateRunInPlanEntry: OmitFirstArg<typeof methods['updateRunInPlanEntry']> = function (this: TestRail, ...args) {
-    return methods.updateRunInPlanEntry(this.ctx, ...args);
-  };
-
-  closePlan: OmitFirstArg<typeof methods['closePlan']> = function (this: TestRail, ...args) {
-    return methods.closePlan(this.ctx, ...args);
-  };
-
-  deletePlan: OmitFirstArg<typeof methods['deletePlan']> = function (this: TestRail, ...args) {
-    return methods.deletePlan(this.ctx, ...args);
-  };
-
-  deletePlanEntry: OmitFirstArg<typeof methods['deletePlanEntry']> = function (this: TestRail, ...args) {
-    return methods.deletePlanEntry(this.ctx, ...args);
-  };
-
-  deleteRunFromPlanEntry: OmitFirstArg<typeof methods['deleteRunFromPlanEntry']> = function (this: TestRail, ...args) {
-    return methods.deleteRunFromPlanEntry(this.ctx, ...args);
-  };
-
-  getPriorities: OmitFirstArg<typeof methods['getPriorities']> = function (this: TestRail, ...args) {
-    return methods.getPriorities(this.ctx, ...args);
-  };
-
-  getProject: OmitFirstArg<typeof methods['getProject']> = function (this: TestRail, ...args) {
-    return methods.getProject(this.ctx, ...args);
-  };
-
-  getProjects: OmitFirstArg<typeof methods['getProjects']> = function (this: TestRail, ...args) {
-    return methods.getProjects(this.ctx, ...args);
-  };
-
-  addProject: OmitFirstArg<typeof methods['addProject']> = function (this: TestRail, ...args) {
-    return methods.addProject(this.ctx, ...args);
-  };
-
-  updateProject: OmitFirstArg<typeof methods['updateProject']> = function (this: TestRail, ...args) {
-    return methods.updateProject(this.ctx, ...args);
-  };
-
-  deleteProject: OmitFirstArg<typeof methods['deleteProject']> = function (this: TestRail, ...args) {
-    return methods.deleteProject(this.ctx, ...args);
-  };
-
-  getReports: OmitFirstArg<typeof methods['getReports']> = function (this: TestRail, ...args) {
-    return methods.getReports(this.ctx, ...args);
-  };
-
-  runReport: OmitFirstArg<typeof methods['runReport']> = function (this: TestRail, ...args) {
-    return methods.runReport(this.ctx, ...args);
-  };
-
-  getResults: OmitFirstArg<typeof methods['getResults']> = function (this: TestRail, ...args) {
-    return methods.getResults(this.ctx, ...args);
-  };
-
-  getResultsForCase: OmitFirstArg<typeof methods['getResultsForCase']> = function (this: TestRail, ...args) {
-    return methods.getResultsForCase(this.ctx, ...args);
-  };
-
-  getResultsForRun: OmitFirstArg<typeof methods['getResultsForRun']> = function (this: TestRail, ...args) {
-    return methods.getResultsForRun(this.ctx, ...args);
-  };
-
-  addResult: OmitFirstArg<typeof methods['addResult']> = function (this: TestRail, ...args) {
-    return methods.addResult(this.ctx, ...args);
-  };
-
-  addResultForCase: OmitFirstArg<typeof methods['addResultForCase']> = function (this: TestRail, ...args) {
-    return methods.addResultForCase(this.ctx, ...args);
-  };
-
-  addResults: OmitFirstArg<typeof methods['addResults']> = function (this: TestRail, ...args) {
-    return methods.addResults(this.ctx, ...args);
-  };
-
-  addResultsForCases: OmitFirstArg<typeof methods['addResultsForCases']> = function (this: TestRail, ...args) {
-    return methods.addResultsForCases(this.ctx, ...args);
-  };
-
-  getResultFields: OmitFirstArg<typeof methods['getResultFields']> = function (this: TestRail, ...args) {
-    return methods.getResultFields(this.ctx, ...args);
-  };
-
-  getRoles: OmitFirstArg<typeof methods['getRoles']> = function (this: TestRail, ...args) {
-    return methods.getRoles(this.ctx, ...args);
-  };
-
-  getRun: OmitFirstArg<typeof methods['getRun']> = function (this: TestRail, ...args) {
-    return methods.getRun(this.ctx, ...args);
-  };
-
-  getRuns: OmitFirstArg<typeof methods['getRuns']> = function (this: TestRail, ...args) {
-    return methods.getRuns(this.ctx, ...args);
-  };
-
-  addRun: OmitFirstArg<typeof methods['addRun']> = function (this: TestRail, ...args) {
-    return methods.addRun(this.ctx, ...args);
-  };
-
-  updateRun: OmitFirstArg<typeof methods['updateRun']> = function (this: TestRail, ...args) {
-    return methods.updateRun(this.ctx, ...args);
-  };
-
-  closeRun: OmitFirstArg<typeof methods['closeRun']> = function (this: TestRail, ...args) {
-    return methods.closeRun(this.ctx, ...args);
-  };
-
-  deleteRun: OmitFirstArg<typeof methods['deleteRun']> = function (this: TestRail, ...args) {
-    return methods.deleteRun(this.ctx, ...args);
-  };
-
-  getSection: OmitFirstArg<typeof methods['getSection']> = function (this: TestRail, ...args) {
-    return methods.getSection(this.ctx, ...args);
-  };
-
-  getSections: OmitFirstArg<typeof methods['getSections']> = function (this: TestRail, ...args) {
-    return methods.getSections(this.ctx, ...args);
-  };
-
-  addSection: OmitFirstArg<typeof methods['addSection']> = function (this: TestRail, ...args) {
-    return methods.addSection(this.ctx, ...args);
-  };
-
-  moveSection: OmitFirstArg<typeof methods['moveSection']> = function (this: TestRail, ...args) {
-    return methods.moveSection(this.ctx, ...args);
-  };
-
-  updateSection: OmitFirstArg<typeof methods['updateSection']> = function (this: TestRail, ...args) {
-    return methods.updateSection(this.ctx, ...args);
-  };
-
-  deleteSection: OmitFirstArg<typeof methods['deleteSection']> = function (this: TestRail, ...args) {
-    return methods.deleteSection(this.ctx, ...args);
-  };
-
-  getSharedStep: OmitFirstArg<typeof methods['getSharedStep']> = function (this: TestRail, ...args) {
-    return methods.getSharedStep(this.ctx, ...args);
-  };
-
-  getSharedSteps: OmitFirstArg<typeof methods['getSharedSteps']> = function (this: TestRail, ...args) {
-    return methods.getSharedSteps(this.ctx, ...args);
-  };
-
-  getSharedStepHistory: OmitFirstArg<typeof methods['getSharedStepHistory']> = function (this: TestRail, ...args) {
-    return methods.getSharedStepHistory(this.ctx, ...args);
-  };
-
-  addSharedStep: OmitFirstArg<typeof methods['addSharedStep']> = function (this: TestRail, ...args) {
-    return methods.addSharedStep(this.ctx, ...args);
-  };
-
-  updateSharedStep: OmitFirstArg<typeof methods['updateSharedStep']> = function (this: TestRail, ...args) {
-    return methods.updateSharedStep(this.ctx, ...args);
-  };
-
-  deleteSharedStep: OmitFirstArg<typeof methods['deleteSharedStep']> = function (this: TestRail, ...args) {
-    return methods.deleteSharedStep(this.ctx, ...args);
-  };
-
-  getStatuses: OmitFirstArg<typeof methods['getStatuses']> = function (this: TestRail, ...args) {
-    return methods.getStatuses(this.ctx, ...args);
-  };
-
-  getCaseStatuses: OmitFirstArg<typeof methods['getCaseStatuses']> = function (this: TestRail, ...args) {
-    return methods.getCaseStatuses(this.ctx, ...args);
-  };
-
-  getSuite: OmitFirstArg<typeof methods['getSuite']> = function (this: TestRail, ...args) {
-    return methods.getSuite(this.ctx, ...args);
-  };
-
-  getSuites: OmitFirstArg<typeof methods['getSuites']> = function (this: TestRail, ...args) {
-    return methods.getSuites(this.ctx, ...args);
-  };
-
-  addSuite: OmitFirstArg<typeof methods['addSuite']> = function (this: TestRail, ...args) {
-    return methods.addSuite(this.ctx, ...args);
-  };
-
-  updateSuite: OmitFirstArg<typeof methods['updateSuite']> = function (this: TestRail, ...args) {
-    return methods.updateSuite(this.ctx, ...args);
-  };
-
-  deleteSuite: OmitFirstArg<typeof methods['deleteSuite']> = function (this: TestRail, ...args) {
-    return methods.deleteSuite(this.ctx, ...args);
-  };
-
-  getTemplates: OmitFirstArg<typeof methods['getTemplates']> = function (this: TestRail, ...args) {
-    return methods.getTemplates(this.ctx, ...args);
-  };
-
-  getTest: OmitFirstArg<typeof methods['getTest']> = function (this: TestRail, ...args) {
-    return methods.getTest(this.ctx, ...args);
-  };
-
-  getTests: OmitFirstArg<typeof methods['getTests']> = function (this: TestRail, ...args) {
-    return methods.getTests(this.ctx, ...args);
-  };
-
-  getUser: OmitFirstArg<typeof methods['getUser']> = function (this: TestRail, ...args) {
-    return methods.getUser(this.ctx, ...args);
-  };
-
-  getCurrentUser: OmitFirstArg<typeof methods['getCurrentUser']> = function (this: TestRail, ...args) {
-    return methods.getCurrentUser(this.ctx, ...args);
-  };
-
-  getUserByEmail: OmitFirstArg<typeof methods['getUserByEmail']> = function (this: TestRail, ...args) {
-    return methods.getUserByEmail(this.ctx, ...args);
-  };
-
-  getUsers: OmitFirstArg<typeof methods['getUsers']> = function (this: TestRail, ...args) {
-    return methods.getUsers(this.ctx, ...args);
-  };
-
-  addUser: OmitFirstArg<typeof methods['addUser']> = function (this: TestRail, ...args) {
-    return methods.addUser(this.ctx, ...args);
-  };
-
-  updateUser: OmitFirstArg<typeof methods['updateUser']> = function (this: TestRail, ...args) {
-    return methods.updateUser(this.ctx, ...args);
-  };
-
-  getVariables: OmitFirstArg<typeof methods['getVariables']> = function (this: TestRail, ...args) {
-    return methods.getVariables(this.ctx, ...args);
-  };
-
-  addVariable: OmitFirstArg<typeof methods['addVariable']> = function (this: TestRail, ...args) {
-    return methods.addVariable(this.ctx, ...args);
-  };
-
-  updateVariable: OmitFirstArg<typeof methods['updateVariable']> = function (this: TestRail, ...args) {
-    return methods.updateVariable(this.ctx, ...args);
-  };
-
-  deleteVariable: OmitFirstArg<typeof methods['deleteVariable']> = function (this: TestRail, ...args) {
-    return methods.deleteVariable(this.ctx, ...args);
-  };
+  addAttachmentToCase(caseId: number, payload: AddAttachment, options?: Signal): Promise<CreatedAttachment> {
+    return methods.addAttachmentToCase(this.getCtx(options), caseId, payload);
+  }
+
+  addAttachmentToPlan(planId: number, payload: AddAttachment, options?: Signal): Promise<CreatedAttachment> {
+    return methods.addAttachmentToPlan(this.getCtx(options), planId, payload);
+  }
+
+  addAttachmentToPlanEntry(planId: number, entryId: string, payload: AddAttachment, options?: Signal): Promise<CreatedAttachment> {
+    return methods.addAttachmentToPlanEntry(this.getCtx(options), planId, entryId, payload);
+  }
+
+  addAttachmentToResult(resultId: number, payload: AddAttachment, options?: Signal): Promise<CreatedAttachment> {
+    return methods.addAttachmentToResult(this.getCtx(options), resultId, payload);
+  }
+
+  addAttachmentToRun(runId: number, payload: AddAttachment, options?: Signal): Promise<CreatedAttachment> {
+    return methods.addAttachmentToRun(this.getCtx(options), runId, payload);
+  }
+
+  getAttachmentsForCase(caseId: number, filters?: Pagination, options?: Signal): Promise<AttachmentForCase[]> {
+    return methods.getAttachmentsForCase(this.getCtx(options), caseId, filters);
+  }
+
+  getAttachmentsForPlan(planId: number, filters?: Pagination, options?: Signal): Promise<AttachmentForPlan[]> {
+    return methods.getAttachmentsForPlan(this.getCtx(options), planId, filters);
+  }
+
+  getAttachmentsForPlanEntry(planId: number, entryId: string, options?: Signal): Promise<AttachmentForPlanEntry[]> {
+    return methods.getAttachmentsForPlanEntry(this.getCtx(options), planId, entryId);
+  }
+
+  getAttachmentsForRun(runId: number, filters?: Pagination, options?: Signal): Promise<AttachmentForRun[]> {
+    return methods.getAttachmentsForRun(this.getCtx(options), runId, filters);
+  }
+
+  getAttachmentsForTest(testId: number, options?: Signal): Promise<AttachmentForTest[]> {
+    return methods.getAttachmentsForTest(this.getCtx(options), testId);
+  }
+
+  getAttachment(attachmentId: string, options?: Signal): Promise<Blob> {
+    return methods.getAttachment(this.getCtx(options), attachmentId);
+  }
+
+  deleteAttachment(attachmentId: string, options?: Signal): Promise<void> {
+    return methods.deleteAttachment(this.getCtx(options), attachmentId);
+  }
+
+  getBdd(caseId: number, options?: Signal): Promise<Blob> {
+    return methods.getBdd(this.getCtx(options), caseId);
+  }
+
+  addBdd(sectionId: number, payload: AddAttachment, options?: Signal): Promise<Case> {
+    return methods.addBdd(this.getCtx(options), sectionId, payload);
+  }
+
+  getCase(caseId: number, options?: Signal): Promise<Case> {
+    return methods.getCase(this.getCtx(options), caseId);
+  }
+
+  getCases(projectId: number, filters?: CaseFilters, options?: Signal): Promise<Case[]> {
+    return methods.getCases(this.getCtx(options), projectId, filters);
+  }
+
+  getHistoryForCase(caseId: number, filters?: Pagination, options?: Signal): Promise<CaseHistory[]> {
+    return methods.getHistoryForCase(this.getCtx(options), caseId, filters);
+  }
+
+  addCase(sectionId: number, payload: AddCase, options?: Signal): Promise<Case> {
+    return methods.addCase(this.getCtx(options), sectionId, payload);
+  }
+
+  copyCasesToSection(sectionId: number, payload: CopyCasesToSection, options?: Signal): Promise<void> {
+    return methods.copyCasesToSection(this.getCtx(options), sectionId, payload);
+  }
+
+  updateCase(caseId: number, payload: UpdateCase, options?: Signal): Promise<Case> {
+    return methods.updateCase(this.getCtx(options), caseId, payload);
+  }
+
+  updateCases(suiteId: number, payload: UpdateCases, options?: Signal): Promise<void> {
+    return methods.updateCases(this.getCtx(options), suiteId, payload);
+  }
+
+  moveCasesToSection(sectionId: number, payload: MoveCasesToSection, options?: Signal): Promise<void> {
+    return methods.moveCasesToSection(this.getCtx(options), sectionId, payload);
+  }
+
+  deleteCase(caseId: number, options?: Signal): Promise<void> {
+    return methods.deleteCase(this.getCtx(options), caseId);
+  }
+
+  deleteCases(suiteId: number, payload: DeleteCases, options?: Signal): Promise<void> {
+    return methods.deleteCases(this.getCtx(options), suiteId, payload);
+  }
+
+  getCaseFields(options?: Signal): Promise<CaseField[]> {
+    return methods.getCaseFields(this.getCtx(options));
+  }
+
+  addCaseField(payload: AddCaseField, options?: Signal): Promise<CaseField> {
+    return methods.addCaseField(this.getCtx(options), payload);
+  }
+
+  getCaseTypes(options?: Signal): Promise<CaseType[]> {
+    return methods.getCaseTypes(this.getCtx(options));
+  }
+
+  getConfigs(projectId: number, options?: Signal): Promise<Config[]> {
+    return methods.getConfigs(this.getCtx(options), projectId);
+  }
+
+  addConfigGroup(projectId: number, payload: AddConfigGroup, options?: Signal): Promise<Config> {
+    return methods.addConfigGroup(this.getCtx(options), projectId, payload);
+  }
+
+  addConfig(configGroupId: number, payload: AddConfig, options?: Signal): Promise<ConfigItem> {
+    return methods.addConfig(this.getCtx(options), configGroupId, payload);
+  }
+
+  updateConfigGroup(configGroupId: number, payload: UpdateConfigGroup, options?: Signal): Promise<Config> {
+    return methods.updateConfigGroup(this.getCtx(options), configGroupId, payload);
+  }
+
+  updateConfig(configId: number, payload: UpdateConfig, options?: Signal): Promise<ConfigItem> {
+    return methods.updateConfig(this.getCtx(options), configId, payload);
+  }
+
+  deleteConfigGroup(configGroupId: number, options?: Signal): Promise<void> {
+    return methods.deleteConfigGroup(this.getCtx(options), configGroupId);
+  }
+
+  deleteConfig(configId: number, options?: Signal): Promise<void> {
+    return methods.deleteConfig(this.getCtx(options), configId);
+  }
+
+  getDataset(datasetId: number, options?: Signal): Promise<Dataset> {
+    return methods.getDataset(this.getCtx(options), datasetId);
+  }
+
+  getDatasets(projectId: number, filters?: Pagination, options?: Signal): Promise<Dataset[]> {
+    return methods.getDatasets(this.getCtx(options), projectId, filters);
+  }
+
+  addDataset(projectId: number, payload: AddDataset, options?: Signal): Promise<Group> {
+    return methods.addDataset(this.getCtx(options), projectId, payload);
+  }
+
+  updateDataset(datasetId: number, payload: AddDataset, options?: Signal): Promise<Group> {
+    return methods.updateDataset(this.getCtx(options), datasetId, payload);
+  }
+
+  deleteDataset(datasetId: number, options?: Signal): Promise<void> {
+    return methods.deleteDataset(this.getCtx(options), datasetId);
+  }
+
+  getGroup(groupId: number, options?: Signal): Promise<Group> {
+    return methods.getGroup(this.getCtx(options), groupId);
+  }
+
+  getGroups(filters?: Pagination, options?: Signal): Promise<Group[]> {
+    return methods.getGroups(this.getCtx(options), filters);
+  }
+
+  addGroup(payload: AddGroup, options?: Signal): Promise<Group> {
+    return methods.addGroup(this.getCtx(options), payload);
+  }
+
+  updateGroup(groupId: number, payload: AddGroup, options?: Signal): Promise<Group> {
+    return methods.updateGroup(this.getCtx(options), groupId, payload);
+  }
+
+  deleteGroup(groupId: number, options?: Signal): Promise<void> {
+    return methods.deleteGroup(this.getCtx(options), groupId);
+  }
+
+  getMilestone(milestoneId: number, options?: Signal): Promise<Milestone> {
+    return methods.getMilestone(this.getCtx(options), milestoneId);
+  }
+
+  getMilestones(projectId: number, filters?: MilestoneFilters, options?: Signal): Promise<Milestone[]> {
+    return methods.getMilestones(this.getCtx(options), projectId, filters);
+  }
+
+  addMilestone(projectId: number, payload: AddMilestone, options?: Signal): Promise<Milestone> {
+    return methods.addMilestone(this.getCtx(options), projectId, payload);
+  }
+
+  updateMilestone(milestoneId: number, payload: UpdateMilestone, options?: Signal): Promise<Milestone> {
+    return methods.updateMilestone(this.getCtx(options), milestoneId, payload);
+  }
+
+  deleteMilestone(milestoneId: number, options?: Signal): Promise<void> {
+    return methods.deleteMilestone(this.getCtx(options), milestoneId);
+  }
+
+  getPlan(planId: number, options?: Signal): Promise<Plan> {
+    return methods.getPlan(this.getCtx(options), planId);
+  }
+
+  getPlans(projectId: number, filters?: PlanFilters, options?: Signal): Promise<PlanItem[]> {
+    return methods.getPlans(this.getCtx(options), projectId, filters);
+  }
+
+  addPlan(projectId: number, payload: AddPlan, options?: Signal): Promise<Plan> {
+    return methods.addPlan(this.getCtx(options), projectId, payload);
+  }
+
+  addPlanEntry(planId: number, payload: AddPlanEntry, options?: Signal): Promise<PlanEntry> {
+    return methods.addPlanEntry(this.getCtx(options), planId, payload);
+  }
+
+  addRunToPlanEntry(planId: number, entryId: string, payload: AddRunToPlanEntry, options?: Signal): Promise<PlanEntry> {
+    return methods.addRunToPlanEntry(this.getCtx(options), planId, entryId, payload);
+  }
+
+  updatePlan(planId: number, payload: UpdatePlan, options?: Signal): Promise<Plan> {
+    return methods.updatePlan(this.getCtx(options), planId, payload);
+  }
+
+  updatePlanEntry(planId: number, entryId: string, payload: UpdatePlanEntry, options?: Signal): Promise<PlanEntry> {
+    return methods.updatePlanEntry(this.getCtx(options), planId, entryId, payload);
+  }
+
+  updateRunInPlanEntry(runId: number, payload: UpdateRunInPlanEntry, options?: Signal): Promise<PlanEntry> {
+    return methods.updateRunInPlanEntry(this.getCtx(options), runId, payload);
+  }
+
+  closePlan(planId: number, options?: Signal): Promise<Plan> {
+    return methods.closePlan(this.getCtx(options), planId);
+  }
+
+  deletePlan(planId: number, options?: Signal): Promise<void> {
+    return methods.deletePlan(this.getCtx(options), planId);
+  }
+
+  deletePlanEntry(planId: number, entryId: string, options?: Signal): Promise<void> {
+    return methods.deletePlanEntry(this.getCtx(options), planId, entryId);
+  }
+
+  deleteRunFromPlanEntry(runId: number, options?: Signal): Promise<void> {
+    return methods.deleteRunFromPlanEntry(this.getCtx(options), runId);
+  }
+
+  getPriorities(options?: Signal): Promise<Priority[]> {
+    return methods.getPriorities(this.getCtx(options));
+  }
+
+  getProject(projectId: number, options?: Signal): Promise<Project> {
+    return methods.getProject(this.getCtx(options), projectId);
+  }
+
+  getProjects(filters?: ProjectFilters, options?: Signal): Promise<Project[]> {
+    return methods.getProjects(this.getCtx(options), filters);
+  }
+
+  addProject(payload: AddProject, options?: Signal): Promise<Project> {
+    return methods.addProject(this.getCtx(options), payload);
+  }
+
+  updateProject(projectId: number, payload: UpdateProject, options?: Signal): Promise<Project> {
+    return methods.updateProject(this.getCtx(options), projectId, payload);
+  }
+
+  deleteProject(projectId: number, options?: Signal): Promise<void> {
+    return methods.deleteProject(this.getCtx(options), projectId);
+  }
+
+  getReports(projectId: number, options?: Signal): Promise<Report[]> {
+    return methods.getReports(this.getCtx(options), projectId);
+  }
+
+  runReport(reportTemplateId: number, options?: Signal): Promise<ReportUrls> {
+    return methods.runReport(this.getCtx(options), reportTemplateId);
+  }
+
+  getResults(testId: number, filters?: ResultFilters, options?: Signal): Promise<Result[]> {
+    return methods.getResults(this.getCtx(options), testId, filters);
+  }
+
+  getResultsForCase(runId: number, caseId: number, filters?: ResultFilters, options?: Signal): Promise<Result[]> {
+    return methods.getResultsForCase(this.getCtx(options), runId, caseId, filters);
+  }
+
+  getResultsForRun(runId: number, filters?: ResultForRunFilters, options?: Signal): Promise<Result[]> {
+    return methods.getResultsForRun(this.getCtx(options), runId, filters);
+  }
+
+  addResult(testId: number, payload: AddResult, options?: Signal): Promise<Result> {
+    return methods.addResult(this.getCtx(options), testId, payload);
+  }
+
+  addResultForCase(runId: number, caseId: number, payload: AddResult, options?: Signal): Promise<Result> {
+    return methods.addResultForCase(this.getCtx(options), runId, caseId, payload);
+  }
+
+  addResults(runId: number, payload: AddResults, options?: Signal): Promise<Result[]> {
+    return methods.addResults(this.getCtx(options), runId, payload);
+  }
+
+  addResultsForCases(runId: number, payload: AddResultsForCases, options?: Signal): Promise<Result[]> {
+    return methods.addResultsForCases(this.getCtx(options), runId, payload);
+  }
+
+  getResultFields(options?: Signal): Promise<ResultField[]> {
+    return methods.getResultFields(this.getCtx(options));
+  }
+
+  getRoles(filters?: Pagination, options?: Signal): Promise<Role[]> {
+    return methods.getRoles(this.getCtx(options), filters);
+  }
+
+  getRun(runId: number, options?: Signal): Promise<Run> {
+    return methods.getRun(this.getCtx(options), runId);
+  }
+
+  getRuns(projectId: number, filters?: RunFilters, options?: Signal): Promise<Run[]> {
+    return methods.getRuns(this.getCtx(options), projectId, filters);
+  }
+
+  addRun(projectId: number, payload: AddRun, options?: Signal): Promise<Run> {
+    return methods.addRun(this.getCtx(options), projectId, payload);
+  }
+
+  updateRun(runId: number, payload: UpdateRun, options?: Signal): Promise<Run> {
+    return methods.updateRun(this.getCtx(options), runId, payload);
+  }
+
+  closeRun(runId: number, options?: Signal): Promise<Run> {
+    return methods.closeRun(this.getCtx(options), runId);
+  }
+
+  deleteRun(runId: number, options?: Signal): Promise<void> {
+    return methods.deleteRun(this.getCtx(options), runId);
+  }
+
+  getSection(sectionId: number, options?: Signal): Promise<Section> {
+    return methods.getSection(this.getCtx(options), sectionId);
+  }
+
+  getSections(projectId: number, filters?: SectionFilters, options?: Signal): Promise<Section[]> {
+    return methods.getSections(this.getCtx(options), projectId, filters);
+  }
+
+  addSection(projectId: number, payload: AddSection, options?: Signal): Promise<Section> {
+    return methods.addSection(this.getCtx(options), projectId, payload);
+  }
+
+  moveSection(sectionId: number, payload: MoveSection, options?: Signal): Promise<Section> {
+    return methods.moveSection(this.getCtx(options), sectionId, payload);
+  }
+
+  updateSection(sectionId: number, payload: UpdateSection, options?: Signal): Promise<Section> {
+    return methods.updateSection(this.getCtx(options), sectionId, payload);
+  }
+
+  deleteSection(sectionId: number, options?: Signal): Promise<void> {
+    return methods.deleteSection(this.getCtx(options), sectionId);
+  }
+
+  getSharedStep(stepId: number, options?: Signal): Promise<SharedStep> {
+    return methods.getSharedStep(this.getCtx(options), stepId);
+  }
+
+  getSharedSteps(projectId: number, filters?: SharedStepFilters, options?: Signal): Promise<SharedStep[]> {
+    return methods.getSharedSteps(this.getCtx(options), projectId, filters);
+  }
+
+  getSharedStepHistory(stepId: number, filters?: Pagination, options?: Signal): Promise<SharedStepHistory[]> {
+    return methods.getSharedStepHistory(this.getCtx(options), stepId, filters);
+  }
+
+  addSharedStep(projectId: number, payload: AddSharedStep, options?: Signal): Promise<SharedStep> {
+    return methods.addSharedStep(this.getCtx(options), projectId, payload);
+  }
+
+  updateSharedStep(stepId: number, payload: UpdateSharedStep, options?: Signal): Promise<SharedStep> {
+    return methods.updateSharedStep(this.getCtx(options), stepId, payload);
+  }
+
+  deleteSharedStep(stepId: number, payload?: DeleteSharedStep, options?: Signal): Promise<void> {
+    return methods.deleteSharedStep(this.getCtx(options), stepId, payload);
+  }
+
+  getStatuses(options?: Signal): Promise<Status[]> {
+    return methods.getStatuses(this.getCtx(options));
+  }
+
+  getCaseStatuses(filters?: Pagination, options?: Signal): Promise<CaseStatus[]> {
+    return methods.getCaseStatuses(this.getCtx(options), filters);
+  }
+
+  getSuite(suiteId: number, options?: Signal): Promise<Suite> {
+    return methods.getSuite(this.getCtx(options), suiteId);
+  }
+
+  getSuites(projectId: number, options?: Signal): Promise<Suite[]> {
+    return methods.getSuites(this.getCtx(options), projectId);
+  }
+
+  addSuite(projectId: number, payload: AddSuite, options?: Signal): Promise<Suite> {
+    return methods.addSuite(this.getCtx(options), projectId, payload);
+  }
+
+  updateSuite(suiteId: number, payload: UpdateSuite, options?: Signal): Promise<Suite> {
+    return methods.updateSuite(this.getCtx(options), suiteId, payload);
+  }
+
+  deleteSuite(suiteId: number, options?: Signal): Promise<void> {
+    return methods.deleteSuite(this.getCtx(options), suiteId);
+  }
+
+  getTemplates(projectId: number, options?: Signal): Promise<Template[]> {
+    return methods.getTemplates(this.getCtx(options), projectId);
+  }
+
+  getTest(testId: number, options?: Signal): Promise<Test> {
+    return methods.getTest(this.getCtx(options), testId);
+  }
+
+  getTests(runId: number, filters?: TestFilters, options?: Signal): Promise<Test[]> {
+    return methods.getTests(this.getCtx(options), runId, filters);
+  }
+
+  getUser(userId: number, options?: Signal): Promise<User> {
+    return methods.getUser(this.getCtx(options), userId);
+  }
+
+  getCurrentUser(options?: Signal): Promise<User> {
+    return methods.getCurrentUser(this.getCtx(options));
+  }
+
+  getUserByEmail(email: string, options?: Signal): Promise<User> {
+    return methods.getUserByEmail(this.getCtx(options), email);
+  }
+
+  getUsers(filters?: UserFilters, options?: Signal): Promise<User[]> {
+    return methods.getUsers(this.getCtx(options), filters);
+  }
+
+  addUser(payload: AddUser, options?: Signal): Promise<User> {
+    return methods.addUser(this.getCtx(options), payload);
+  }
+
+  updateUser(userId: number, payload: AddUser, options?: Signal): Promise<User> {
+    return methods.updateUser(this.getCtx(options), userId, payload);
+  }
+
+  getVariables(projectId: number, filters?: Pagination, options?: Signal): Promise<Variable[]> {
+    return methods.getVariables(this.getCtx(options), projectId, filters);
+  }
+
+  addVariable(projectId: number, payload: AddVariable, options?: Signal): Promise<Variable> {
+    return methods.addVariable(this.getCtx(options), projectId, payload);
+  }
+
+  updateVariable(variableId: number, payload: AddVariable, options?: Signal): Promise<Variable> {
+    return methods.updateVariable(this.getCtx(options), variableId, payload);
+  }
+
+  deleteVariable(variableId: number, options?: Signal): Promise<void> {
+    return methods.deleteVariable(this.getCtx(options), variableId);
+  }
+
+  private getCtx(options?: Signal): TestRailCtx {
+    const ctx: Mutable<TestRailCtx> = Object.create(this.ctx);
+
+    if (options?.signal) {
+      if (ctx.signal) {
+        // @ts-ignore - intentionally throws "ReferrerError" if "AbortController" is not available
+        const controller = new (ctx.implementations?.AbortController || AbortController)();
+
+        if (ctx.signal.aborted) {
+          controller.abort(ctx.signal.reason);
+        } else if (options.signal.aborted) {
+          controller.abort(options.signal.reason);
+        }
+
+        if (controller.signal.aborted) {
+          throw controller.signal.reason;
+        }
+
+        ctx.signal.addEventListener('abort', onAbort);
+        options.signal.addEventListener('abort', onAbort);
+
+        function onAbort() {
+          ctx.signal?.removeEventListener('abort', onAbort);
+          options?.signal.removeEventListener('abort', onAbort);
+          controller.abort(ctx.signal?.reason || options?.signal.reason);
+        }
+
+        ctx.signal = controller.signal;
+      } else {
+        ctx.signal = options.signal;
+      }
+    }
+
+    return ctx;
+  }
 }

@@ -1,8 +1,6 @@
 import type { TestRailCtx } from '../TestRailCtx.js';
 import { TestRailException } from '../TestRailException';
 
-declare var window: any;
-declare var fetch: any;
 declare var FormData: any;
 declare type FormData = any;
 
@@ -26,18 +24,20 @@ export async function _api<T>(ctx: TestRailCtx, method: string, path: string, { 
   if (json) {
     body = JSON.stringify(json);
   } else if (form) {
-    body = new FormData();
+    // @ts-ignore - intentionally throws "ReferrerError" if "FormData" is not available
+    body = new (ctx.implementations?.FormData || FormData)();
     for (const [key, value] of Object.entries(form)) {
       if (value.name && value.value) {
-        appendToFormData(body, key, value.value, value.name);
+        appendToFormData(ctx, body, key, value.value, value.name);
       } else {
-        appendToFormData(body, key, value);
+        appendToFormData(ctx, body, key, value);
       }
     }
   }
 
   while (true) {
-    const response = await fetch(url, { method, body, headers, signal: ctx.signal });
+    // @ts-ignore - intentionally throws "ReferrerError" if "fetch" is not available
+    const response = await (ctx.implementations?.fetch || fetch)(url, { method, body, headers, signal: ctx.signal });
 
     // Retry on 429 Too Many Requests
     if (response.status === 429) {
@@ -60,7 +60,7 @@ export async function _api<T>(ctx: TestRailCtx, method: string, path: string, { 
     if (response.ok) {
       return result;
     } else {
-      throw new TestRailException(result.error || 'No additional error message received');
+      throw new TestRailException(result.error || `No additional error message received: ${response.status} ${response.statusText}`);
     }
   }
 }
@@ -96,12 +96,14 @@ function base64(string: string) {
   }
 }
 
-function appendToFormData(formData: FormData, name: string, value: string | Blob, filename?: string) {
-  if (typeof Blob !== 'undefined' && typeof window !== 'undefined' && window?.FormData === FormData) {
-    const blob = value instanceof Blob ? value : new Blob([value]);
-    formData.append(name, blob, filename);
-  } else {
+function appendToFormData(ctx: TestRailCtx, formData: FormData, name: string, value: string | Blob, filename?: string) {
+  try {
     formData.append(name, value, filename);
+  } catch {
+    // @ts-ignore - intentionally throws "ReferrerError" if "Blob" is not available
+    const BlobConstructor = ctx.implementations?.Blob || Blob;
+    const blob = value instanceof BlobConstructor ? value : new BlobConstructor([value]);
+    formData.append(name, blob, filename);
   }
 }
 
