@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.9.0](https://github.com/dlenroc/node-testrail-api/compare/v1.8.1...v1.9.0) (2023-04-30)
+
+
+### Features
+
+* `signal` for each endpoint ([822f5f6](https://github.com/dlenroc/node-testrail-api/commit/822f5f67149dff59471fed17f37afafca620b7de))
+
 ## [1.8.1](https://github.com/dlenroc/node-testrail-api/compare/v1.8.0...v1.8.1) (2023-04-25)
 
 
