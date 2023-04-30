@@ -501,7 +501,7 @@ export default class TestRail {
     }
 
     if (ctxSignal.aborted || optionsSignal.aborted) {
-      throw ctxSignal.reason || options.signal.reason;
+      return Promise.reject(ctxSignal.reason || options.signal.reason);
     }
 
     // @ts-ignore - intentionally throws "ReferrerError" if "AbortController" is not available
