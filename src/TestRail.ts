@@ -13,7 +13,7 @@ export default class TestRail {
   static Exception = TestRailException;
   private readonly ctx: TestRailCtx;
 
-  constructor(config?: Pick<TestRailCtx, 'username' | 'password' | 'signal' | 'implementations'> & { host: string; }) {
+  constructor(config?: { host: string; username: string; password: string } & Pick<TestRailCtx, 'signal' | 'implementations'>) {
     this.ctx = {
       baseURL: (config?.host || '') + '/index.php?/api/v2/',
       // @ts-ignore - Backward compatibility
