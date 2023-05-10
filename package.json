@@ -23,7 +23,7 @@
   "unpkg": "dist/TestRail.umd.js",
   "scripts": {
     "prepare": "npm run build",
-    "build": "rollup --bundleConfigAsCjs -c",
+    "build": "rollup --bundleConfigAsCjs -c && replace-in-file '/(\\.\\.\\/)+src/g' '../src' 'dist/*.map' --isRegex",
     "test": "mocha -A -r ts-node/register test/**/*.ts"
   },
   "engines": {
@@ -49,6 +49,7 @@
     "intermock": "^0.2.5",
     "mocha": "^10.2.0",
     "nock": "^13.3.1",
+    "replace-in-file": "^6.3.5",
     "rollup": "^3.21.6",
     "rollup-plugin-dts": "^5.3.0",
     "ts-node": "^10.9.1",
