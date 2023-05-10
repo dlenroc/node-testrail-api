@@ -1,7 +1,7 @@
 {
   "name": "@dlenroc/testrail",
   "description": "TestRail API client with error handling and typing",
-  "version": "1.9.0",
+  "version": "1.9.1",
   "author": "Corneliu Duplachi",
   "license": "MIT",
   "homepage": "https://github.com/dlenroc/node-testrail-api",

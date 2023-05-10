@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.9.1](https://github.com/dlenroc/node-testrail-api/compare/v1.9.0...v1.9.1) (2023-05-10)
+
+
+### Bug Fixes
+
+* support for `skipLibCheck` in `tsconfig.json` ([a7da257](https://github.com/dlenroc/node-testrail-api/commit/a7da257d990ef1ce03b8126633cc820fa2f59ad9))
+
 ## [1.9.0](https://github.com/dlenroc/node-testrail-api/compare/v1.8.1...v1.9.0) (2023-04-30)
 
 
