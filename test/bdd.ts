@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker';
-import type { AddAttachment, Case } from '../src/types';
+import type { AddAttachment, Case } from '..';
 import { OK, api, jsonFor, on } from './_helper';
 
 describe('BDD', () => {

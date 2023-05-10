@@ -15,7 +15,7 @@
     "src",
     "dist"
   ],
-  "types": "src/types.d.ts",
+  "types": "dist/TestRail.d.ts",
   "main": "dist/TestRail.node.js",
   "module": "dist/TestRail.node.mjs",
   "browser": "dist/TestRail.browser.mjs",
@@ -23,7 +23,7 @@
   "unpkg": "dist/TestRail.umd.js",
   "scripts": {
     "prepare": "npm run build",
-    "build": "rollup --bundleConfigAsCjs -c",
+    "build": "rollup --bundleConfigAsCjs -c && replace-in-file '/(\\.\\.\\/)+src/g' '../src' 'dist/*.map' --isRegex",
     "test": "mocha -A -r ts-node/register test/**/*.ts"
   },
   "engines": {
@@ -37,7 +37,7 @@
     "@faker-js/faker": "^7.6.0",
     "@rollup/plugin-terser": "^0.4.1",
     "@rollup/plugin-typescript": "^11.1.0",
-    "@types/chai": "^4.3.4",
+    "@types/chai": "^4.3.5",
     "@types/chai-as-promised": "^7.1.5",
     "@types/deasync": "^0.1.2",
     "@types/glob": "^8.1.0",
@@ -45,11 +45,13 @@
     "@types/node": "*",
     "chai": "^4.3.7",
     "chai-as-promised": "^7.1.1",
-    "glob": "^10.1.0",
+    "glob": "^10.2.3",
     "intermock": "^0.2.5",
     "mocha": "^10.2.0",
-    "nock": "^13.3.0",
-    "rollup": "^3.20.4",
+    "nock": "^13.3.1",
+    "replace-in-file": "^6.3.5",
+    "rollup": "^3.21.6",
+    "rollup-plugin-dts": "^5.3.0",
     "ts-node": "^10.9.1",
     "typescript": "^5.0.4"
   }
