@@ -9,7 +9,7 @@ export default [
     external: ['stream'],
     output: {
       file: 'dist/TestRail.d.ts',
-      format: 'cjs',
+      format: 'es',
       footer: '\n// @ts-ignore\nexport = TestRail;',
     },
     plugins: [
