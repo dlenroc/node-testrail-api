@@ -464,7 +464,7 @@ getSuite(suiteId: number): Promise<Suite>
 ```
 
 ```typescript
-getSuites(projectId: number): Promise<Suite[]>
+getSuites(projectId: number): Promise<Suites>
 ```
 
 ```typescript

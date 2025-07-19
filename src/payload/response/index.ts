@@ -35,6 +35,7 @@ export * from './SharedStep';
 export * from './SharedStepHistory';
 export * from './Status';
 export * from './Suite';
+export * from './Suites';
 export * from './Template';
 export * from './Test';
 export * from './User';

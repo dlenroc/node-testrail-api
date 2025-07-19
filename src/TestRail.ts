@@ -1,7 +1,7 @@
 import type { TestRailCtx } from './TestRailCtx';
 import { TestRailException } from './TestRailException';
 import * as methods from './groups';
-import type { AddAttachment, AddCase, AddCaseField, AddConfig, AddConfigGroup, AddDataset, AddGroup, AddMilestone, AddPlan, AddPlanEntry, AddProject, AddResult, AddResults, AddResultsForCases, AddRun, AddRunToPlanEntry, AddSection, AddSharedStep, AddSuite, AddUser, AddVariable, AttachmentForCase, AttachmentForPlan, AttachmentForPlanEntry, AttachmentForRun, AttachmentForTest, Case, CaseField, CaseFilters, CaseHistory, CaseStatus, CaseType, Config, ConfigItem, CopyCasesToSection, CreatedAttachment, Dataset, DeleteCases, DeleteSharedStep, Group, Milestone, MilestoneFilters, MoveCasesToSection, MoveSection, Pagination, Plan, PlanEntry, PlanFilters, PlanItem, Priority, Project, ProjectFilters, Report, ReportUrls, Request, Response, Result, ResultField, ResultFilters, ResultForRunFilters, Role, Run, RunFilters, Section, SectionFilters, SharedStep, SharedStepFilters, SharedStepHistory, Status, Suite, Template, Test, TestFilters, UpdateCase, UpdateCases, UpdateConfig, UpdateConfigGroup, UpdateMilestone, UpdatePlan, UpdatePlanEntry, UpdateProject, UpdateRun, UpdateRunInPlanEntry, UpdateSection, UpdateSharedStep, UpdateSuite, User, UserFilters, Variable } from './payload';
+import type { AddAttachment, AddCase, AddCaseField, AddConfig, AddConfigGroup, AddDataset, AddGroup, AddMilestone, AddPlan, AddPlanEntry, AddProject, AddResult, AddResults, AddResultsForCases, AddRun, AddRunToPlanEntry, AddSection, AddSharedStep, AddSuite, AddUser, AddVariable, AttachmentForCase, AttachmentForPlan, AttachmentForPlanEntry, AttachmentForRun, AttachmentForTest, Case, CaseField, CaseFilters, CaseHistory, CaseStatus, CaseType, Config, ConfigItem, CopyCasesToSection, CreatedAttachment, Dataset, DeleteCases, DeleteSharedStep, Group, Milestone, MilestoneFilters, MoveCasesToSection, MoveSection, Pagination, Plan, PlanEntry, PlanFilters, PlanItem, Priority, Project, ProjectFilters, Report, ReportUrls, Request, Response, Result, ResultField, ResultFilters, ResultForRunFilters, Role, Run, RunFilters, Section, SectionFilters, SharedStep, SharedStepFilters, SharedStepHistory, Status, Suite, Suites, Template, Test, TestFilters, UpdateCase, UpdateCases, UpdateConfig, UpdateConfigGroup, UpdateMilestone, UpdatePlan, UpdatePlanEntry, UpdateProject, UpdateRun, UpdateRunInPlanEntry, UpdateSection, UpdateSharedStep, UpdateSuite, User, UserFilters, Variable } from './payload';
 
 export * from './payload';
 export type { Request as Payload, Response as Model };
@@ -420,7 +420,7 @@ export default class TestRail {
     return this.withCtx(options, (ctx) => methods.getSuite(ctx, suiteId));
   }
 
-  getSuites(projectId: number, options?: Signal): Promise<Suite[]> {
+  getSuites(projectId: number, options?: Signal): Promise<Suites> {
     return this.withCtx(options, (ctx) => methods.getSuites(ctx, projectId));
   }
 

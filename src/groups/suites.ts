@@ -1,12 +1,12 @@
 import type { TestRailCtx } from '../TestRailCtx';
 import { _api } from '../internal/request';
-import type { AddSuite, Suite, UpdateSuite } from '../payload';
+import type { AddSuite, Suite, Suites, UpdateSuite } from '../payload';
 
 export function getSuite(ctx: TestRailCtx, suiteId: number): Promise<Suite> {
   return _api(ctx, 'GET', `get_suite/${suiteId}`);
 }
 
-export function getSuites(ctx: TestRailCtx, projectId: number): Promise<Suite[]> {
+export function getSuites(ctx: TestRailCtx, projectId: number): Promise<Suites> {
   return _api(ctx, 'GET', `get_suites/${projectId}`);
 }
 
