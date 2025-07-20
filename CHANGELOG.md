@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.9.2](https://github.com/dlenroc/node-testrail-api/compare/v1.9.1...v1.9.2) (2025-07-20)
+
+
+### Bug Fixes
+
+* TestRail 9.3.1 support ([9d6e7c0](https://github.com/dlenroc/node-testrail-api/commit/9d6e7c046d67bbeef44105b78b53bd1063da8785))
+
 ## [1.9.1](https://github.com/dlenroc/node-testrail-api/compare/v1.9.0...v1.9.1) (2023-05-10)
 
 
