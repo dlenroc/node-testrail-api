@@ -20,7 +20,7 @@ describe('Suites', () => {
   });
 
   it('get suites', async () => {
-    on(`get_suites/${projectId}`)
+    on(`get_suites/${projectId}&limit=250&offset=0`)
       .reply(OK, suites);
 
     await api
