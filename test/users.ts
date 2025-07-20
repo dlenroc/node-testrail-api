@@ -38,7 +38,7 @@ describe('Users', () => {
   });
 
   it('get users', async () => {
-    on('get_users')
+    on('get_users&limit=250&offset=0')
       .reply(OK, users);
 
     await api
@@ -47,7 +47,7 @@ describe('Users', () => {
   });
 
   it('get filtered users', async () => {
-    on(`get_users&${qs(userFilters)}`)
+    on(`get_users&${qs(userFilters)}&limit=250&offset=0`)
       .reply(OK, users);
 
     await api
