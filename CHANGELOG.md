@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.9.3](https://github.com/dlenroc/node-testrail-api/compare/v1.9.2...v1.9.3) (2025-07-27)
+
+
+### Bug Fixes
+
+* consume response body ([ae7e35b](https://github.com/dlenroc/node-testrail-api/commit/ae7e35b0b835b0aa52222003850249bd30ebab34))
+
 ## [1.9.2](https://github.com/dlenroc/node-testrail-api/compare/v1.9.1...v1.9.2) (2025-07-20)
 
 
