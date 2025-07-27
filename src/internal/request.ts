@@ -39,6 +39,11 @@ export async function _api<T>(ctx: TestRailCtx, method: string, path: string, { 
     // @ts-ignore - intentionally throws "ReferrerError" if "fetch" is not available
     const response = await (ctx.implementations?.fetch || fetch)(url, { method, body, headers, signal: ctx.signal });
 
+    // Content-Type based response
+    const result = response.headers.get('Content-Type')?.includes('json')
+      ? await response.json().catch(() => ({}))
+      : await response.blob();
+
     // Retry on 429 Too Many Requests
     if (response.status === 429) {
       const retryAfter = parseInt(response.headers.get('Retry-After') || '1') * 1000;
@@ -51,11 +56,6 @@ export async function _api<T>(ctx: TestRailCtx, method: string, path: string, { 
       await sleep(10 * 1000, ctx.signal);
       continue;
     }
-
-    // Content-Type based response
-    const result = response.headers.get('Content-Type')?.includes('json')
-      ? await response.json().catch(() => ({}))
-      : await response.blob();
 
     if (response.ok) {
       return result;
