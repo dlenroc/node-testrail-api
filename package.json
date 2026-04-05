@@ -1,58 +1,39 @@
 {
   "name": "@dlenroc/testrail",
-  "description": "TestRail API client with error handling and typing",
   "version": "1.9.5",
-  "author": "Corneliu Duplachi",
-  "license": "MIT",
-  "homepage": "https://github.com/dlenroc/node-testrail-api",
-  "bugs": "https://github.com/dlenroc/node-testrail-api/issues",
-  "repository": "dlenroc/node-testrail-api",
+  "description": "TestRail API client with error handling and typing",
   "keywords": [
-    "testrail",
-    "api"
+    "api",
+    "testrail"
   ],
+  "license": "MIT",
+  "author": "Corneliu Duplachi",
+  "repository": "dlenroc/node-testrail-api",
   "files": [
-    "src",
     "dist"
   ],
-  "types": "dist/TestRail.d.ts",
-  "main": "dist/TestRail.node.js",
-  "module": "dist/TestRail.node.mjs",
-  "browser": "dist/TestRail.browser.mjs",
-  "jsdelivr": "dist/TestRail.umd.js",
-  "unpkg": "dist/TestRail.umd.js",
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    "types": "./dist/TestRail.d.ts",
+    "default": "./dist/TestRail.js"
+  },
   "scripts": {
-    "prepare": "npm run build",
-    "build": "rollup --bundleConfigAsCjs -c && replace-in-file '/(\\.\\.\\/)+src/g' '../src' 'dist/*.map' --isRegex",
-    "test": "mocha -A -r ts-node/register test/**/*.ts"
-  },
-  "engines": {
-    "node": ">=10"
-  },
-  "dependencies": {
-    "form-data": "^4",
-    "node-fetch": "^2.6.4"
+    "prepare": "tsdown --no-config --platform neutral ./src/TestRail.ts",
+    "test": "node --test"
   },
   "devDependencies": {
-    "@faker-js/faker": "^7.6.0",
-    "@rollup/plugin-terser": "^0.4.1",
-    "@rollup/plugin-typescript": "^11.1.0",
-    "@types/chai": "^4.3.5",
-    "@types/chai-as-promised": "^7.1.5",
-    "@types/deasync": "^0.1.2",
-    "@types/glob": "^8.1.0",
-    "@types/mocha": "^10.0.1",
-    "@types/node": "*",
-    "chai": "^4.3.7",
-    "chai-as-promised": "^7.1.1",
-    "glob": "^10.2.3",
+    "@faker-js/faker": "^10.4.0",
+    "@tsconfig/strictest": "^2.0.8",
+    "@types/chai": "^5.2.3",
+    "@types/chai-as-promised": "^8.0.2",
+    "@types/node": "^25.5.0",
+    "chai": "^6.2.2",
+    "chai-as-promised": "^8.0.2",
+    "glob": "^13.0.6",
     "intermock": "^0.2.5",
-    "mocha": "^10.2.0",
-    "nock": "^13.3.1",
-    "replace-in-file": "^6.3.5",
-    "rollup": "^3.21.6",
-    "rollup-plugin-dts": "^5.3.0",
-    "ts-node": "^10.9.1",
-    "typescript": "^5.0.4"
+    "nock": "^14.0.11",
+    "tsdown": "^0.21.7",
+    "typescript": "^6.0.2"
   }
 }

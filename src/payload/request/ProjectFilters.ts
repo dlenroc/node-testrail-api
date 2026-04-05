@@ -1,5 +1,6 @@
-import type { Pagination } from './Pagination';
+import type { Pagination } from './Pagination.ts';
 
-export interface ProjectFilters extends Pagination, Record<string, unknown> {
-  is_completed?: boolean;
-}
+export type ProjectFilters = Pagination &
+  Record<string, unknown> & {
+    is_completed?: boolean | undefined;
+  };

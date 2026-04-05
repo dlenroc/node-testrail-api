@@ -1,13 +1,13 @@
-import type { AddRunToPlanEntry } from './AddRunToPlanEntry';
+import type { AddRunToPlanEntry } from './AddRunToPlanEntry.ts';
 
-export interface AddPlanEntry extends Record<string, unknown> {
-  suite_id?: number;
-  name?: string;
-  description?: string;
-  assignedto_id?: number;
-  include_all?: boolean;
-  case_ids?: number[];
-  config_ids?: number[];
-  refs?: string;
-  runs?: AddRunToPlanEntry[];
-}
+export type AddPlanEntry = Record<string, unknown> & {
+  suite_id?: number | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
+  assignedto_id?: number | undefined;
+  include_all?: boolean | undefined;
+  case_ids?: number[] | undefined;
+  config_ids?: number[] | undefined;
+  refs?: string | undefined;
+  runs?: AddRunToPlanEntry[] | undefined;
+};

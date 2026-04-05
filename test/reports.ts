@@ -1,10 +1,11 @@
 import { faker } from '@faker-js/faker';
-import type { Report, ReportUrls } from '..';
-import { OK, api, jsonFor, on } from './_helper';
+import { describe, it } from 'node:test';
+import type { Report, ReportUrls } from '../src/TestRail.ts';
+import { OK, api, jsonFor, on } from './_helper.ts';
 
 describe('Reports', () => {
-  const projectId = faker.datatype.number();
-  const reportTemplateId = faker.datatype.number();
+  const projectId = faker.number.int();
+  const reportTemplateId = faker.number.int();
   const report: Report = jsonFor('Report');
   const reports = [report];
   const reportUrls: ReportUrls = jsonFor('ReportUrls');

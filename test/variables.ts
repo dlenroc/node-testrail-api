@@ -1,10 +1,11 @@
 import { faker } from '@faker-js/faker';
-import type { AddVariable, Variable } from '..';
-import { OK, api, jsonFor, on } from './_helper';
+import { describe, it } from 'node:test';
+import type { AddVariable, Variable } from '../src/TestRail.ts';
+import { OK, api, jsonFor, on } from './_helper.ts';
 
 describe('Variables', () => {
-  const projectId = faker.datatype.number();
-  const variableId = faker.datatype.number();
+  const projectId = faker.number.int();
+  const variableId = faker.number.int();
   const variable: Variable = jsonFor('Variable');
   const variables: Variable[] = [variable];
   const addOrUpdateVariablePayload: AddVariable = jsonFor('AddVariable');

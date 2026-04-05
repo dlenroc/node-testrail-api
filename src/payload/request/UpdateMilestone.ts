@@ -1,6 +1,6 @@
-import type { AddMilestone } from './AddMilestone';
+import type { AddMilestone } from './AddMilestone.ts';
 
-export interface UpdateMilestone extends AddMilestone {
-  is_completed?: boolean;
-  is_started?: boolean;
-}
+export type UpdateMilestone = AddMilestone & {
+  is_completed?: boolean | undefined;
+  is_started?: boolean | undefined;
+};

@@ -1,5 +1,5 @@
-import type { AddResult } from './AddResult';
+import type { AddResult } from './AddResult.ts';
 
-export interface AddResultForTest extends AddResult {
-  test_id?: number;
-}
+export type AddResultForTest = AddResult & {
+  test_id?: number | undefined;
+};

@@ -1,15 +1,16 @@
 import { faker } from '@faker-js/faker';
-import type { AddAttachment, Attachment, AttachmentForCase, AttachmentForPlan, AttachmentForPlanEntry, AttachmentForRun, AttachmentForTest, CreatedAttachment } from '..';
-import { OK, api, jsonFor, on } from './_helper';
+import { describe, it } from 'node:test';
+import type { AddAttachment, Attachment, AttachmentForCase, AttachmentForPlan, AttachmentForPlanEntry, AttachmentForRun, AttachmentForTest, CreatedAttachment } from '../src/TestRail.ts';
+import { OK, api, jsonFor, on } from './_helper.ts';
 
 describe('Attachments', () => {
-  const planId = faker.datatype.number();
-  const entryId = faker.datatype.uuid();
-  const resultId = faker.datatype.number();
-  const runId = faker.datatype.number();
-  const caseId = faker.datatype.number();
-  const testId = faker.datatype.number();
-  const attachmentId = faker.datatype.uuid();
+  const planId = faker.number.int();
+  const entryId = faker.string.uuid();
+  const resultId = faker.number.int();
+  const runId = faker.number.int();
+  const caseId = faker.number.int();
+  const testId = faker.number.int();
+  const attachmentId = faker.string.uuid();
   const createdAttachment: CreatedAttachment = jsonFor('CreatedAttachment');
   const attachmentForCase: AttachmentForCase = jsonFor('AttachmentForCase');
   const attachmentsForCase = [attachmentForCase];
@@ -25,7 +26,7 @@ describe('Attachments', () => {
   const hasAttachment = /form-data; name="attachment"/m;
   const addAttachmentPayload: AddAttachment = {
     name: 'attachment.txt',
-    value: faker.random.words(),
+    value: faker.word.words(),
   };
 
   it('add attachment to plan', async () => {

@@ -1,5 +1,5 @@
-import type { AddResultForTest } from './AddResultForTest';
+import type { AddResultForTest } from './AddResultForTest.ts';
 
-export interface AddResults extends Record<string, unknown> {
-  results?: AddResultForTest[];
-}
+export type AddResults = Record<string, unknown> & {
+  results?: AddResultForTest[] | undefined;
+};

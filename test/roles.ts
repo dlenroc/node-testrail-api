@@ -1,5 +1,6 @@
-import type { Role } from '..';
-import { api, jsonFor, OK, on } from './_helper';
+import { describe, it } from 'node:test';
+import type { Role } from '../src/TestRail.ts';
+import { api, jsonFor, OK, on } from './_helper.ts';
 
 describe('Roles', () => {
   const role: Role = jsonFor('Role');

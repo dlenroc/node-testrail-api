@@ -1,10 +1,11 @@
 import { faker } from '@faker-js/faker';
-import type { AddSuite, Suite, UpdateSuite } from '..';
-import { OK, api, jsonFor, on } from './_helper';
+import { describe, it } from 'node:test';
+import type { AddSuite, Suite, UpdateSuite } from '../src/TestRail.ts';
+import { OK, api, jsonFor, on } from './_helper.ts';
 
 describe('Suites', () => {
-  const suiteId = faker.datatype.number();
-  const projectId = faker.datatype.number();
+  const suiteId = faker.number.int();
+  const projectId = faker.number.int();
   const suite: Suite = jsonFor('Suite');
   const suites = [suite];
   const addSuitePayload: AddSuite = jsonFor('AddSuite');

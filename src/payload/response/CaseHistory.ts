@@ -1,4 +1,4 @@
-import type { Option } from './Option';
+import type { Option } from './Option.ts';
 
 export interface CaseHistory extends Record<string, unknown> {
   changes: CaseHistory.Change[];

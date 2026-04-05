@@ -1,8 +1,8 @@
-export interface AddMilestone extends Record<string, unknown> {
-  name?: string;
-  description?: string;
-  due_on?: number;
-  parent_id?: number;
-  refs?: string;
-  start_on?: number;
-}
+export type AddMilestone = Record<string, unknown> & {
+  name?: string | undefined;
+  description?: string | undefined;
+  due_on?: number | undefined;
+  parent_id?: number | undefined;
+  refs?: string | undefined;
+  start_on?: number | undefined;
+};

@@ -1,4 +1,4 @@
-import type { Context } from './Context';
+import type { Context } from './Context.ts';
 
 export interface CaseField extends Record<string, unknown> {
   configs: CaseField.CaseFieldConfig[];

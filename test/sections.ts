@@ -1,10 +1,11 @@
 import { faker } from '@faker-js/faker';
-import type { AddSection, Section, SectionFilters, UpdateSection } from '..';
-import { OK, api, jsonFor, on, qs } from './_helper';
+import { describe, it } from 'node:test';
+import type { AddSection, Section, SectionFilters, UpdateSection } from '../src/TestRail.ts';
+import { OK, api, jsonFor, on, qs } from './_helper.ts';
 
 describe('Sections', () => {
-  const sectionId = faker.datatype.number();
-  const projectId = faker.datatype.number();
+  const sectionId = faker.number.int();
+  const projectId = faker.number.int();
   const section: Section = jsonFor('Section');
   const sections = [section];
   const sectionFilters: SectionFilters = jsonFor('SectionFilters');

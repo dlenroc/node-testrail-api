@@ -1,9 +1,10 @@
 import { faker } from '@faker-js/faker';
-import type { AddGroup, Group } from '..';
-import { OK, api, jsonFor, on } from './_helper';
+import { describe, it } from 'node:test';
+import type { AddGroup, Group } from '../src/TestRail.ts';
+import { OK, api, jsonFor, on } from './_helper.ts';
 
 describe('Groups', () => {
-  const groupId = faker.datatype.number();
+  const groupId = faker.number.int();
   const group: Group = jsonFor('Group');
   const groups: Group[] = [group];
   const addOrUpdateGroupPayload: AddGroup = jsonFor('AddGroup');

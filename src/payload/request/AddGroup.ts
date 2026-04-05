@@ -1,4 +1,4 @@
-export interface AddGroup extends Record<string, unknown> {
-  name?: string;
-  user_ids?: number[];
-}
+export type AddGroup = Record<string, unknown> & {
+  name?: string | undefined;
+  user_ids?: number[] | undefined;
+};

@@ -1,4 +1,4 @@
-import type { Variable } from './Variables';
+import type { Variable } from './Variables.ts';
 
 export interface Dataset extends Record<string, unknown> {
   id: number;

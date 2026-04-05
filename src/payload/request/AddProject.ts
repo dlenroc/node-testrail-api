@@ -1,6 +1,6 @@
-export interface AddProject extends Record<string, unknown> {
-  name?: string;
-  announcement?: string;
-  show_announcement?: boolean;
-  suite_mode?: number;
-}
+export type AddProject = Record<string, unknown> & {
+  name?: string | undefined;
+  announcement?: string | undefined;
+  show_announcement?: boolean | undefined;
+  suite_mode?: number | undefined;
+};

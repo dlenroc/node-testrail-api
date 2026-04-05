@@ -1,5 +1,6 @@
-import type { Pagination } from './Pagination';
+import type { Pagination } from './Pagination.ts';
 
-export interface SectionFilters extends Pagination, Record<string, unknown> {
-  suite_id?: number;
-}
+export type SectionFilters = Pagination &
+  Record<string, unknown> & {
+    suite_id?: number | undefined;
+  };

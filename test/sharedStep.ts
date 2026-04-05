@@ -1,10 +1,11 @@
 import { faker } from '@faker-js/faker';
-import type { AddSharedStep, SharedStep, SharedStepHistory, UpdateSharedStep } from '..';
-import { OK, api, jsonFor, on } from './_helper';
+import { describe, it } from 'node:test';
+import type { AddSharedStep, SharedStep, SharedStepHistory, UpdateSharedStep } from '../src/TestRail.ts';
+import { OK, api, jsonFor, on } from './_helper.ts';
 
 describe('Shared Steps', () => {
-  const sharedStepId = faker.datatype.number();
-  const projectId = faker.datatype.number();
+  const sharedStepId = faker.number.int();
+  const projectId = faker.number.int();
   const sharedStep: SharedStep = jsonFor('SharedStep');
   const sharedStepHistory: SharedStepHistory = jsonFor('CaseHistory');
   const sharedStepHistories = [sharedStepHistory];

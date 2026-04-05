@@ -1,12 +1,13 @@
 import { faker } from '@faker-js/faker';
-import type { AddCase, Case, CaseFilters, CaseHistory, DeleteCases, UpdateCase, UpdateCases } from '..';
-import { OK, api, jsonFor, on, qs } from './_helper';
+import { describe, it } from 'node:test';
+import type { AddCase, Case, CaseFilters, CaseHistory, DeleteCases, UpdateCase, UpdateCases } from '../src/TestRail.ts';
+import { OK, api, jsonFor, on, qs } from './_helper.ts';
 
 describe('Cases', () => {
-  const caseId = faker.datatype.number();
-  const projectId = faker.datatype.number();
-  const sectionId = faker.datatype.number();
-  const suiteId = faker.datatype.number();
+  const caseId = faker.number.int();
+  const projectId = faker.number.int();
+  const sectionId = faker.number.int();
+  const suiteId = faker.number.int();
   const testCase: Case = jsonFor('Case');
   const testCases = [testCase];
   const caseFilters: CaseFilters = jsonFor('CaseFilters');

@@ -1,5 +1,6 @@
-import type { Pagination } from "./Pagination";
+import type { Pagination } from './Pagination.ts';
 
-export interface UserFilters extends Pagination, Record<string, unknown> {
-  project_id?: number;
-}
+export type UserFilters = Pagination &
+  Record<string, unknown> & {
+    project_id?: number | undefined;
+  };

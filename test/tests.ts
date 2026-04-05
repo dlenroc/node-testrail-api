@@ -1,10 +1,11 @@
 import { faker } from '@faker-js/faker';
-import type { Test, TestFilters } from '..';
-import { OK, api, jsonFor, on, qs } from './_helper';
+import { describe, it } from 'node:test';
+import type { Test, TestFilters } from '../src/TestRail.ts';
+import { OK, api, jsonFor, on, qs } from './_helper.ts';
 
 describe('Tests', () => {
-  const testId = faker.datatype.number();
-  const runId = faker.datatype.number();
+  const testId = faker.number.int();
+  const runId = faker.number.int();
   const test: Test = jsonFor('Test');
   const tests: Test[] = [test];
   const testsFilters: TestFilters = jsonFor('TestFilters');

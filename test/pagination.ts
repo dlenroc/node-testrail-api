@@ -1,9 +1,10 @@
 import { faker } from '@faker-js/faker';
-import type { Case } from '..';
-import { api, jsonFor, OK, on } from './_helper';
+import { describe, it } from 'node:test';
+import type { Case } from '../src/TestRail.ts';
+import { api, jsonFor, OK, on } from './_helper.ts';
 
 describe('Pagination', () => {
-  const projectId = faker.datatype.number();
+  const projectId = faker.number.int();
   const testCase: Case = jsonFor('Case');
   const testCases = Array(1000)
     .fill(null)
@@ -11,7 +12,7 @@ describe('Pagination', () => {
 
   describe('Common', async () => {
     it('no paginate: "limit" passed', async () => {
-      const limit = faker.datatype.number();
+      const limit = faker.number.int();
 
       on(`get_cases/${projectId}&limit=${limit}`)
         .reply(OK);
@@ -20,7 +21,7 @@ describe('Pagination', () => {
     });
 
     it('no paginate: "offset" passed', async () => {
-      const offset = faker.datatype.number();
+      const offset = faker.number.int();
 
       on(`get_cases/${projectId}&offset=${offset}`)
         .reply(OK);

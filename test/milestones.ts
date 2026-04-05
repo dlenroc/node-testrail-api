@@ -1,10 +1,11 @@
 import { faker } from '@faker-js/faker';
-import type { AddMilestone, Milestone, MilestoneFilters, UpdateMilestone } from '..';
-import { OK, api, jsonFor, on, qs } from './_helper';
+import { describe, it } from 'node:test';
+import type { AddMilestone, Milestone, MilestoneFilters, UpdateMilestone } from '../src/TestRail.ts';
+import { OK, api, jsonFor, on, qs } from './_helper.ts';
 
 describe('Milestones', () => {
-  const milestoneId = faker.datatype.number();
-  const projectId = faker.datatype.number();
+  const milestoneId = faker.number.int();
+  const projectId = faker.number.int();
   const milestone: Milestone = jsonFor('Milestone');
   const milestones = [milestone];
   const milestoneFilters: MilestoneFilters = jsonFor('MilestoneFilters');

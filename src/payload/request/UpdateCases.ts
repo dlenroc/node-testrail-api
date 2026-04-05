@@ -1,5 +1,5 @@
-import type { UpdateCase } from './UpdateCase';
+import type { UpdateCase } from './UpdateCase.ts';
 
-export interface UpdateCases extends UpdateCase {
-  case_ids?: number[];
-}
+export type UpdateCases = UpdateCase & {
+  case_ids?: number[] | undefined;
+};

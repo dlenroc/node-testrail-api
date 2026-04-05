@@ -1,5 +1,6 @@
-import { Exception } from '..';
-import { api, BAD_REQUEST, OK, on, TO_MANY_REQUEST } from './_helper';
+import { describe, it } from 'node:test';
+import { TestRailException } from '../src/TestRailException.ts';
+import { api, BAD_REQUEST, OK, on, TO_MANY_REQUEST } from './_helper.ts';
 
 describe('Errors', () => {
   const success = { success: true };
@@ -12,7 +13,7 @@ describe('Errors', () => {
 
     await api
       .getCurrentUser()
-      .should.be.rejectedWith(Exception, customError);
+      .should.be.rejectedWith(TestRailException, customError);
   });
 
   it('error without message', async () => {
@@ -21,7 +22,7 @@ describe('Errors', () => {
 
     await api
       .getCurrentUser()
-      .should.be.rejectedWith(Exception, defaultError);
+      .should.be.rejectedWith(TestRailException, defaultError);
   });
 
   it('429 Too Many Requests - with `Retry-After` header', async () => {

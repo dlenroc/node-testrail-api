@@ -1,11 +1,12 @@
 import { faker } from '@faker-js/faker';
-import type { AddResult, AddResults, AddResultsForCases, Result, ResultFilters, ResultForRunFilters } from '..';
-import { OK, api, jsonFor, on, qs } from './_helper';
+import { describe, it } from 'node:test';
+import type { AddResult, AddResults, AddResultsForCases, Result, ResultFilters, ResultForRunFilters } from '../src/TestRail.ts';
+import { OK, api, jsonFor, on, qs } from './_helper.ts';
 
 describe('Results', () => {
-  const testId = faker.datatype.number();
-  const runId = faker.datatype.number();
-  const caseId = faker.datatype.number();
+  const testId = faker.number.int();
+  const runId = faker.number.int();
+  const caseId = faker.number.int();
   const result: Result = jsonFor('Result');
   const results = [result];
   const resultFilters: ResultFilters = jsonFor('ResultFilters');

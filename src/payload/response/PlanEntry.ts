@@ -1,4 +1,4 @@
-import type { PlanEntryRun } from './PlanEntryRun';
+import type { PlanEntryRun } from './PlanEntryRun.ts';
 
 export interface PlanEntry extends Record<string, unknown> {
   description?: string;

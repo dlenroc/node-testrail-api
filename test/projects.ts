@@ -1,9 +1,10 @@
 import { faker } from '@faker-js/faker';
-import type { AddProject, Project, ProjectFilters, UpdateProject } from '..';
-import { OK, api, jsonFor, on, qs } from './_helper';
+import { describe, it } from 'node:test';
+import type { AddProject, Project, ProjectFilters, UpdateProject } from '../src/TestRail.ts';
+import { OK, api, jsonFor, on, qs } from './_helper.ts';
 
 describe('Projects', () => {
-  const projectId = faker.datatype.number();
+  const projectId = faker.number.int();
   const project: Project = jsonFor('Project');
   const projects = [project];
   const projectFilters: ProjectFilters = jsonFor('ProjectFilters');

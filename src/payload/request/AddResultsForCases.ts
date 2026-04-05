@@ -1,5 +1,5 @@
-import type { AddResultForCase } from './AddResultForCase';
+import type { AddResultForCase } from './AddResultForCase.ts';
 
-export interface AddResultsForCases extends Record<string, unknown> {
-  results?: AddResultForCase[];
-}
+export type AddResultsForCases = Record<string, unknown> & {
+  results?: AddResultForCase[] | undefined;
+};

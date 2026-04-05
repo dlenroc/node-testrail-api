@@ -1,19 +1,9 @@
 {
+  "extends": "@tsconfig/strictest",
   "compilerOptions": {
-    "outDir": "./dist",
-    "target": "ES2018",
-    "lib": [
-      "ES2018"
-    ],
-    "sourceMap": true,
-    "removeComments": true,
-    "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true,
-    "forceConsistentCasingInFileNames": true,
-    "esModuleInterop": true,
-    "moduleResolution": "Node"
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "verbatimModuleSyntax": true,
+    "noEmit": true,
   }
 }

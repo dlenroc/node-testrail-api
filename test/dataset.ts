@@ -1,10 +1,11 @@
 import { faker } from '@faker-js/faker';
-import type { AddDataset, Dataset } from '..';
-import { OK, api, jsonFor, on } from './_helper';
+import { describe, it } from 'node:test';
+import type { AddDataset, Dataset } from '../src/TestRail.ts';
+import { OK, api, jsonFor, on } from './_helper.ts';
 
 describe('Dataset', () => {
-  const projectId = faker.datatype.number();
-  const datasetId = faker.datatype.number();
+  const projectId = faker.number.int();
+  const datasetId = faker.number.int();
   const dataset: Dataset = jsonFor('Dataset');
   const datasets: Dataset[] = [dataset];
   const addOrUpdateDatesetPayload: AddDataset = jsonFor('AddDataset');

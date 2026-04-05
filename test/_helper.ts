@@ -1,14 +1,22 @@
-import chai from 'chai';
+/// <reference types="node" />
+
+import * as chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
-import fs from 'fs';
 import { globSync } from 'glob';
 import { mock as tsMock } from 'intermock';
 import nock, { type RequestBodyMatcher } from 'nock';
-import TestRail from '..';
+import fs from 'node:fs';
+import { TestRail } from '../src/TestRail.ts';
+export { toQueryString as qs } from '../src/internal/request.ts';
 
-export { qs } from '../src/internal/request';
+chai.should();
+chai.use(chaiAsPromised);
 
-chai.use(chaiAsPromised).should();
+declare global {
+  interface Promise<T> {
+    should: Chai.Assertion;
+  }
+}
 
 const tsFiles: [string, string][] = globSync('./src/**/*.ts')
   .map((file) => [file, fs.readFileSync(file, { encoding: 'utf-8' })]);
@@ -20,10 +28,10 @@ export const BAD_REQUEST = 400;
 export const TO_MANY_REQUEST = 429;
 export const CONFLICT = 409;
 export const prefix = '/index.php?/api/v2/';
-export const host = 'https://dlenroc.testrail.com';
+export const baseURL = 'https://dlenroc.testrail.com';
 export const username = 'Username';
 export const password = 'Password/Token';
-export const api = new TestRail({ host, username, password });
+export const api = new TestRail({ host: baseURL, username, password });
 
 export function on(path: string, requestBody?: RequestBodyMatcher | any) {
   const options = {
@@ -34,7 +42,7 @@ export function on(path: string, requestBody?: RequestBodyMatcher | any) {
     },
   };
 
-  const scope = nock(host, options);
+  const scope = nock(baseURL, options);
 
   let interceptor = path.startsWith('get')
     ? scope.get(prefix + path, requestBody)

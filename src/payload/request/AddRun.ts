@@ -1,6 +1,6 @@
-import type { UpdateRun } from './UpdateRun';
+import type { UpdateRun } from './UpdateRun.ts';
 
-export interface AddRun extends UpdateRun {
-  suite_id?: number;
-  assignedto_id?: number;
-}
+export type AddRun = UpdateRun & {
+  suite_id?: number | undefined;
+  assignedto_id?: number | undefined;
+};
