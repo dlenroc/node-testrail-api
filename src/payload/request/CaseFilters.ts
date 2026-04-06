@@ -1,18 +1,19 @@
-import type { Pagination } from './Pagination';
+import type { Pagination } from './Pagination.ts';
 
-export interface CaseFilters extends Pagination, Record<string, unknown> {
-  suite_id?: number;
-  created_after?: number;
-  created_before?: number;
-  created_by?: number | number[];
-  filter?: string;
-  milestone_id?: number | number[];
-  priority_id?: number | number[];
-  refs?: string;
-  section_id?: number;
-  template_id?: number | number[];
-  type_id?: number | number[];
-  updated_after?: number;
-  updated_before?: number;
-  updated_by?: number | number[];
-}
+export type CaseFilters = Pagination &
+  Record<string, unknown> & {
+    suite_id?: number | undefined;
+    created_after?: number | undefined;
+    created_before?: number | undefined;
+    created_by?: number | number[] | undefined;
+    filter?: string | undefined;
+    milestone_id?: number | number[] | undefined;
+    priority_id?: number | number[] | undefined;
+    refs?: string | undefined;
+    section_id?: number | undefined;
+    template_id?: number | number[] | undefined;
+    type_id?: number | number[] | undefined;
+    updated_after?: number | undefined;
+    updated_before?: number | undefined;
+    updated_by?: number | number[] | undefined;
+  };

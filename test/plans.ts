@@ -1,12 +1,13 @@
 import { faker } from '@faker-js/faker';
-import type { AddPlan, AddPlanEntry, AddRunToPlanEntry, Plan, PlanEntry, PlanFilters, PlanItem, UpdatePlan, UpdatePlanEntry, UpdateRunInPlanEntry } from '..';
-import { OK, api, jsonFor, on, qs } from './_helper';
+import { describe, it } from 'node:test';
+import type { AddPlan, AddPlanEntry, AddRunToPlanEntry, Plan, PlanEntry, PlanFilters, PlanItem, UpdatePlan, UpdatePlanEntry, UpdateRunInPlanEntry } from '../src/TestRail.ts';
+import { OK, api, jsonFor, on, qs } from './_helper.ts';
 
 describe('Plans', () => {
-  const planId = faker.datatype.number();
-  const projectId = faker.datatype.number();
-  const entryId = faker.datatype.uuid();
-  const runId = faker.datatype.number();
+  const planId = faker.number.int();
+  const projectId = faker.number.int();
+  const entryId = faker.string.uuid();
+  const runId = faker.number.int();
   const plan: Plan = jsonFor('Plan');
   const planItem: PlanItem = jsonFor('PlanItem');
   const plans = [planItem];

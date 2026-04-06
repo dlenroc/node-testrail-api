@@ -1,9 +1,10 @@
 import { faker } from '@faker-js/faker';
-import type { AddUser, User, UserFilters } from '..';
-import { OK, api, jsonFor, on, qs } from './_helper';
+import { describe, it } from 'node:test';
+import type { AddUser, User, UserFilters } from '../src/TestRail.ts';
+import { OK, api, jsonFor, on, qs } from './_helper.ts';
 
 describe('Users', () => {
-  const userId = faker.datatype.number();
+  const userId = faker.number.int();
   const email = faker.internet.email();
   const user: User = jsonFor('User');
   const users: User[] = [user];

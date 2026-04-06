@@ -1,4 +1,4 @@
-export interface AddVariable extends Record<string, unknown> {
-  id?: string;
-  name?: number;
-}
+export type AddVariable = Record<string, unknown> & {
+  id?: string | undefined;
+  name?: string | undefined;
+};

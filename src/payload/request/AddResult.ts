@@ -1,8 +1,8 @@
-export interface AddResult extends Record<string, unknown> {
-  status_id?: number;
-  comment?: string;
-  version?: string;
-  elapsed?: string;
-  defects?: string;
-  assignedto_id?: number;
-}
+export type AddResult = Record<string, unknown> & {
+  status_id?: number | undefined;
+  comment?: string | undefined;
+  version?: string | undefined;
+  elapsed?: string | undefined;
+  defects?: string | undefined;
+  assignedto_id?: number | undefined;
+};

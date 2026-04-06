@@ -1,5 +1,6 @@
-import type { AddCaseField, CaseField } from '..';
-import { OK, api, jsonFor, on } from './_helper';
+import { describe, it } from 'node:test';
+import type { AddCaseField, CaseField } from '../src/TestRail.ts';
+import { OK, api, jsonFor, on } from './_helper.ts';
 
 describe('Case Fields', () => {
   const caseField: CaseField = jsonFor('CaseField');

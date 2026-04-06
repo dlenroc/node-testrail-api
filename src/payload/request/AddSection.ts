@@ -1,6 +1,6 @@
-import type { UpdateSection } from './UpdateSection';
+import type { UpdateSection } from './UpdateSection.ts';
 
-export interface AddSection extends UpdateSection {
-  parent_id?: number;
-  suite_id?: number;
-}
+export type AddSection = UpdateSection & {
+  parent_id?: number | undefined;
+  suite_id?: number | undefined;
+};

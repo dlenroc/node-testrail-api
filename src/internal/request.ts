@@ -1,113 +1,68 @@
-import type { TestRailCtx } from '../TestRailCtx.js';
-import { TestRailException } from '../TestRailException';
+import type { TestRailConfig } from '../TestRailConfig.ts';
 
-declare var FormData: any;
-declare type FormData = any;
+export type RequestOptions = {
+  method?: string | undefined;
+  query?: Record<string, unknown> | undefined;
+  json?: unknown | undefined;
+  form?: [name: string, value: Blob | string, fileName?: string][] | undefined;
+  signal?: AbortSignal | undefined;
+};
 
-export async function _api<T>(ctx: TestRailCtx, method: string, path: string, { query, json, form }: { query?: object | undefined; json?: object | undefined; form?: object } = {}): Promise<T> {
-  const headers: any = {};
-  const url = ctx.baseURL + path + qs(query);
+export type Executor = (path: string, options: RequestOptions) => Promise<Response>;
 
-  // Add authentication header
-  if (ctx.username && ctx.password) {
-    headers.Authorization = `Basic ${base64(`${ctx.username}:${ctx.password}`)}`;
+export function createExecutor(config?: TestRailConfig): Executor {
+  const baseURL = config?.host || '';
+
+  let auth: string;
+  if (config?.username && config.password) {
+    auth = 'Basic ' + btoa(`${config.username}:${config.password}`);
   }
 
-  // TestRail requires 'Content-Type: application/json' for all requests except those containing form data
-  if (!form) {
-    headers['Content-Type'] = 'application/json';
-  }
+  let paused: Promise<void> | null = null;
 
-  // Determine body & request type
-  let body;
+  return async function (path, options) {
+    const url = baseURL + path + toQueryString(options.query);
+    const method = options.method ?? 'GET';
+    const headers: Record<string, string> = {};
+    const body = toBody(options);
+    const signal = options.signal ?? null;
 
-  if (json) {
-    body = JSON.stringify(json);
-  } else if (form) {
-    // @ts-ignore - intentionally throws "ReferrerError" if "FormData" is not available
-    body = new (ctx.implementations?.FormData || FormData)();
-    for (const [key, value] of Object.entries(form)) {
-      if (value.name && value.value) {
-        appendToFormData(ctx, body, key, value.value, value.name);
-      } else {
-        appendToFormData(ctx, body, key, value);
+    const contentType = options.form ? undefined : 'application/json';
+    if (contentType) headers['Content-Type'] = contentType;
+
+    if (auth) headers['Authorization'] = auth;
+
+    let attempts = 0;
+
+    while (true) {
+      if (paused) await withAbort(paused, signal);
+
+      const response = await fetch(url, { method, headers, body, signal });
+
+      // 409 - Daily Maintenance
+      // 429 - Too Many Requests
+      if (response.status === 409 || response.status === 429) {
+        if (!paused) {
+          const retryAfter = response.headers.get('Retry-After');
+          const delay = retryAfter
+            ? (+retryAfter || 0) * 1000
+            : Math.min(1000 * 2 ** attempts++, 60_000) + Math.random() * 1000;
+
+          paused = new Promise((resolve) => setTimeout(resolve, delay)).then(() => {
+            paused = null;
+          });
+        }
+
+        await response.blob().catch(() => { });
+        continue;
       }
+
+      return response;
     }
-  }
-
-  while (true) {
-    // @ts-ignore - intentionally throws "ReferrerError" if "fetch" is not available
-    const response = await (ctx.implementations?.fetch || fetch)(url, { method, body, headers, signal: ctx.signal });
-
-    // Content-Type based response
-    const result = response.headers.get('Content-Type')?.includes('json')
-      ? await response.json().catch(() => ({}))
-      : await response.blob();
-
-    // Retry on 429 Too Many Requests
-    if (response.status === 429) {
-      const retryAfter = parseInt(response.headers.get('Retry-After') || '1') * 1000;
-      await sleep(retryAfter, ctx.signal);
-      continue;
-    }
-
-    // Retry on 409 Conflict - Daily Maintenance
-    if (response.status === 409) {
-      await sleep(10 * 1000, ctx.signal);
-      continue;
-    }
-
-    if (response.ok) {
-      return result;
-    } else {
-      throw new TestRailException(result.error || `No additional error message received: ${response.status} ${response.statusText}`);
-    }
-  }
+  };
 }
 
-function sleep(timeout: number, signal?: AbortSignal): Promise<void> {
-  if (signal?.aborted) {
-    return Promise.reject(signal.reason);
-  }
-
-  return new Promise((resolve, reject) => {
-    const timerId = setTimeout(
-      () => {
-        resolve();
-        signal?.removeEventListener('abort', onAbort);
-      },
-      timeout
-    );
-
-    signal?.addEventListener('abort', onAbort, { once: true });
-
-    function onAbort() {
-      clearTimeout(timerId);
-      reject(signal?.reason);
-    }
-  });
-}
-
-function base64(string: string) {
-  if (typeof btoa !== 'undefined') {
-    return btoa(string);
-  } else {
-    return Buffer.from(string).toString('base64');
-  }
-}
-
-function appendToFormData(ctx: TestRailCtx, formData: FormData, name: string, value: string | Blob, filename?: string) {
-  try {
-    formData.append(name, value, filename);
-  } catch {
-    // @ts-ignore - intentionally throws "ReferrerError" if "Blob" is not available
-    const BlobConstructor = ctx.implementations?.Blob || Blob;
-    const blob = value instanceof BlobConstructor ? value : new BlobConstructor([value]);
-    formData.append(name, blob, filename);
-  }
-}
-
-export function qs(object?: Record<string, any>): string {
+export function toQueryString(object?: Record<string, any>): string {
   if (!object) {
     return '';
   }
@@ -127,4 +82,48 @@ export function qs(object?: Record<string, any>): string {
   }
 
   return qs;
+}
+
+function toBody(options: Pick<RequestOptions, 'form' | 'json'>): string | FormData | null {
+  if (options.json) {
+    return JSON.stringify(options.json);
+  }
+
+  if (options.form) {
+    const body = new FormData();
+    for (const [name, content, filename] of options.form) {
+      const blob = content instanceof Blob ? content : new Blob([content]);
+      body.append(name, blob, filename);
+    }
+    return body;
+  }
+
+  return null;
+}
+
+function withAbort<T>(promise: Promise<T>, signal?: AbortSignal | null): Promise<T> {
+  if (!signal) return promise;
+
+  return new Promise((resolve, reject) => {
+    if (signal.aborted) {
+      reject(signal.reason);
+      return;
+    }
+
+    const onAbort = () => reject(signal.reason);
+    signal.addEventListener('abort', onAbort, { once: true });
+
+    const cleanup = () => signal.removeEventListener('abort', onAbort);
+
+    promise.then(
+      (value) => {
+        cleanup();
+        resolve(value);
+      },
+      (err) => {
+        cleanup();
+        reject(err);
+      },
+    );
+  });
 }

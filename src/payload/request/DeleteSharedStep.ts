@@ -1,3 +1,3 @@
-export interface DeleteSharedStep extends Record<string, unknown> {
-  keep_in_cases: boolean;
-}
+export type DeleteSharedStep = Record<string, unknown> & {
+  keep_in_cases?: boolean | undefined;
+};

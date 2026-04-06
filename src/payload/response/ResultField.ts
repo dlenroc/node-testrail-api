@@ -1,4 +1,4 @@
-import type { FieldConfig } from './FieldConfig';
+import type { FieldConfig } from './FieldConfig.ts';
 
 export interface ResultField extends Record<string, unknown> {
   configs: FieldConfig[];

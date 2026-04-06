@@ -1,5 +1,6 @@
-import type { Priority } from '..';
-import { api, jsonFor, OK, on } from './_helper';
+import { describe, it } from 'node:test';
+import type { Priority } from '../src/TestRail.ts';
+import { api, jsonFor, OK, on } from './_helper.ts';
 
 describe('Priorities', () => {
   const priority: Priority = jsonFor('Priority');

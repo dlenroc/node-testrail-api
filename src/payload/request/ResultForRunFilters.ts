@@ -1,9 +1,10 @@
-import type { Pagination } from './Pagination';
+import type { Pagination } from './Pagination.ts';
 
-export interface ResultForRunFilters extends Pagination, Record<string, unknown> {
-  created_after?: number;
-  created_before?: number;
-  created_by?: number | number[];
-  defects?: string;
-  status_id?: number | number[];
-}
+export type ResultForRunFilters = Pagination &
+  Record<string, unknown> & {
+    created_after?: number | undefined;
+    created_before?: number | undefined;
+    created_by?: number | number[] | undefined;
+    defects?: string | undefined;
+    status_id?: number | number[] | undefined;
+  };

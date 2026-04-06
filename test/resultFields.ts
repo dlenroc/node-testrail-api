@@ -1,5 +1,6 @@
-import type { ResultField } from '..';
-import { api, jsonFor, OK, on } from './_helper';
+import { describe, it } from 'node:test';
+import type { ResultField } from '../src/TestRail.ts';
+import { api, jsonFor, OK, on } from './_helper.ts';
 
 describe('Result Fields', () => {
   const field: ResultField = jsonFor('ResultField');

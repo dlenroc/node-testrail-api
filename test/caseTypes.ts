@@ -1,5 +1,6 @@
-import type { CaseType } from '..';
-import { api, jsonFor, OK, on } from './_helper';
+import { describe, it } from 'node:test';
+import type { CaseType } from '../src/TestRail.ts';
+import { api, jsonFor, OK, on } from './_helper.ts';
 
 describe('Case Types', () => {
   const caseType: CaseType = jsonFor('CaseType');

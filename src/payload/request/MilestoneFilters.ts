@@ -1,6 +1,7 @@
-import type { Pagination } from './Pagination';
+import type { Pagination } from './Pagination.ts';
 
-export interface MilestoneFilters extends Pagination, Record<string, unknown> {
-  is_completed?: boolean;
-  is_started?: boolean;
-}
+export type MilestoneFilters = Pagination &
+  Record<string, unknown> & {
+    is_completed?: boolean | undefined;
+    is_started?: boolean | undefined;
+  };

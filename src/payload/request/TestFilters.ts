@@ -1,5 +1,6 @@
-import type { Pagination } from './Pagination';
+import type { Pagination } from './Pagination.ts';
 
-export interface TestFilters extends Pagination, Record<string, unknown> {
-  status_id?: number | number[];
-}
+export type TestFilters = Pagination &
+  Record<string, unknown> & {
+    status_id?: number | number[] | undefined;
+  };

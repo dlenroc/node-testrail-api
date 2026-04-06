@@ -1,4 +1,4 @@
-# @dlenroc/testrail · [![NPM Version](https://img.shields.io/npm/v/@dlenroc/testrail)](https://www.npmjs.com/package/@dlenroc/testrail) [![Supported Node.js version](https://img.shields.io/node/v/@dlenroc/testrail)](https://github.com/dlenroc/node-testrail-api/actions?query=workflow%3A"Node.js+CI")
+# @dlenroc/testrail · [![NPM Version](https://img.shields.io/npm/v/@dlenroc/testrail)](https://www.npmjs.com/package/@dlenroc/testrail)
 
 ## Installation
 
@@ -9,8 +9,7 @@ npm install @dlenroc/testrail --save
 ## Example
 
 ```typescript
-// import TestRail from '@dlenroc/testrail';
-// const TestRail = require('@dlenroc/testrail');
+import { TestRail } from '@dlenroc/testrail';
 
 const api = new TestRail({
     host: 'https://{organization}.testrail.net',

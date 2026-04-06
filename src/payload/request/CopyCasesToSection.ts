@@ -1,3 +1,3 @@
-export interface CopyCasesToSection extends Record<string, unknown> {
-  case_ids?: number[];
-}
+export type CopyCasesToSection = Record<string, unknown> & {
+  case_ids?: number[] | undefined;
+};

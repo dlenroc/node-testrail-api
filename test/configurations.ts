@@ -1,11 +1,12 @@
 import { faker } from '@faker-js/faker';
-import type { AddConfig, AddConfigGroup, Config, ConfigItem, UpdateConfig, UpdateConfigGroup } from '..';
-import { OK, api, jsonFor, on } from './_helper';
+import { describe, it } from 'node:test';
+import type { AddConfig, AddConfigGroup, Config, ConfigItem, UpdateConfig, UpdateConfigGroup } from '../src/TestRail.ts';
+import { OK, api, jsonFor, on } from './_helper.ts';
 
 describe('Configurations', () => {
-  const projectId = faker.datatype.number();
-  const configGroupId = faker.datatype.number();
-  const configId = faker.datatype.number();
+  const projectId = faker.number.int();
+  const configGroupId = faker.number.int();
+  const configId = faker.number.int();
   const config: Config = jsonFor('Config');
   const configItem: ConfigItem = jsonFor('ConfigItem');
   const configs = [config];

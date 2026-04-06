@@ -1,4 +1,4 @@
-export interface UpdateSection extends Record<string, unknown> {
-  description?: string;
-  name?: string;
-}
+export type UpdateSection = Record<string, unknown> & {
+  description?: string | undefined;
+  name?: string | undefined;
+};

@@ -1,6 +1,6 @@
-import type { AddPlanEntry } from './AddPlanEntry';
-import type { UpdatePlan } from './UpdatePlan';
+import type { AddPlanEntry } from './AddPlanEntry.ts';
+import type { UpdatePlan } from './UpdatePlan.ts';
 
-export interface AddPlan extends UpdatePlan {
-  entries?: AddPlanEntry[];
-}
+export type AddPlan = UpdatePlan & {
+  entries?: AddPlanEntry[] | undefined;
+};

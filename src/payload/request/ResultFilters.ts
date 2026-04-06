@@ -1,6 +1,7 @@
-import type { Pagination } from './Pagination';
+import type { Pagination } from './Pagination.ts';
 
-export interface ResultFilters extends Pagination, Record<string, unknown> {
-  defects?: string;
-  status_id?: number | number[];
-}
+export type ResultFilters = Pagination &
+  Record<string, unknown> & {
+    defects?: string | undefined;
+    status_id?: number | number[] | undefined;
+  };

@@ -1,3 +1,3 @@
-import type { AddSharedStep } from './AddSharedStep';
+import type { AddSharedStep } from './AddSharedStep.ts';
 
 export type UpdateSharedStep = AddSharedStep;

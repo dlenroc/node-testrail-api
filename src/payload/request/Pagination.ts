@@ -1,4 +1,4 @@
-export interface Pagination extends Record<string, unknown> {
-  limit?: number;
-  offset?: number;
-}
+export type Pagination = Record<string, unknown> & {
+  limit?: number | undefined;
+  offset?: number | undefined;
+};

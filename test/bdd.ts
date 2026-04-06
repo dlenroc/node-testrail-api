@@ -1,11 +1,12 @@
 import { faker } from '@faker-js/faker';
-import type { AddAttachment, Case } from '..';
-import { OK, api, jsonFor, on } from './_helper';
+import { describe, it } from 'node:test';
+import type { AddAttachment, Case } from '../src/TestRail.ts';
+import { OK, api, jsonFor, on } from './_helper.ts';
 
 describe('BDD', () => {
-  const caseId = faker.datatype.number();
-  const sectionId = faker.datatype.number();
-  const bddFeature = faker.random.words();
+  const caseId = faker.number.int();
+  const sectionId = faker.number.int();
+  const bddFeature = faker.word.words();
   const testCase: Case = jsonFor('Case');
   const hasAttachment = /form-data; name="attachment"/m;
   const addFeaturePayload: AddAttachment = {

@@ -1,4 +1,4 @@
-import type { ConfigItem } from './ConfigItem';
+import type { ConfigItem } from './ConfigItem.ts';
 
 export interface Config extends Record<string, unknown> {
   configs: ConfigItem[];
