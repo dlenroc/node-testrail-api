@@ -2,6 +2,35 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0](https://github.com/dlenroc/node-testrail-api/compare/v1.9.3...v2.0.0) (2026-04-06)
+
+
+### ⚠ BREAKING CHANGES
+
+* make addAttachment* retryable (limited types)
+* drop node-fetch and form-data
+* switch to ESM and named exports
+
+### Features
+
+* allow undefined in payloads ([d545831](https://github.com/dlenroc/node-testrail-api/commit/d545831102abf29b163e858cd249e4b0a995af3f))
+
+
+### Bug Fixes
+
+* make addAttachment* retryable (limited types) ([d545831](https://github.com/dlenroc/node-testrail-api/commit/d545831102abf29b163e858cd249e4b0a995af3f))
+* share rate-limit state across instance methods ([d545831](https://github.com/dlenroc/node-testrail-api/commit/d545831102abf29b163e858cd249e4b0a995af3f))
+
+
+### Miscellaneous Chores
+
+* drop node-fetch and form-data ([d545831](https://github.com/dlenroc/node-testrail-api/commit/d545831102abf29b163e858cd249e4b0a995af3f))
+
+
+### Code Refactoring
+
+* switch to ESM and named exports ([d545831](https://github.com/dlenroc/node-testrail-api/commit/d545831102abf29b163e858cd249e4b0a995af3f))
+
 ## [1.9.3](https://github.com/dlenroc/node-testrail-api/compare/v1.9.2...v1.9.3) (2025-07-27)
 
 
